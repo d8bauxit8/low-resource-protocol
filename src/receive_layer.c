@@ -2,7 +2,7 @@
 
 void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer);
 
-void LRP_resetReceiveLayer(_LRPReceiveLayer *const receiveLayer);
+void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer);
 
 unsigned char LRP_isReadLastFrameByte(const unsigned char *const numberOfReceivedBytes);
 
@@ -22,7 +22,7 @@ void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned c
     receiveLayer->LRP_overrunErrorHandler = LRP_overrunErrorHandler;
     receiveLayer->LRP_parityBitErrorHandler = LRP_parityBitErrorHandler;
 
-    LRP_resetReceiveLayer(receiveLayer);
+    LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
 }
 
 void
@@ -34,7 +34,7 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
 
     if (receiveLayer->status == RECEIVE_LAYER_STATUS_ERROR) {
         if (LRP_isReadLastFrameByte(&receiveLayer->numberOfReadBytes)) {
-            LRP_resetReceiveLayer(receiveLayer);
+            LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
         }
         return;
     }
@@ -64,7 +64,7 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
         if (receiveLayer->status == RECEIVE_LAYER_STATUS_OK) {
             receiveLayer->currentFrame->status = RECEIVE_FRAME_COMPLETED;
         }
-        LRP_resetReceiveLayer(receiveLayer);
+        LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
     }
 }
 
@@ -75,7 +75,7 @@ void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer) {
     LRP_resetFrame(receiveLayer->currentFrame);
 }
 
-void LRP_resetReceiveLayer(_LRPReceiveLayer *const receiveLayer) {
+void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer) {
     char currentFrameIndex = LRP_findFirstFrameIndexByStatus(receiveLayer->frameBuffer,
                                                              &receiveLayer->frameBufferLength,
                                                              FRAME_READY_TO_REDEFINE);
