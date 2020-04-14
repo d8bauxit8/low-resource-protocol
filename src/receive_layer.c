@@ -74,7 +74,8 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
             receiveLayer->currentFrame->data[receiveLayer->numberOfReadBytes - 3] = data;
     }
 
-    if (receiveLayer->currentFrame->targetDeviceId != *receiveLayer->receiveDeviceId) {
+    if (receiveLayer->currentFrame->targetDeviceId != *receiveLayer->receiveDeviceId &&
+        receiveLayer->currentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
         LRP_setReceiveLayerError(receiveLayer);
     }
 
