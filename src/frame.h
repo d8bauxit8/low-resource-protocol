@@ -30,7 +30,13 @@ void LRP_resetFrame(_LRPFrame *const receiveFrame);
 char LRP_findFirstFrameIndexByStatus(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength,
                                      const unsigned char status);
 
+unsigned char LRP_createParityBit(unsigned char data);
+
 unsigned char LRP_isInvalidParityBit(unsigned char data, const unsigned char *const parityBit);
+
+void LRP_readTargetDeviceIdAndCommandFromHeader1Data(_LRPFrame *const frame, const unsigned char *const data);
+
+void LRP_readSourceDeviceIdFromHeader2Data(_LRPFrame *const frame, const unsigned char *const data);
 
 #ifdef    __cplusplus
 }

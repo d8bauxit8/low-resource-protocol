@@ -22,15 +22,15 @@ void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned c
     LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
 }
 
-void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*framingErrorHandler)(void)) {
+void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler) {
     receiveLayer->framingErrorHandler = framingErrorHandler;
 }
 
-void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*overrunErrorHandler)(void)) {
+void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler overrunErrorHandler) {
     receiveLayer->overrunErrorHandler = overrunErrorHandler;
 }
 
-void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*parityBitErrorHandler)(void)) {
+void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler parityBitErrorHandler) {
     receiveLayer->parityBitErrorHandler = parityBitErrorHandler;
 }
 
@@ -63,7 +63,16 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
         LRP_setReceiveLayerError(receiveLayer);
     }
 
-    LRP_receiveFrameController(receiveLayer->currentFrame, &receiveLayer->numberOfReadBytes, data);
+    switch (receiveLayer->numberOfReadBytes) {
+        case 1:
+            LRP_readTargetDeviceIdAndCommandFromHeader1Data(receiveLayer->currentFrame, &data);
+            break;
+        case 2:
+            LRP_readSourceDeviceIdFromHeader2Data(receiveLayer->currentFrame, &data);
+            break;
+        default:
+            receiveLayer->currentFrame->data[receiveLayer->numberOfReadBytes - 3] = data;
+    }
 
     if (receiveLayer->currentFrame->targetDeviceId != *receiveLayer->receiveDeviceId) {
         LRP_setReceiveLayerError(receiveLayer);

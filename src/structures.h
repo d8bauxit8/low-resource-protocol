@@ -28,6 +28,8 @@ typedef struct {
     unsigned char *transmitDeviceId;
 } _LRPTransmitLayer;
 
+typedef void (*_LRPErrorHandler)(void);
+
 typedef struct {
     _LRPFrame *frameBuffer;
     unsigned char numberOfReadBytes;
@@ -35,12 +37,9 @@ typedef struct {
     unsigned char frameBufferLength;
     unsigned char status;
     unsigned char *receiveDeviceId;
-
-    void (*framingErrorHandler)(void);
-
-    void (*overrunErrorHandler)(void);
-
-    void (*parityBitErrorHandler)(void);
+    _LRPErrorHandler framingErrorHandler;
+    _LRPErrorHandler overrunErrorHandler;
+    _LRPErrorHandler parityBitErrorHandler;
 } _LRPReceiveLayer;
 
 

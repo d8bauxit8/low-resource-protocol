@@ -13,7 +13,8 @@ extern "C" {
 #endif
 
 #include "structures.h"
-#include "receive_frame.h"
+#include "frame.h"
+
 // Status flow
 // 1. In progress
 // 2. Completed
@@ -27,11 +28,11 @@ void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned c
                           _LRPFrame *const receiveFrameBuffer,
                           unsigned char receiveFrameBufferLength);
 
-void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*framingErrorHandler)(void));
+void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler);
 
-void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*overrunErrorHandler)(void));
+void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler overrunErrorHandler);
 
-void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*parityBitErrorHandler)(void));
+void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler parityBitErrorHandler);
 
 void
 LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char data,
