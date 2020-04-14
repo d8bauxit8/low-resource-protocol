@@ -36,11 +36,11 @@ typedef struct {
     unsigned char status;
     unsigned char *receiveDeviceId;
 
-    void (*LRP_framingErrorHandler)(void);
+    void (*framingErrorHandler)(void);
 
-    void (*LRP_overrunErrorHandler)(void);
+    void (*overrunErrorHandler)(void);
 
-    void (*LRP_parityBitErrorHandler)(void);
+    void (*parityBitErrorHandler)(void);
 } _LRPReceiveLayer;
 
 

@@ -1,5 +1,5 @@
 #include "testing.h"
-#include "src/controller.h"
+#include "src/receive_controller.h"
 
 void receiveLayer_TEST_1(void) {
     _LRPReceiveLayer receive;
@@ -12,9 +12,11 @@ void receiveLayer_TEST_1(void) {
     unsigned char frameBufferLength = 3;
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initReceiveLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength, test_framingError,
-                         test_overrunError,
-                         test_parityBitError);
+    LRP_initReceiveLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+
+    LRP_setFramingErrorHandler(&receive, test_framingError);
+    LRP_setOverrunErrorHandler(&receive, test_overrunError);
+    LRP_setParityBitErrorHandler(&receive, test_parityBitError);
 
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Hell");
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "o wo");
@@ -37,8 +39,11 @@ void receiveLayer_TEST_2(void) {
     unsigned char frameBufferLength = 3;
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initReceiveLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength, test_framingError,
-                         test_overrunError, test_parityBitError);
+    LRP_initReceiveLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+
+    LRP_setFramingErrorHandler(&receive, test_framingError);
+    LRP_setOverrunErrorHandler(&receive, test_overrunError);
+    LRP_setParityBitErrorHandler(&receive, test_parityBitError);
 
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Test");
 

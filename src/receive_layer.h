@@ -25,10 +25,13 @@ extern "C" {
 
 void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
                           _LRPFrame *const receiveFrameBuffer,
-                          unsigned char frameBufferLength,
-                          void (*LRP_framingErrorHandler)(void),
-                          void (*LRP_overrunErrorHandler)(void),
-                          void (*LRP_parityBitErrorHandler)(void));
+                          unsigned char receiveFrameBufferLength);
+
+void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*framingErrorHandler)(void));
+
+void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*overrunErrorHandler)(void));
+
+void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*parityBitErrorHandler)(void));
 
 void
 LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char data,

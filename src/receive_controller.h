@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 4:25 PM
  */
 
-#ifndef CONTROLLER_H
-#define    CONTROLLER_H
+#ifndef RECEIVE_CONTROLLER_H
+#define    RECEIVE_CONTROLLER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -15,11 +15,9 @@ extern "C" {
 #include "structures.h"
 #include "receive_layer.h"
 
-#define DEFAULT_DEVICE_ID 0x00
-
 #ifdef    __cplusplus
 }
 #endif
 
-#endif    /* CONTROLLER_H */
+#endif    /* RECEIVE_CONTROLLER_H */
 

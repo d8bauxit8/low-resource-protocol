@@ -8,21 +8,30 @@ unsigned char LRP_isReadLastFrameByte(const unsigned char *const numberOfReceive
 
 void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
                           _LRPFrame *const receiveFrameBuffer,
-                          unsigned char frameBufferLength,
-                          void (*LRP_framingErrorHandler)(void),
-                          void (*LRP_overrunErrorHandler)(void),
-                          void (*LRP_parityBitErrorHandler)(void)) {
-    LRP_initFrame(receiveFrameBuffer, &frameBufferLength);
+                          unsigned char receiveFrameBufferLength) {
+    LRP_initFrame(receiveFrameBuffer, &receiveFrameBufferLength);
 
     receiveLayer->receiveDeviceId = receiveDeviceId;
     receiveLayer->frameBuffer = receiveFrameBuffer;
-    receiveLayer->frameBufferLength = frameBufferLength;
+    receiveLayer->frameBufferLength = receiveFrameBufferLength;
 
-    receiveLayer->LRP_framingErrorHandler = LRP_framingErrorHandler;
-    receiveLayer->LRP_overrunErrorHandler = LRP_overrunErrorHandler;
-    receiveLayer->LRP_parityBitErrorHandler = LRP_parityBitErrorHandler;
+    receiveLayer->framingErrorHandler =
+    receiveLayer->overrunErrorHandler =
+    receiveLayer->parityBitErrorHandler = LRP_noReceiveErrorCallBack;
 
     LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
+}
+
+void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*framingErrorHandler)(void)) {
+    receiveLayer->framingErrorHandler = framingErrorHandler;
+}
+
+void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*overrunErrorHandler)(void)) {
+    receiveLayer->overrunErrorHandler = overrunErrorHandler;
+}
+
+void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, void (*parityBitErrorHandler)(void)) {
+    receiveLayer->parityBitErrorHandler = parityBitErrorHandler;
 }
 
 void
@@ -40,17 +49,17 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
     }
 
     if (*framingError) {
-        receiveLayer->LRP_framingErrorHandler();
+        receiveLayer->framingErrorHandler();
         LRP_setReceiveLayerError(receiveLayer);
     }
 
     if (*overrunError) {
-        receiveLayer->LRP_overrunErrorHandler();
+        receiveLayer->overrunErrorHandler();
         LRP_setReceiveLayerError(receiveLayer);
     }
 
     if (LRP_isInvalidParityBit(data, parityBit)) {
-        receiveLayer->LRP_parityBitErrorHandler();
+        receiveLayer->parityBitErrorHandler();
         LRP_setReceiveLayerError(receiveLayer);
     }
 
