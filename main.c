@@ -22,7 +22,7 @@ void receiveLayer_TEST_1(void) {
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Test");
 
     parityBitByte = test_generateParity(target);
-    LRP_receiveLayerController(&receive, target, &parityBitByte, &framingErrorByte, &overrunErrorByte);
+    LRP_receiveLayerHandler(&receive, target, &parityBitByte, &framingErrorByte, &overrunErrorByte);
 
     test_printReceiveLayer(&receive, frameBufferLength);
 }

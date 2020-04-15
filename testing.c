@@ -68,15 +68,15 @@ void test_sendData(_LRPReceiveLayer *const receive, unsigned char target, unsign
                    unsigned char framingError, unsigned char overrunError, char *data) {
 
     unsigned char parityBit = test_generateParity(target);
-    LRP_receiveLayerController(receive, target, &parityBit, &framingError, &overrunError);
+    LRP_receiveLayerHandler(receive, target, &parityBit, &framingError, &overrunError);
 
     parityBit = test_generateParity(source);
-    LRP_receiveLayerController(receive, source, &parityBit, &framingError, &overrunError);
+    LRP_receiveLayerHandler(receive, source, &parityBit, &framingError, &overrunError);
 
     char len = sizeof(data);
     for (char i = 0; i < len; i++) {
         parityBit = test_generateParity(data[i]);
-        LRP_receiveLayerController(receive, data[i], &parityBit, &framingError, &overrunError);
+        LRP_receiveLayerHandler(receive, data[i], &parityBit, &framingError, &overrunError);
     }
 }
 

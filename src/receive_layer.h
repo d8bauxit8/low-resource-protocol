@@ -35,10 +35,10 @@ void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorH
 void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler parityBitErrorHandler);
 
 void
-LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char data,
-                           const unsigned char *const parityBit,
-                           const unsigned char *const framingError,
-                           const unsigned char *const overrunError);
+LRP_receiveLayerHandler(_LRPReceiveLayer *const receiveLayer, unsigned char data,
+                        const unsigned char *const parityBit,
+                        const unsigned char *const framingError,
+                        const unsigned char *const overrunError);
 
 void LRP_noReceiveErrorCallBack(void);
 
