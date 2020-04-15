@@ -27,7 +27,7 @@ extern "C" {
 
 void LRP_initFrameBuffer(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength);
 
-void LRP_resetFrame(_LRPFrame *const receiveFrame);
+void LRP_resetFrameStatus(_LRPFrame *const receiveFrame);
 
 unsigned char LRP_createParityBit(unsigned char data);
 

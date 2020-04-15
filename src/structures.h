@@ -29,9 +29,12 @@ typedef void (*_LRPErrorHandler)(void);
 typedef struct {
     _LRPFrame *frameBuffer;
     unsigned char numberOfReadBytes;
-    _LRPFrame *handlerCurrentFrame;
     unsigned char status;
     unsigned char *receiveDeviceId;
+
+    _LRPFrame *handlerCurrentFrame;
+    _LRPFrame *controllerCurrentFrame;
+
     _LRPErrorHandler framingErrorHandler;
     _LRPErrorHandler overrunErrorHandler;
     _LRPErrorHandler parityBitErrorHandler;

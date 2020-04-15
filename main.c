@@ -1,5 +1,5 @@
 #include "testing.h"
-#include "src/receive_controller.h"
+#include "src/receive_layer.h"
 
 void receiveLayer_TEST_1(void) {
     _LRPReceiveLayer receive;

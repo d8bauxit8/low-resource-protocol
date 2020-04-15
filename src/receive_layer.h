@@ -15,6 +15,9 @@ extern "C" {
 #include "structures.h"
 #include "frame.h"
 
+typedef unsigned char (*_LRPReceiveFrameController)(const unsigned char *const sourceDevice,
+                                                    const unsigned char *const data);
+
 // Status flow
 // 1. In progress
 // 2. Completed
@@ -28,17 +31,21 @@ void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned c
                           _LRPFrame *const receiveFrameBuffer,
                           const unsigned char const receiveFrameBufferLength);
 
-void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler);
-
-void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler overrunErrorHandler);
-
-void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler parityBitErrorHandler);
+void LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer,
+                                _LRPReceiveFrameController *const receiveFrameControllerList,
+                                const unsigned char const receiveFrameControllerListLength);
 
 void
 LRP_receiveLayerHandler(_LRPReceiveLayer *const receiveLayer, unsigned char data,
                         const unsigned char *const parityBit,
                         const unsigned char *const framingError,
                         const unsigned char *const overrunError);
+
+void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler);
+
+void LRP_setOverrunErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler overrunErrorHandler);
+
+void LRP_setParityBitErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler parityBitErrorHandler);
 
 void LRP_noReceiveErrorCallBack(void);
 

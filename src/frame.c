@@ -2,15 +2,15 @@
 
 void LRP_initFrameBuffer(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength) {
     unsigned char i = 0;
-    LRP_resetFrame(&frameBuffer[i++]);
+    LRP_resetFrameStatus(&frameBuffer[i++]);
     for (; i < *frameBufferLength; i++) {
-        LRP_resetFrame(&frameBuffer[i]);
+        LRP_resetFrameStatus(&frameBuffer[i]);
         frameBuffer[i - 1].next = &frameBuffer[i];
     }
     frameBuffer[i - 1].next = &frameBuffer[0];
 }
 
-void LRP_resetFrame(_LRPFrame *const receiveFrame) {
+void LRP_resetFrameStatus(_LRPFrame *const receiveFrame) {
     receiveFrame->status = FRAME_READY_TO_REDEFINE;
 }
 
