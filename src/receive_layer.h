@@ -26,7 +26,7 @@ extern "C" {
 
 void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
                           _LRPFrame *const receiveFrameBuffer,
-                          unsigned char receiveFrameBufferLength);
+                          const unsigned char const receiveFrameBufferLength);
 
 void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler);
 

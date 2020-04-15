@@ -15,26 +15,21 @@ extern "C" {
 #define FRAME_LENGTH 6
 #define FRAME_DATA_LENGTH 4
 
-typedef struct {
+typedef struct _Frame {
     unsigned char sourceDeviceId;
     unsigned char targetDeviceId;
     unsigned char command;
     unsigned char status;
     unsigned char data[FRAME_DATA_LENGTH];
+    struct _Frame *next;
 } _LRPFrame;
-
-typedef struct {
-    _LRPFrame *frameBuffer;
-    unsigned char *transmitDeviceId;
-} _LRPTransmitLayer;
 
 typedef void (*_LRPErrorHandler)(void);
 
 typedef struct {
     _LRPFrame *frameBuffer;
     unsigned char numberOfReadBytes;
-    _LRPFrame *currentFrame;
-    unsigned char frameBufferLength;
+    _LRPFrame *layerCurrentFrame;
     unsigned char status;
     unsigned char *receiveDeviceId;
     _LRPErrorHandler framingErrorHandler;

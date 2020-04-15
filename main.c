@@ -24,8 +24,7 @@ void receiveLayer_TEST_1(void) {
     parityBitByte = test_generateParity(target);
     LRP_receiveLayerController(&receive, target, &parityBitByte, &framingErrorByte, &overrunErrorByte);
 
-    test_printReceiveLayer(&receive);
-
+    test_printReceiveLayer(&receive, frameBufferLength);
 }
 
 void receiveLayer_TEST_2(void) {
@@ -51,7 +50,7 @@ void receiveLayer_TEST_2(void) {
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Nope");
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Nope");
 
-    test_printReceiveLayer(&receive);
+    test_printReceiveLayer(&receive, frameBufferLength);
 }
 
 void receiveLayer_TEST_3(void) {
@@ -78,7 +77,7 @@ void receiveLayer_TEST_3(void) {
     test_sendData(&receive, target, source, framingErrorByte, overrunErrorByte, "Nope");
     test_sendData(&receive, broadcast, source, framingErrorByte, overrunErrorByte, "Brc3");
 
-    test_printReceiveLayer(&receive);
+    test_printReceiveLayer(&receive, frameBufferLength);
 }
 
 int main() {

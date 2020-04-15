@@ -26,7 +26,7 @@ void test_printFrameHeader(_LRPFrame *const frame);
 
 void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned char const frameBufferLength);
 
-void test_printReceiveLayer(_LRPReceiveLayer *const receive);
+void test_printReceiveLayer(_LRPReceiveLayer *const receive, const unsigned char const frameBufferLength);
 
 unsigned char test_generateParity(unsigned char data);
 

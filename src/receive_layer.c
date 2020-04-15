@@ -6,20 +6,21 @@ void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLa
 
 unsigned char LRP_isReadLastFrameByte(const unsigned char *const numberOfReceivedBytes);
 
+void LRP_resetReceiveLayer(_LRPReceiveLayer *const receiveLayer);
+
 void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
                           _LRPFrame *const receiveFrameBuffer,
-                          unsigned char receiveFrameBufferLength) {
-    LRP_initFrame(receiveFrameBuffer, &receiveFrameBufferLength);
+                          const unsigned char const receiveFrameBufferLength) {
+    LRP_initFrameBuffer(receiveFrameBuffer, &receiveFrameBufferLength);
 
     receiveLayer->receiveDeviceId = receiveDeviceId;
     receiveLayer->frameBuffer = receiveFrameBuffer;
-    receiveLayer->frameBufferLength = receiveFrameBufferLength;
+    receiveLayer->layerCurrentFrame = &receiveLayer->frameBuffer[0];
+    LRP_resetReceiveLayer(receiveLayer);
 
     receiveLayer->framingErrorHandler =
     receiveLayer->overrunErrorHandler =
     receiveLayer->parityBitErrorHandler = LRP_noReceiveErrorCallBack;
-
-    LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
 }
 
 void LRP_setFramingErrorHandler(_LRPReceiveLayer *const receiveLayer, _LRPErrorHandler framingErrorHandler) {
@@ -65,23 +66,23 @@ LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer, unsigned char d
 
     switch (receiveLayer->numberOfReadBytes) {
         case 1:
-            LRP_readTargetDeviceIdAndCommandFromHeader1Data(receiveLayer->currentFrame, &data);
+            LRP_readTargetDeviceIdAndCommandFromHeader1Data(receiveLayer->layerCurrentFrame, &data);
             break;
         case 2:
-            LRP_readSourceDeviceIdFromHeader2Data(receiveLayer->currentFrame, &data);
+            LRP_readSourceDeviceIdFromHeader2Data(receiveLayer->layerCurrentFrame, &data);
             break;
         default:
-            receiveLayer->currentFrame->data[receiveLayer->numberOfReadBytes - 3] = data;
+            receiveLayer->layerCurrentFrame->data[receiveLayer->numberOfReadBytes - 3] = data;
     }
 
-    if (receiveLayer->currentFrame->targetDeviceId != *receiveLayer->receiveDeviceId &&
-        receiveLayer->currentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
+    if (receiveLayer->layerCurrentFrame->targetDeviceId != *receiveLayer->receiveDeviceId &&
+        receiveLayer->layerCurrentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
         LRP_setReceiveLayerError(receiveLayer);
     }
 
     if (LRP_isReadLastFrameByte(&receiveLayer->numberOfReadBytes)) {
         if (receiveLayer->status == RECEIVE_LAYER_STATUS_OK) {
-            receiveLayer->currentFrame->status = RECEIVE_FRAME_COMPLETED;
+            receiveLayer->layerCurrentFrame->status = RECEIVE_FRAME_COMPLETED;
         }
         LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
     }
@@ -91,23 +92,22 @@ void LRP_noReceiveErrorCallBack(void) {}
 
 void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer) {
     receiveLayer->status = RECEIVE_LAYER_STATUS_ERROR;
-    LRP_resetFrame(receiveLayer->currentFrame);
+    LRP_resetFrame(receiveLayer->layerCurrentFrame);
 }
 
 void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer) {
-    char currentFrameIndex = LRP_findFirstFrameIndexByStatus(receiveLayer->frameBuffer,
-                                                             &receiveLayer->frameBufferLength,
-                                                             FRAME_READY_TO_REDEFINE);
-    receiveLayer->numberOfReadBytes = 0;
-    receiveLayer->status = RECEIVE_LAYER_STATUS_OK;
-
-    if (currentFrameIndex == -1) {
-        receiveLayer->status = RECEIVE_LAYER_STATUS_ERROR;
+    if (receiveLayer->layerCurrentFrame->status == FRAME_READY_TO_REDEFINE) {
+        LRP_resetReceiveLayer(receiveLayer);
         return;
     }
 
-    receiveLayer->currentFrame = &receiveLayer->frameBuffer[currentFrameIndex];
-    receiveLayer->currentFrame->status = FRAME_IN_PROGRESS;
+    if (receiveLayer->layerCurrentFrame->next->status == FRAME_READY_TO_REDEFINE) {
+        receiveLayer->layerCurrentFrame = receiveLayer->layerCurrentFrame->next;
+        LRP_resetReceiveLayer(receiveLayer);
+        return;
+    }
+
+    receiveLayer->status = RECEIVE_LAYER_STATUS_ERROR;
 }
 
 unsigned char LRP_isReadLastFrameByte(const unsigned char *const numberOfReceivedBytes) {
@@ -115,4 +115,10 @@ unsigned char LRP_isReadLastFrameByte(const unsigned char *const numberOfReceive
         return 1;
     }
     return 0;
+}
+
+void LRP_resetReceiveLayer(_LRPReceiveLayer *const receiveLayer) {
+    receiveLayer->numberOfReadBytes = 0;
+    receiveLayer->status = RECEIVE_LAYER_STATUS_OK;
+    receiveLayer->layerCurrentFrame->status = FRAME_IN_PROGRESS;
 }

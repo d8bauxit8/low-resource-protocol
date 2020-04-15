@@ -43,14 +43,14 @@ void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned cha
     }
 }
 
-void test_printReceiveLayer(_LRPReceiveLayer *const receive) {
+void test_printReceiveLayer(_LRPReceiveLayer *const receive, const unsigned char const frameBufferLength) {
     printf("\nReceive layer:");
     printf("\n\tNumber of read bytes: %u", receive->numberOfReadBytes);
     printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(receive->status));
-    printf("\n\tFrame buffer length: %u", receive->frameBufferLength);
+    printf("\n\tFrame buffer length: %u", frameBufferLength);
     printf("\n\tReceive device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*receive->receiveDeviceId));
     printf("\n\tFrame list:");
-    test_printReceiveFrameList(receive->frameBuffer, receive->frameBufferLength);
+    test_printReceiveFrameList(receive->frameBuffer, frameBufferLength);
     printf("\n###################################################");
 }
 

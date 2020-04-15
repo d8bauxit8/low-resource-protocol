@@ -25,12 +25,9 @@ extern "C" {
 #define FRAME_COMMAND_MASK 0b00000110
 #define FRAME_TARGET_DEVICE_ID_MASK FRAME_SOURCE_DEVICE_ID_MASK
 
-void LRP_initFrame(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength);
+void LRP_initFrameBuffer(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength);
 
 void LRP_resetFrame(_LRPFrame *const receiveFrame);
-
-char LRP_findFirstFrameIndexByStatus(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength,
-                                     const unsigned char status);
 
 unsigned char LRP_createParityBit(unsigned char data);
 
