@@ -39,6 +39,9 @@ void test_overrunError(void);
 
 void test_parityBitError(void);
 
+unsigned char test_receiveFrameController(const unsigned char *const sourceDevice,
+                                          const unsigned char *const data);
+
 void describe(char *description, void (*it(void)));
 
 #endif //LOWRESOURCEPROTOCOLLIBRARY_TESTING_H

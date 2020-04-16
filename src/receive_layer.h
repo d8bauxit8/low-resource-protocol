@@ -25,7 +25,7 @@ typedef unsigned char (*_LRPReceiveFrameController)(const unsigned char *const s
 #define RECEIVE_FRAME_COMPLETED 0b00000010
 
 #define RECEIVE_LAYER_STATUS_OK 0
-#define RECEIVE_LAYER_STATUS_ERROR 1
+#define RECEIVE_LAYER_STATUS_SKIP 1
 
 void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
                           _LRPFrame *const receiveFrameBuffer,

@@ -92,6 +92,17 @@ void test_parityBitError(void) {
     printf("\n\t\t\tRECEIVE PARITY BIT ERROR");
 }
 
+unsigned char test_receiveFrameController(const unsigned char *const sourceDevice,
+                                          const unsigned char *const data) {
+    printf("\nReceive frame controller:");
+    printf("\n\tSource device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*sourceDevice));
+    printf("\n\tData: ");
+    const unsigned char frameBufferLength = sizeof(data);
+    for (unsigned char i = 0; i < frameBufferLength; i++) {
+        printf("%c", data[i]);
+    }
+}
+
 void describe(char *description, void (*it(void))) {
     printf("\n\n##########  Start '%s' test case.  ##########", description);
     it();
