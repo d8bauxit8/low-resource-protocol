@@ -92,14 +92,15 @@ void test_parityBitError(void) {
     printf("\n\t\t\tRECEIVE PARITY BIT ERROR");
 }
 
-unsigned char test_receiveFrameController(const unsigned char *const sourceDevice,
-                                          const unsigned char *const data) {
+unsigned char test_receiveFrameController(_FrameData *const frameData) {
     printf("\nReceive frame controller:");
-    printf("\n\tSource device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*sourceDevice));
+    printf("\n\tTarget device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->targetDeviceId));
+    printf("\n\tSource device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->sourceDeviceId));
+    printf("\n\tCommand: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->command));
     printf("\n\tData: ");
-    const unsigned char frameBufferLength = sizeof(data);
+    const unsigned char frameBufferLength = sizeof(frameData->data);
     for (unsigned char i = 0; i < frameBufferLength; i++) {
-        printf("%c", data[i]);
+        printf("%c", frameData->data[i]);
     }
 }
 

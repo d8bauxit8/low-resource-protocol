@@ -39,8 +39,7 @@ void test_overrunError(void);
 
 void test_parityBitError(void);
 
-unsigned char test_receiveFrameController(const unsigned char *const sourceDevice,
-                                          const unsigned char *const data);
+unsigned char test_receiveFrameController(_FrameData *const frameData);
 
 void describe(char *description, void (*it(void)));
 

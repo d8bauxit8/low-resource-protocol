@@ -15,8 +15,7 @@ extern "C" {
 #include "structures.h"
 #include "frame.h"
 
-typedef unsigned char (*_LRPReceiveFrameController)(const unsigned char *const sourceDevice,
-                                                    const unsigned char *const data);
+typedef unsigned char (*_LRPReceiveFrameController)(_FrameData *const frameData);
 
 // Status flow
 // 1. In progress

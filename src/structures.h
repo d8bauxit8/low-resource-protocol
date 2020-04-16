@@ -15,13 +15,17 @@ extern "C" {
 #define FRAME_LENGTH 6
 #define FRAME_DATA_LENGTH 4
 
-typedef struct _Frame {
+typedef struct _FrameData {
     unsigned char sourceDeviceId;
     unsigned char targetDeviceId;
     unsigned char command;
-    unsigned char status;
     unsigned char data[FRAME_DATA_LENGTH];
-    struct _Frame *next;
+} _FrameData;
+
+typedef struct _LRPFrame {
+    struct _FrameData;
+    unsigned char status;
+    struct _LRPFrame *next;
 } _LRPFrame;
 
 typedef void (*_LRPErrorHandler)(void);

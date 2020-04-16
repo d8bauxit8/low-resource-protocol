@@ -33,8 +33,7 @@ void LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer,
     }
 
     for (unsigned char i = 0; i < receiveFrameControllerListLength; i++) {
-        if (receiveFrameControllerList[i](&receiveLayer->controllerCurrentFrame->sourceDeviceId,
-                                          receiveLayer->controllerCurrentFrame->data)) {
+        if (receiveFrameControllerList[i]((_FrameData *const) receiveLayer->controllerCurrentFrame)) {
             break;
         }
     }
