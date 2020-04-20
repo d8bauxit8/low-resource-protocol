@@ -18,8 +18,8 @@ extern "C" {
 typedef unsigned char (*_LRPReceiveFrameController)(_FrameData *const frameData);
 
 // Status flow
-// 1. In progress
-// 2. Completed
+// 1. In receiving
+// 2. Ready to read
 // 3. Ready to redefine
 #define RECEIVE_FRAME_IN_RECEIVING 0b00000001
 #define RECEIVE_FRAME_READY_TO_READ 0b00000010
