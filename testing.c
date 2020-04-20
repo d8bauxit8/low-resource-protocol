@@ -16,11 +16,11 @@ void test_printFrameStatus(_LRPFrame *const frame) {
     printf("\n\t\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frame->status));
 
     switch (frame->status) {
-        case FRAME_IN_PROGRESS:
-            printf("\n\t\t\tIN PROGRESS");
+        case RECEIVE_FRAME_IN_RECEIVING:
+            printf("\n\t\t\tIN RECEIVING");
             break;
-        case RECEIVE_FRAME_COMPLETED:
-            printf("\n\t\t\tCOMPLETED");
+        case RECEIVE_FRAME_READY_TO_READ:
+            printf("\n\t\t\tREADY O READ");
             break;
         case FRAME_READY_TO_REDEFINE:
             printf("\n\t\t\tREADY TO REDEFINE");

@@ -17,7 +17,6 @@ extern "C" {
 // Statuses 0-1 bits
 // Other bits is not used
 #define FRAME_READY_TO_REDEFINE 0b00000000
-#define FRAME_IN_PROGRESS 0b00000011
 
 #define FRAME_BROADCAST_ID 0b00011111
 

@@ -21,7 +21,8 @@ typedef unsigned char (*_LRPReceiveFrameController)(_FrameData *const frameData)
 // 1. In progress
 // 2. Completed
 // 3. Ready to redefine
-#define RECEIVE_FRAME_COMPLETED 0b00000010
+#define RECEIVE_FRAME_IN_RECEIVING 0b00000001
+#define RECEIVE_FRAME_READY_TO_READ 0b00000010
 
 #define RECEIVE_LAYER_STATUS_OK 0
 #define RECEIVE_LAYER_STATUS_SKIP 1

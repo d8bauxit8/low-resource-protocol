@@ -28,7 +28,7 @@ void LRP_initReceiveLayer(_LRPReceiveLayer *const receiveLayer, const unsigned c
 void LRP_receiveLayerController(_LRPReceiveLayer *const receiveLayer,
                                 _LRPReceiveFrameController *const receiveFrameControllerList,
                                 const unsigned char const receiveFrameControllerListLength) {
-    if (receiveLayer->controllerCurrentFrame->status != RECEIVE_FRAME_COMPLETED) {
+    if (receiveLayer->controllerCurrentFrame->status != RECEIVE_FRAME_READY_TO_READ) {
         return;
     }
 
@@ -86,7 +86,7 @@ LRP_receiveLayerHandler(_LRPReceiveLayer *const receiveLayer, unsigned char data
 
         if (receiveLayer->numberOfReadBytes == FRAME_LENGTH) {
             if (receiveLayer->status == RECEIVE_LAYER_STATUS_OK) {
-                receiveLayer->handlerCurrentFrame->status = RECEIVE_FRAME_COMPLETED;
+                receiveLayer->handlerCurrentFrame->status = RECEIVE_FRAME_READY_TO_READ;
                 receiveLayer->handlerCurrentFrame = receiveLayer->handlerCurrentFrame->next;
             }
         }
@@ -117,7 +117,7 @@ void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer) {
 }
 
 void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer) {
-    if (receiveLayer->handlerCurrentFrame->status == RECEIVE_FRAME_COMPLETED) {
+    if (receiveLayer->handlerCurrentFrame->status == RECEIVE_FRAME_READY_TO_READ) {
         receiveLayer->status = RECEIVE_LAYER_STATUS_SKIP;
         return;
     }
@@ -126,5 +126,5 @@ void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLa
 
 void LRP_setReceiveLayerOK(_LRPReceiveLayer *const receiveLayer) {
     receiveLayer->status = RECEIVE_LAYER_STATUS_OK;
-    receiveLayer->handlerCurrentFrame->status = FRAME_IN_PROGRESS;
+    receiveLayer->handlerCurrentFrame->status = RECEIVE_FRAME_IN_RECEIVING;
 }
