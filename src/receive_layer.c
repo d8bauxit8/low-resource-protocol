@@ -2,6 +2,9 @@
 
 void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer);
 
+unsigned char
+LRP_isReceiveFrameSynchronizationStroke(const unsigned char *const data, const unsigned char *const parityBit);
+
 void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer);
 
 void LRP_setReceiveLayerOK(_LRPReceiveLayer *const receiveLayer);
@@ -47,29 +50,40 @@ LRP_receiveLayerHandler(_LRPReceiveLayer *const receiveLayer, unsigned char data
                         const unsigned char *const parityBit,
                         const unsigned char *const framingError,
                         const unsigned char *const overrunError) {
+    // If the number of read bytes' value is zero, it's prepared the receive layer to the next iteration.
     if (!receiveLayer->numberOfReadBytes) {
         LRP_prepareReceiveLayerToTheNextIteration(receiveLayer);
     }
 
     receiveLayer->numberOfReadBytes++;
 
+    // If the receive layer status is not skip, we could read the data.
     if (receiveLayer->status != RECEIVE_LAYER_STATUS_SKIP) {
+        // If there is framing error
         if (*framingError) {
             receiveLayer->framingErrorHandler();
             LRP_setReceiveLayerError(receiveLayer);
         }
 
+        // If there is overrun error
         if (*overrunError) {
             receiveLayer->overrunErrorHandler();
             LRP_setReceiveLayerError(receiveLayer);
         }
 
+        // If the received data's parity bit is invalid
         if (LRP_isInvalidParityBit(data, parityBit)) {
+            // If it is a synchronization stroke, set the number of read bytes to zero.
+            if (LRP_isReceiveFrameSynchronizationStroke(&data, parityBit)) {
+                receiveLayer->numberOfReadBytes = 0;
+                return;
+            }
             receiveLayer->parityBitErrorHandler();
             LRP_setReceiveLayerError(receiveLayer);
         }
 
         switch (receiveLayer->numberOfReadBytes) {
+            // It's the header 1
             case 1:
                 LRP_readTargetDeviceIdAndCommandFromHeader1Data(receiveLayer->handlerCurrentFrame, &data);
                 if (receiveLayer->handlerCurrentFrame->targetDeviceId != *receiveLayer->receiveDeviceId &&
@@ -77,13 +91,16 @@ LRP_receiveLayerHandler(_LRPReceiveLayer *const receiveLayer, unsigned char data
                     LRP_setReceiveLayerError(receiveLayer);
                 }
                 break;
+                // Its the header 2
             case 2:
                 LRP_readSourceDeviceIdFromHeader2Data(receiveLayer->handlerCurrentFrame, &data);
                 break;
+                // Its the data
             default:
                 receiveLayer->handlerCurrentFrame->data[receiveLayer->numberOfReadBytes - 3] = data;
         }
 
+        // If the number of read bytes reached the frame length
         if (receiveLayer->numberOfReadBytes == FRAME_LENGTH) {
             if (receiveLayer->status == RECEIVE_LAYER_STATUS_OK) {
                 receiveLayer->handlerCurrentFrame->status = RECEIVE_FRAME_READY_TO_READ;
@@ -114,6 +131,17 @@ void LRP_noReceiveErrorCallBack(void) {}
 void LRP_setReceiveLayerError(_LRPReceiveLayer *const receiveLayer) {
     receiveLayer->status = RECEIVE_LAYER_STATUS_SKIP;
     LRP_resetFrameStatus(receiveLayer->handlerCurrentFrame);
+}
+
+unsigned char
+LRP_isReceiveFrameSynchronizationStroke(const unsigned char *const data, const unsigned char *const parityBit) {
+    const unsigned char leftBits = *data & 0b11100000;
+    const unsigned char rightBits = *data & 0b00011100;
+    const unsigned char checkSum = ((*data & 0b00000011) << 1) | *parityBit;
+    if ((leftBits ^ rightBits) == checkSum) {
+        return 1;
+    }
+    return 0;
 }
 
 void LRP_prepareReceiveLayerToTheNextIteration(_LRPReceiveLayer *const receiveLayer) {
