@@ -1,5 +1,8 @@
 #include "receive_line_code_layer.h"
 
+/**
+ * Public method declarations
+ */
 void LRP_receiveLineCodeLayerHandler(_LRPReceiveLayer *const receiveLayer, _LRPLineCode4B5B *const lineCode4B5B,
                                      const unsigned char *const data) {
     if (*data == START_DELIMITER_BYTE_4B5B) {
