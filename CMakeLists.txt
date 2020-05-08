@@ -4,6 +4,8 @@ project(LowResourceProtocolLibrary C)
 set(CMAKE_C_STANDARD 90)
 
 file(GLOB SRC_SOURCES
+        src/**/*.h
+        src/**/*.c
         src/*.h
         src/*.c
         )

@@ -5,10 +5,10 @@
 //
 
 void test_printData(_LRPFrame *const frame) {
-    const unsigned char frameBufferLength = sizeof(frame->data);
+    if (frame->status != RECEIVE_FRAME_READY_TO_READ) return;
     printf("\n\t\tData: ");
-    for (unsigned char i = 0; i < frameBufferLength; i++) {
-        printf("%c", frame->data[i]);
+    for (unsigned char i = 0; i < frame->length; i++) {
+        printf("%c", *frame->data[i]);
     }
 }
 
@@ -19,8 +19,11 @@ void test_printFrameStatus(_LRPFrame *const frame) {
         case RECEIVE_FRAME_IN_RECEIVING:
             printf("\n\t\t\tIN RECEIVING");
             break;
+        case RECEIVE_FRAME_READY_TO_CHECK:
+            printf("\n\t\t\tREADY TO CHECK");
+            break;
         case RECEIVE_FRAME_READY_TO_READ:
-            printf("\n\t\t\tREADY O READ");
+            printf("\n\t\t\tREADY TO READ");
             break;
         case FRAME_READY_TO_REDEFINE:
             printf("\n\t\t\tREADY TO REDEFINE");
@@ -32,6 +35,8 @@ void test_printFrameHeader(_LRPFrame *const frame) {
     printf("\n\t\tTarget device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frame->targetDeviceId));
     printf("\n\t\tCommand: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frame->command));
     printf("\n\t\tSource device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frame->sourceDeviceId));
+    printf("\n\t\tLength: %u", frame->length);
+    printf("\n\t\tBuffer: %s", frame->buffer);
 }
 
 
@@ -45,8 +50,8 @@ void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned cha
 
 void test_printReceiveLayer(_LRPReceiveLayer *const receive, const unsigned char const frameBufferLength) {
     printf("\nReceive layer:");
-    printf("\n\tNumber of read bytes: %u", receive->numberOfReadBytes);
-    printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(receive->status));
+    printf("\n\tNumber of read bytes: %u", receive->indexOfReadBytes);
+    printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(receive->linkLayerStatus));
     printf("\n\tFrame buffer length: %u", frameBufferLength);
     printf("\n\tReceive device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*receive->receiveDeviceId));
     printf("\n\tFrame list:");
@@ -54,42 +59,15 @@ void test_printReceiveLayer(_LRPReceiveLayer *const receive, const unsigned char
     printf("\n###################################################");
 }
 
-unsigned char test_generateParity(unsigned char data) {
-    unsigned char parity = 1;
+void test_sendData(_LRPReceiveLayer *const receive, unsigned char *data, const unsigned char const dataLength) {
+    _LRPLineCode4B5B lineCode4B5B;
+    unsigned char buffer[2];
+    lineCode4B5B.buffer[0] = &buffer[0];
+    lineCode4B5B.buffer[1] = &buffer[1];
 
-    while (data) {
-        parity ^= data & 1;
-        data >>= 1;
+    for (char i = 0; i < dataLength; i++) {
+        LRP_receiveLineCodeLayerHandler(receive, &lineCode4B5B, &data[i]);
     }
-    return (parity);
-}
-
-void test_sendData(_LRPReceiveLayer *const receive, unsigned char target, unsigned char source,
-                   unsigned char framingError, unsigned char overrunError, char *data) {
-
-    unsigned char parityBit = test_generateParity(target);
-    LRP_receiveLayerHandler(receive, target, &parityBit, &framingError, &overrunError);
-
-    parityBit = test_generateParity(source);
-    LRP_receiveLayerHandler(receive, source, &parityBit, &framingError, &overrunError);
-
-    char len = sizeof(data);
-    for (char i = 0; i < len; i++) {
-        parityBit = test_generateParity(data[i]);
-        LRP_receiveLayerHandler(receive, data[i], &parityBit, &framingError, &overrunError);
-    }
-}
-
-void test_framingError(void) {
-    printf("\n\t\t\tRECEIVE FRAMING ERROR");
-}
-
-void test_overrunError(void) {
-    printf("\n\t\t\tRECEIVE OVERRUN ERROR");
-}
-
-void test_parityBitError(void) {
-    printf("\n\t\t\tRECEIVE PARITY BIT ERROR");
 }
 
 unsigned char test_receiveFrameController(_FrameData *const frameData) {
@@ -97,10 +75,10 @@ unsigned char test_receiveFrameController(_FrameData *const frameData) {
     printf("\n\tTarget device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->targetDeviceId));
     printf("\n\tSource device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->sourceDeviceId));
     printf("\n\tCommand: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->command));
+    printf("\n\tLength: %u", frameData->length);
     printf("\n\tData: ");
-    const unsigned char frameBufferLength = sizeof(frameData->data);
-    for (unsigned char i = 0; i < frameBufferLength; i++) {
-        printf("%c", frameData->data[i]);
+    for (unsigned char i = 0; i < frameData->length; i++) {
+        printf("%c", *frameData->data[i]);
     }
 }
 

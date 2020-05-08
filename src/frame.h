@@ -12,7 +12,24 @@
 extern "C" {
 #endif
 
-#include "structures.h"
+#define FRAME_NUMBER_OF_MAX_DATA_BYTES 5
+#define FRAME_NUMBER_OF_HEADER_BYTES 2
+#define FRAME_NUMBER_OF_FRAME_BYTES FRAME_NUMBER_OF_HEADER_BYTES + FRAME_NUMBER_OF_MAX_DATA_BYTES
+
+typedef struct _FrameData {
+    unsigned char sourceDeviceId;
+    unsigned char targetDeviceId;
+    unsigned char command;
+    unsigned char length;
+    unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
+} _FrameData;
+
+typedef struct _LRPFrame {
+    struct _FrameData;
+    unsigned char status;
+    unsigned char buffer[FRAME_NUMBER_OF_FRAME_BYTES];
+    struct _LRPFrame *next;
+} _LRPFrame;
 
 // Statuses 0-1 bits
 // Other bits is not used
@@ -20,21 +37,17 @@ extern "C" {
 
 #define FRAME_BROADCAST_ID 0b00011111
 
-#define FRAME_SOURCE_DEVICE_ID_MASK 0b11111000
-#define FRAME_COMMAND_MASK 0b00000110
-#define FRAME_TARGET_DEVICE_ID_MASK FRAME_SOURCE_DEVICE_ID_MASK
-
 void LRP_initFrameBuffer(_LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength);
 
-void LRP_resetFrameStatus(_LRPFrame *const receiveFrame);
+void LRP_setFrameStatus(_LRPFrame *const frame, const unsigned char const status);
 
-unsigned char LRP_createParityBit(unsigned char data);
+void LRP_resetFrameStatus(_LRPFrame *const frame);
 
-unsigned char LRP_isInvalidParityBit(unsigned char data, const unsigned char *const parityBit);
+void LRP_readTargetDeviceIdAndCommandFromReceivedByte(_LRPFrame *const frame, const unsigned char *const data);
 
-void LRP_readTargetDeviceIdAndCommandFromHeader1Data(_LRPFrame *const frame, const unsigned char *const data);
+void LRP_readSourceDeviceIdAndDataLengthFromReceivedByte(_LRPFrame *const frame, const unsigned char *const data);
 
-void LRP_readSourceDeviceIdFromHeader2Data(_LRPFrame *const frame, const unsigned char *const data);
+void LRP_readDataFromBuffer(_LRPFrame *const frame);
 
 #ifdef    __cplusplus
 }
