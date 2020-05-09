@@ -12,17 +12,7 @@
 extern "C" {
 #endif
 
-#include "../frame.h"
-
-typedef struct {
-    _LRPFrame *frameBuffer;
-    unsigned char numberOfSentBytes;
-    unsigned char status;
-    unsigned char *transmitDeviceId;
-
-    _LRPFrame *handlerCurrentFrame;
-    _LRPFrame *controllerCurrentFrame;
-} _LRPTransmitLayer;
+#include "../session_provider.h"
 
 #ifdef    __cplusplus
 }

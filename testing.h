@@ -29,9 +29,9 @@ void test_printFrameHeader(_LRPFrame *const frame);
 
 void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned char const frameBufferLength);
 
-void test_printReceiveLayer(_LRPReceiveLayer *const receive, const unsigned char const frameBufferLength);
+void test_printReceiveLayer(_LRPSessionProvider *const receive, const unsigned char const frameBufferLength);
 
-void test_sendData(_LRPReceiveLayer *const receive, unsigned char *data, const unsigned char const dataLength);
+void test_sendData(_LRPSessionProvider *const receive, unsigned char *data, const unsigned char const dataLength);
 
 unsigned char test_receiveFrameController(_FrameData *const frameData);
 

@@ -14,7 +14,7 @@ extern "C" {
 
 #include "receive_structures.h"
 
-void LRP_receiveValidatorLinkLayerHandler(_LRPReceiveLayer *const receiveLayer);
+void LRP_receiveValidatorLinkLayerHandler(_LRPSessionProvider *const sessionProvider);
 
 #ifdef    __cplusplus
 }

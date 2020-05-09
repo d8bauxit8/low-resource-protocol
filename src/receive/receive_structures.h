@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#include "../frame.h"
+#include "../session_provider.h"
 
 // Status flow
 // 1. In receiving
@@ -22,16 +22,6 @@ extern "C" {
 #define RECEIVE_FRAME_IN_RECEIVING 0b00000001
 #define RECEIVE_FRAME_READY_TO_CHECK 0b00000010
 #define RECEIVE_FRAME_READY_TO_READ 0b00000011
-
-typedef struct {
-    _LRPFrame *frameBuffer;
-    unsigned char indexOfReadBytes;
-    unsigned char linkLayerStatus;
-    unsigned char *receiveDeviceId;
-
-    _LRPFrame *handlerCurrentFrame;
-    _LRPFrame *controllerCurrentFrame;
-} _LRPReceiveLayer;
 
 #ifdef    __cplusplus
 }

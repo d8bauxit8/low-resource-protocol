@@ -16,11 +16,7 @@ extern "C" {
 
 typedef unsigned char (*_LRPReceiveFrameController)(_FrameData *const frameData);
 
-void LRP_initReceiveApplicationLayer(_LRPReceiveLayer *const receiveLayer, const unsigned char *const receiveDeviceId,
-                                     _LRPFrame *const receiveFrameBuffer,
-                                     const unsigned char const receiveFrameBufferLength);
-
-void LRP_receiveApplicationLayerController(_LRPReceiveLayer *const receiveLayer,
+void LRP_receiveApplicationLayerController(_LRPSessionProvider *const sessionProvider,
                                            _LRPReceiveFrameController *const receiveFrameControllerList,
                                            const unsigned char const receiveFrameControllerListLength);
 

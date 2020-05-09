@@ -15,15 +15,15 @@ extern "C" {
 #include "receive_structures.h"
 
 void
-LRP_receiveLinkLayerHandler(_LRPReceiveLayer *const receiveLayer, const unsigned char *const data);
+LRP_receiveLinkLayerHandler(_LRPSessionProvider *const sessionProvider, const unsigned char *const data);
 
-void LRP_receiveLinkLayerStartReceiving(_LRPReceiveLayer *const receiveLayer);
+void LRP_receiveLinkLayerStartReceiving(_LRPSessionProvider *const sessionProvider);
 
-void LRP_receiveLinkLayerEndReceiving(_LRPReceiveLayer *const receiveLayer);
+void LRP_receiveLinkLayerEndReceiving(_LRPSessionProvider *const sessionProvider);
 
-void LRP_setReceiveLinkLayerError(_LRPReceiveLayer *const receiveLayer);
+void LRP_setReceiveLinkLayerError(_LRPSessionProvider *const sessionProvider);
 
-unsigned char LRP_isReceiveLinkLayerStatusOK(_LRPReceiveLayer *const receiveLayer);
+unsigned char LRP_isReceiveLinkLayerStatusOK(_LRPSessionProvider *const sessionProvider);
 
 #ifdef    __cplusplus
 }

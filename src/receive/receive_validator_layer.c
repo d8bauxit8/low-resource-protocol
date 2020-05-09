@@ -3,13 +3,13 @@
 /**
  * Public method declarations
  */
-void LRP_receiveValidatorLinkLayerHandler(_LRPReceiveLayer *const receiveLayer) {
-    if (receiveLayer->controllerCurrentFrame->status != RECEIVE_FRAME_READY_TO_CHECK) {
+void LRP_receiveValidatorLinkLayerHandler(_LRPSessionProvider *const sessionProvider) {
+    if (sessionProvider->controllerCurrentFrame->status != RECEIVE_FRAME_READY_TO_CHECK) {
         return;
     }
 
     // TODO: CRC-16 checking
 
-    LRP_readDataFromBuffer(receiveLayer->controllerCurrentFrame);
-    LRP_setFrameStatus(receiveLayer->controllerCurrentFrame, RECEIVE_FRAME_READY_TO_READ);
+    LRP_readDataFromBuffer(sessionProvider->controllerCurrentFrame);
+    LRP_setFrameStatus(sessionProvider->controllerCurrentFrame, RECEIVE_FRAME_READY_TO_READ);
 }

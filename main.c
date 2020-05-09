@@ -1,7 +1,7 @@
 #include "testing.h"
 
 void receiveLayer_TEST_1(void) {
-    _LRPReceiveLayer receive;
+    _LRPSessionProvider receive;
 
     unsigned char deviceId = 0b00010011;
     unsigned char frameBufferLength = 3;
@@ -12,7 +12,7 @@ void receiveLayer_TEST_1(void) {
 
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initReceiveApplicationLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+    LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
     LRP_receiveValidatorLinkLayerHandler(&receive);
@@ -25,7 +25,7 @@ void receiveLayer_TEST_1(void) {
 }
 
 void receiveLayer_TEST_2(void) {
-    _LRPReceiveLayer receive;
+    _LRPSessionProvider receive;
 
     unsigned char deviceId = 0b00010011;
     unsigned char frameBufferLength = 3;
@@ -40,7 +40,7 @@ void receiveLayer_TEST_2(void) {
 
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initReceiveApplicationLayer(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+    LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
     LRP_receiveValidatorLinkLayerHandler(&receive);

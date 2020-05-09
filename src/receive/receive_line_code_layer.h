@@ -16,7 +16,7 @@ extern "C" {
 #include "receive_structures.h"
 #include "receive_link_layer.h"
 
-void LRP_receiveLineCodeLayerHandler(_LRPReceiveLayer *const receiveLayer, _LRPLineCode4B5B *const lineCode4B5B,
+void LRP_receiveLineCodeLayerHandler(_LRPSessionProvider *const sessionProvider, _LRPLineCode4B5B *const lineCode4B5B,
                                      const unsigned char *const data);
 
 #ifdef    __cplusplus
