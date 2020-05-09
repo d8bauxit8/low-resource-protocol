@@ -8,20 +8,13 @@
  */
 void
 LRP_receiveLinkLayerHandler(_LRPSessionProvider *const sessionProvider, const unsigned char *const data) {
-    switch (sessionProvider->indexOfReadBytes) {
-        // It's the header 1
-        case 0:
-            LRP_readTargetDeviceIdAndCommandFromReceivedByte(sessionProvider->linkCurrentFrame, data);
-            if (sessionProvider->linkCurrentFrame->targetDeviceId != *sessionProvider->deviceId &&
-                sessionProvider->linkCurrentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
-                LRP_setReceiveLinkLayerError(sessionProvider);
-                return;
-            }
-            break;
-            // Its the header 2
-        case 1:
-            LRP_readSourceDeviceIdAndDataLengthFromReceivedByte(sessionProvider->linkCurrentFrame, data);
-            break;
+    if (sessionProvider->indexOfReadBytes == 0) {
+        const unsigned char const targetDeviceId = LRP_getTargetDeviceIdFromReceivedByte(data);
+        if (targetDeviceId != *sessionProvider->deviceId &&
+            targetDeviceId != FRAME_BROADCAST_ID) {
+            LRP_setReceiveLinkLayerError(sessionProvider);
+            return;
+        }
     }
 
     sessionProvider->linkCurrentFrame->buffer[sessionProvider->indexOfReadBytes] = *data;

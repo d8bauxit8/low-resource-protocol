@@ -15,7 +15,7 @@ void receiveLayer_TEST_1(void) {
     LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLinkLayerHandler(&receive);
+    LRP_receiveValidatorLayerHandler(&receive);
 
     test_printReceiveLayer(&receive, frameBufferLength);
 
@@ -43,10 +43,10 @@ void receiveLayer_TEST_2(void) {
     LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLinkLayerHandler(&receive);
+    LRP_receiveValidatorLayerHandler(&receive);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLinkLayerHandler(&receive);
+    LRP_receiveValidatorLayerHandler(&receive);
 
     test_sendData(&receive, bufferTest, 10);
     test_sendData(&receive, bufferNope, 10);
