@@ -14,6 +14,15 @@ extern "C" {
 
 #include "../session_provider.h"
 
+// Status flow
+// 1. Ready to redefine
+// 2. Reserved
+// 3. Ready to check
+// 3. Ready to transmit
+#define TRANSMIT_FRAME_RESERVED 0b00000001
+#define TRANSMIT_FRAME_READY_TO_CHECK 0b00000010
+#define TRANSMIT_FRAME_READY_TO_TRANSMIT 0b00000011
+
 #ifdef    __cplusplus
 }
 #endif
