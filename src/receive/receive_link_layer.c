@@ -11,42 +11,42 @@ LRP_receiveLinkLayerHandler(_LRPSessionProvider *const sessionProvider, const un
     switch (sessionProvider->indexOfReadBytes) {
         // It's the header 1
         case 0:
-            LRP_readTargetDeviceIdAndCommandFromReceivedByte(sessionProvider->handlerCurrentFrame, data);
-            if (sessionProvider->handlerCurrentFrame->targetDeviceId != *sessionProvider->deviceId &&
-                sessionProvider->handlerCurrentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
+            LRP_readTargetDeviceIdAndCommandFromReceivedByte(sessionProvider->linkCurrentFrame, data);
+            if (sessionProvider->linkCurrentFrame->targetDeviceId != *sessionProvider->deviceId &&
+                sessionProvider->linkCurrentFrame->targetDeviceId != FRAME_BROADCAST_ID) {
                 LRP_setReceiveLinkLayerError(sessionProvider);
                 return;
             }
             break;
             // Its the header 2
         case 1:
-            LRP_readSourceDeviceIdAndDataLengthFromReceivedByte(sessionProvider->handlerCurrentFrame, data);
+            LRP_readSourceDeviceIdAndDataLengthFromReceivedByte(sessionProvider->linkCurrentFrame, data);
             break;
     }
 
-    sessionProvider->handlerCurrentFrame->buffer[sessionProvider->indexOfReadBytes] = *data;
+    sessionProvider->linkCurrentFrame->buffer[sessionProvider->indexOfReadBytes] = *data;
     // Increase index of read byte
     sessionProvider->indexOfReadBytes++;
 }
 
 void LRP_receiveLinkLayerStartReceiving(_LRPSessionProvider *const sessionProvider) {
-    if (sessionProvider->handlerCurrentFrame->status != FRAME_READY_TO_REDEFINE) {
+    if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE) {
         sessionProvider->linkLayerStatus = RECEIVE_LINK_LAYER_STATUS_SKIP;
         return;
     }
     sessionProvider->indexOfReadBytes = 0;
     sessionProvider->linkLayerStatus = RECEIVE_LINK_LAYER_STATUS_OK;
-    LRP_setFrameStatus(sessionProvider->handlerCurrentFrame, RECEIVE_FRAME_IN_RECEIVING);
+    LRP_setFrameStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_IN_RECEIVING);
 }
 
 void LRP_receiveLinkLayerEndReceiving(_LRPSessionProvider *const sessionProvider) {
-    sessionProvider->handlerCurrentFrame->status = RECEIVE_FRAME_READY_TO_CHECK;
-    sessionProvider->handlerCurrentFrame = sessionProvider->handlerCurrentFrame->next;
+    sessionProvider->linkCurrentFrame->status = RECEIVE_FRAME_READY_TO_CHECK;
+    sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
 }
 
 void LRP_setReceiveLinkLayerError(_LRPSessionProvider *const sessionProvider) {
     sessionProvider->linkLayerStatus = RECEIVE_LINK_LAYER_STATUS_SKIP;
-    LRP_resetFrameStatus(sessionProvider->handlerCurrentFrame);
+    LRP_resetFrameStatus(sessionProvider->linkCurrentFrame);
 }
 
 unsigned char LRP_isReceiveLinkLayerStatusOK(_LRPSessionProvider *const sessionProvider) {

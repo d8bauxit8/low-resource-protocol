@@ -9,8 +9,9 @@ void LRP_initSessionProvider(_LRPSessionProvider *const sessionProvider, const u
 
     sessionProvider->frameBuffer = frameBuffer;
 
-    sessionProvider->handlerCurrentFrame =
-    sessionProvider->controllerCurrentFrame = &sessionProvider->frameBuffer[0];
+    sessionProvider->linkCurrentFrame =
+    sessionProvider->validatorCurrentFrame =
+    sessionProvider->applicationCurrentFrame = &sessionProvider->frameBuffer[0];
 
     sessionProvider->indexOfReadBytes = 0;
 }

@@ -20,8 +20,9 @@ typedef struct {
     unsigned char linkLayerStatus;
     unsigned char *deviceId;
 
-    _LRPFrame *handlerCurrentFrame;
-    _LRPFrame *controllerCurrentFrame;
+    _LRPFrame *linkCurrentFrame;
+    _LRPFrame *validatorCurrentFrame;
+    _LRPFrame *applicationCurrentFrame;
 } _LRPSessionProvider;
 
 void LRP_initSessionProvider(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
