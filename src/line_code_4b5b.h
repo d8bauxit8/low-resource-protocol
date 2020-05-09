@@ -11,16 +11,6 @@
 #ifdef    __cplusplus
 extern "C" {
 #endif
-#define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
-#define BYTE_TO_BINARY(byte)  \
-  (byte & 128 ? '1' : '0'), \
-  (byte & 64 ? '1' : '0'), \
-  (byte & 32 ? '1' : '0'), \
-  (byte & 16 ? '1' : '0'), \
-  (byte & 8 ? '1' : '0'), \
-  (byte & 4 ? '1' : '0'), \
-  (byte & 2 ? '1' : '0'), \
-  (byte & 1 ? '1' : '0')
 
 // Recommend control codes
 #define START_DELIMITER_BYTE_4B5B 0b00011000
