@@ -40,7 +40,7 @@ void LRP_receiveLinkLayerStartReceiving(_LRPSessionProvider *const sessionProvid
 }
 
 void LRP_receiveLinkLayerEndReceiving(_LRPSessionProvider *const sessionProvider) {
-    sessionProvider->linkCurrentFrame->status = RECEIVE_FRAME_READY_TO_CHECK;
+    LRP_setFrameStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_READY_TO_CHECK);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
 }
 
