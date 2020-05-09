@@ -45,15 +45,13 @@ void LRP_resetFrameStatus(_LRPFrame *const frame);
 
 unsigned char LRP_getTargetDeviceIdFromReceivedByte(const unsigned char *const data);
 
-unsigned char LRP_getCommandFromReceivedByte(const unsigned char *const data);
-
-unsigned char LRP_getSourceDeviceIdFromReceivedByte(const unsigned char *const data);
-
-unsigned char LRP_getLengthFromReceivedByte(const unsigned char *const data);
-
 void LRP_addHeaderDataToFrameDataFromFrameBuffer(_LRPFrame *const frame);
 
 void LRP_addDataToFrameDataFromFrameBuffer(_LRPFrame *const frame);
+
+void LRP_addHeaderDataToFrameBufferFromFrameData(_LRPFrame *const frame);
+
+void LRP_addDataToFrameBufferFromFrameData(_LRPFrame *const frame);
 
 #ifdef    __cplusplus
 }

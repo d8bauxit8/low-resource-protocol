@@ -30,27 +30,26 @@ unsigned char LRP_getTargetDeviceIdFromReceivedByte(const unsigned char *const d
     return (*data & FRAME_TARGET_DEVICE_ID_MASK) >> 3;
 }
 
-unsigned char LRP_getCommandFromReceivedByte(const unsigned char *const data) {
-    return *data & FRAME_COMMAND_MASK;
-}
-
-unsigned char LRP_getSourceDeviceIdFromReceivedByte(const unsigned char *const data) {
-    return (*data & FRAME_SOURCE_DEVICE_ID_MASK) >> 3;
-}
-
-unsigned char LRP_getLengthFromReceivedByte(const unsigned char *const data) {
-    return *data & FRAME_LENGTH_MASK;
-}
-
 void LRP_addHeaderDataToFrameDataFromFrameBuffer(_LRPFrame *const frame) {
     frame->targetDeviceId = LRP_getTargetDeviceIdFromReceivedByte(&frame->buffer[0]);
-    frame->command = LRP_getCommandFromReceivedByte(&frame->buffer[0]);
-    frame->sourceDeviceId = LRP_getSourceDeviceIdFromReceivedByte(&frame->buffer[1]);
-    frame->length = LRP_getLengthFromReceivedByte(&frame->buffer[1]);
+    frame->command = frame->buffer[0] & FRAME_COMMAND_MASK;
+    frame->sourceDeviceId = (frame->buffer[1] & FRAME_SOURCE_DEVICE_ID_MASK) >> 3;
+    frame->length = frame->buffer[1] & FRAME_LENGTH_MASK;
 }
 
 void LRP_addDataToFrameDataFromFrameBuffer(_LRPFrame *const frame) {
     for (unsigned char i = 0; i < frame->length; i++) {
         frame->data[i] = &frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES];
+    }
+}
+
+void LRP_addHeaderDataToFrameBufferFromFrameData(_LRPFrame *const frame) {
+    frame->buffer[0] = (frame->targetDeviceId << 3) | (FRAME_COMMAND_MASK & frame->command);
+    frame->buffer[1] = (frame->sourceDeviceId << 3) | (FRAME_LENGTH_MASK & frame->length);
+}
+
+void LRP_addDataToFrameBufferFromFrameData(_LRPFrame *const frame) {
+    for (unsigned char i = 0; i < frame->length; i++) {
+        frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES] = *frame->data[i];
     }
 }
