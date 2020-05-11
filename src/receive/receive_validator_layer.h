@@ -1,5 +1,5 @@
 /* 
- * File:   layers.h
+ * File:   receive_validator_layer.h
  * Author: D8bauxit8
  *
  * Created on April 6, 2020, 8:06 PM
