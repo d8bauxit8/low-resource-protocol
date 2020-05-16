@@ -12,9 +12,9 @@
 extern "C" {
 #endif
 
-unsigned char LRP_createOddParityBit(unsigned char data);
+unsigned char LRP_ParityBit_createOddParityBit(unsigned char data);
 
-unsigned char LRP_isInvalidOddParityBit(unsigned char data, const unsigned char *const parityBit);
+unsigned char LRP_ParityBit_isInvalidOddParityBit(unsigned char data, const unsigned char *const parityBit);
 
 #ifdef    __cplusplus
 }

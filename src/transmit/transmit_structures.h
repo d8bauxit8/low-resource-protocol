@@ -20,10 +20,15 @@ extern "C" {
 // 3. Ready to check
 // 3. Ready to transmit
 // 4. Transmitting
-#define TRANSMIT_FRAME_RESERVED 0b00000001
-#define TRANSMIT_FRAME_READY_TO_CHECK 0b00000010
-#define TRANSMIT_FRAME_READY_TO_TRANSMIT 0b00000011
-#define TRANSMIT_FRAME_TRANSMITTING 0b00000100
+#define TRANSMIT_FRAME_RESERVED 1
+#define TRANSMIT_FRAME_READY_TO_CHECK 2
+#define TRANSMIT_FRAME_READY_TO_TRANSMIT 3
+#define TRANSMIT_FRAME_TRANSMITTING 4
+
+typedef struct {
+    struct _LRPSessionProvider;
+    unsigned char indexOfWroteBytes;
+} _LRPTransmitSessionProvider;
 
 #ifdef    __cplusplus
 }

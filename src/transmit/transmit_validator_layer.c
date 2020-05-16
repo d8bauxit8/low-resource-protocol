@@ -3,15 +3,16 @@
 /**
  * Public method declarations
  */
-void LRP_transmitValidatorLayerHandler(_LRPSessionProvider *const sessionProvider) {
+void LRP_TransmitValidatorLayer_handler(_LRPSessionProvider *const sessionProvider) {
     if (sessionProvider->validatorCurrentFrame->status != TRANSMIT_FRAME_READY_TO_CHECK) {
         return;
     }
 
     // TODO: CRC-16 checking
 
-    LRP_addHeaderDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
-    LRP_addDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
+    LRP_Frame_addHeaderDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
+    LRP_Frame_addDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
 
-    LRP_setFrameStatus(sessionProvider->validatorCurrentFrame, TRANSMIT_FRAME_READY_TO_TRANSMIT);
+    LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, TRANSMIT_FRAME_READY_TO_TRANSMIT);
+    // TODO: Ha nincs küldés akkor itt kell elindítani.
 }

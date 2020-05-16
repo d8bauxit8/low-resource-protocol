@@ -3,25 +3,26 @@
 /**
  * Public method declarations
  */
-void LRP_receiveLineCodeLayerHandler(_LRPSessionProvider *const sessionProvider, _LRPLineCode4B5B *const lineCode4B5B,
-                                     const unsigned char *const data) {
+void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionProvider,
+                                      _LRPLineCode4B5B *const lineCode4B5B,
+                                      const unsigned char *const data) {
     if (*data == START_DELIMITER_BYTE_4B5B) {
-        LRP_receiveLinkLayerStartReceiving(sessionProvider);
-        LRP_4B5BReset(lineCode4B5B);
+        LRP_ReceiveLinkLayer_startReceiving(sessionProvider);
+        LRP_4B5B_reset(lineCode4B5B);
         return;
     }
 
-    if (LRP_isReceiveLinkLayerStatusOK(sessionProvider)) {
+    if (LRP_LinkLayer_isStatusOK((_LRPSessionProvider *) sessionProvider)) {
         if (*data == END_DELIMITER_BYTE_4B5B) {
-            LRP_receiveLinkLayerEndReceiving(sessionProvider);
+            LRP_ReceiveLinkLayer_endReceiving((_LRPSessionProvider *) sessionProvider);
             return;
         }
 
-        LRP_4B5BAddEncodedByteToBufferOfEncodedBits(lineCode4B5B, data);
+        LRP_4B5B_addEncodedByteToBufferOfEncodedBits(lineCode4B5B, data);
 
-        if (LRP_4B5BIsBufferOfEncodedBitsReadyToReadADecodedByte(lineCode4B5B)) {
-            const unsigned char const decodedData = LRP_4B5BReadADecodedByteFromBufferOfEncodedBits(lineCode4B5B);
-            LRP_receiveLinkLayerHandler(sessionProvider, &decodedData);
+        if (LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(lineCode4B5B)) {
+            const unsigned char const decodedData = LRP_4B5B_readADecodedByteFromBufferOfEncodedBits(lineCode4B5B);
+            LRP_ReceiveLinkLayer_handler(sessionProvider, &decodedData);
         }
     }
 }

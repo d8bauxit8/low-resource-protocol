@@ -12,16 +12,16 @@ void receiveLayer_TEST_1(void) {
 
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+    LRP_SessionProvider_init(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLayerHandler(&receive);
+    LRP_ReceiveValidatorLayer_handler(&receive);
 
     test_printReceiveLayer(&receive, frameBufferLength);
 
     _LRPReceiveFrameController controllers[1] = {test_receiveFrameController};
 
-    LRP_receiveApplicationLayerController(&receive, controllers, 1);
+    LRP_ReceiveApplicationLayer_controller(&receive, controllers, 1);
 }
 
 void receiveLayer_TEST_2(void) {
@@ -40,13 +40,13 @@ void receiveLayer_TEST_2(void) {
 
     _LRPFrame receiveFrameBuffer[3];
 
-    LRP_initSessionProvider(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
+    LRP_SessionProvider_init(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLayerHandler(&receive);
+    LRP_ReceiveValidatorLayer_handler(&receive);
 
     test_sendData(&receive, bufferTest, 10);
-    LRP_receiveValidatorLayerHandler(&receive);
+    LRP_ReceiveValidatorLayer_handler(&receive);
 
     test_sendData(&receive, bufferTest, 10);
     test_sendData(&receive, bufferNope, 10);

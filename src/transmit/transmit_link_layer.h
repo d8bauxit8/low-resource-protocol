@@ -13,15 +13,19 @@ extern "C" {
 #endif
 
 #include "transmit_structures.h"
+#include "../link_layer.h"
 
 unsigned char
-LRP_transmitLinkLayerHandler(_LRPSessionProvider *const sessionProvider);
+LRP_TransmitLinkLayer_handler(_LRPTransmitSessionProvider *const sessionProvider);
 
-void LRP_transmitLinkLayerStartTransmitting(_LRPSessionProvider *const sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isEndOfBufferLength(_LRPTransmitSessionProvider *const sessionProvider);
 
-void LRP_transmitLinkLayerEndTransmitting(_LRPSessionProvider *const sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvider *const sessionProvider);
 
-unsigned char LRP_isTransmitLinkLayerStatusOK(_LRPSessionProvider *const sessionProvider);
+void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *const sessionProvider);
+
+void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionProvider);
+
 
 #ifdef    __cplusplus
 }

@@ -1,31 +1,30 @@
 #include "transmit_link_layer.h"
 
-#define TRANSMIT_LINK_LAYER_STATUS_OK 0
-#define TRANSMIT_LINK_LAYER_STATUS_SKIP 1
-
 /**
  * Public method declarations
  */
 unsigned char
-LRP_transmitLinkLayerHandler(_LRPSessionProvider *const sessionProvider) {
-    return sessionProvider->linkCurrentFrame->buffer[sessionProvider->indexOfReadBytes++];
+LRP_TransmitLinkLayer_handler(_LRPTransmitSessionProvider *const sessionProvider) {
+    return sessionProvider->linkCurrentFrame->buffer[sessionProvider->indexOfWroteBytes++];
 }
 
-void LRP_transmitLinkLayerStartTransmitting(_LRPSessionProvider *const sessionProvider) {
-    if (sessionProvider->linkCurrentFrame->status != TRANSMIT_FRAME_READY_TO_TRANSMIT) {
-        sessionProvider->linkLayerStatus = TRANSMIT_LINK_LAYER_STATUS_SKIP;
-        return;
-    }
-    sessionProvider->indexOfReadBytes = 0;
-    sessionProvider->linkLayerStatus = TRANSMIT_LINK_LAYER_STATUS_OK;
-    LRP_setFrameStatus(sessionProvider->linkCurrentFrame, TRANSMIT_FRAME_TRANSMITTING);
+unsigned char LRP_TransmitLinkLayer_isEndOfBufferLength(_LRPTransmitSessionProvider *const sessionProvider) {
+    return sessionProvider->indexOfWroteBytes <
+           (FRAME_NUMBER_OF_HEADER_BYTES + sessionProvider->linkCurrentFrame->length);
 }
 
-void LRP_transmitLinkLayerEndTransmitting(_LRPSessionProvider *const sessionProvider) {
-    LRP_setFrameStatus(sessionProvider->linkCurrentFrame, FRAME_READY_TO_REDEFINE);
+unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvider *const sessionProvider) {
+    return sessionProvider->linkCurrentFrame->status == TRANSMIT_FRAME_READY_TO_TRANSMIT;
+}
+
+void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *const sessionProvider) {
+    sessionProvider->indexOfWroteBytes = 0;
+    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_OK;
+    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, TRANSMIT_FRAME_TRANSMITTING);
+}
+
+void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionProvider) {
+    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, FRAME_READY_TO_REDEFINE);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
-}
-
-unsigned char LRP_isTransmitLinkLayerStatusOK(_LRPSessionProvider *const sessionProvider) {
-    return sessionProvider->linkLayerStatus == TRANSMIT_LINK_LAYER_STATUS_OK;
+    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_SKIP;
 }

@@ -14,9 +14,8 @@ extern "C" {
 
 #include "frame.h"
 
-typedef struct {
+typedef struct _LRPSessionProvider {
     _LRPFrame *frameBuffer;
-    unsigned char indexOfReadBytes;
     unsigned char linkLayerStatus;
     unsigned char *deviceId;
 
@@ -25,9 +24,9 @@ typedef struct {
     _LRPFrame *applicationCurrentFrame;
 } _LRPSessionProvider;
 
-void LRP_initSessionProvider(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
-                             _LRPFrame *const frameBuffer,
-                             const unsigned char const frameBufferLength);
+void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
+                              _LRPFrame *const frameBuffer,
+                              const unsigned char const frameBufferLength);
 
 #ifdef    __cplusplus
 }

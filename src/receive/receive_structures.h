@@ -19,9 +19,14 @@ extern "C" {
 // 2. Ready to check
 // 3. Ready to read
 // 4. Ready to redefine
-#define RECEIVE_FRAME_IN_RECEIVING 0b00000001
-#define RECEIVE_FRAME_READY_TO_CHECK 0b00000010
-#define RECEIVE_FRAME_READY_TO_READ 0b00000011
+#define RECEIVE_FRAME_IN_RECEIVING 1
+#define RECEIVE_FRAME_READY_TO_CHECK 2
+#define RECEIVE_FRAME_READY_TO_READ 3
+
+typedef struct {
+    struct _LRPSessionProvider;
+    unsigned char indexOfReadBytes;
+} _LRPReceiveSessionProvider;
 
 #ifdef    __cplusplus
 }

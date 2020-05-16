@@ -50,7 +50,6 @@ void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned cha
 
 void test_printReceiveLayer(_LRPSessionProvider *const receive, const unsigned char const frameBufferLength) {
     printf("\nReceive layer:");
-    printf("\n\tNumber of read bytes: %u", receive->indexOfReadBytes);
     printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(receive->linkLayerStatus));
     printf("\n\tFrame buffer length: %u", frameBufferLength);
     printf("\n\tReceive device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*receive->deviceId));
@@ -66,7 +65,7 @@ void test_sendData(_LRPSessionProvider *const receive, unsigned char *data, cons
     lineCode4B5B.buffer[1] = &buffer[1];
 
     for (char i = 0; i < dataLength; i++) {
-        LRP_receiveLineCodeLayerHandler(receive, &lineCode4B5B, &data[i]);
+        LRP_ReceiveLineCodeLayer_handler(receive, &lineCode4B5B, &data[i]);
     }
 }
 
