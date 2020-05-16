@@ -16,9 +16,9 @@ extern "C" {
 #include "transmit_structures.h"
 #include "transmit_link_layer.h"
 
-unsigned char
+void
 LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProvider,
-                                  _LRPLineCode4B5B *const lineCode4B5B);
+                                  _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data);
 
 #ifdef    __cplusplus
 }

@@ -119,6 +119,7 @@ unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(_LRPLineCode4B5
 }
 
 unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(_LRPLineCode4B5B *const lineCode4B5B) {
+    lineCode4B5B->index = 0;
     return *lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
 }
 

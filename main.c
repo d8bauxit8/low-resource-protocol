@@ -1,6 +1,6 @@
 #include "testing.h"
 
-void receiveLayer_TEST_1(void) {
+void receive_TEST_1(void) {
     _LRPSessionProvider receive;
 
     unsigned char deviceId = 0b00010011;
@@ -14,7 +14,7 @@ void receiveLayer_TEST_1(void) {
 
     LRP_SessionProvider_init(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
-    test_sendData(&receive, bufferTest, 10);
+    test_readData(&receive, bufferTest, 10);
     LRP_ReceiveValidatorLayer_handler(&receive);
 
     test_printReceiveLayer(&receive, frameBufferLength);
@@ -24,7 +24,7 @@ void receiveLayer_TEST_1(void) {
     LRP_ReceiveApplicationLayer_controller(&receive, controllers, 1);
 }
 
-void receiveLayer_TEST_2(void) {
+void receive_TEST_2(void) {
     _LRPSessionProvider receive;
 
     unsigned char deviceId = 0b00010011;
@@ -42,21 +42,21 @@ void receiveLayer_TEST_2(void) {
 
     LRP_SessionProvider_init(&receive, &deviceId, receiveFrameBuffer, frameBufferLength);
 
-    test_sendData(&receive, bufferTest, 10);
+    test_readData(&receive, bufferTest, 10);
     LRP_ReceiveValidatorLayer_handler(&receive);
 
-    test_sendData(&receive, bufferTest, 10);
+    test_readData(&receive, bufferTest, 10);
     LRP_ReceiveValidatorLayer_handler(&receive);
 
-    test_sendData(&receive, bufferTest, 10);
-    test_sendData(&receive, bufferNope, 10);
-    test_sendData(&receive, bufferNope, 10);
+    test_readData(&receive, bufferTest, 10);
+    test_readData(&receive, bufferNope, 10);
+    test_readData(&receive, bufferNope, 10);
 
     test_printReceiveLayer(&receive, frameBufferLength);
 }
 
 int main() {
-    describe("TEST 1 - Receiving flow testing", receiveLayer_TEST_1);
-    describe("TEST 2 - Overflow buffer testing", receiveLayer_TEST_2);
+    describe("TEST 1 - Receiving flow testing", receive_TEST_1);
+    describe("TEST 2 - Overflow buffer testing", receive_TEST_2);
     return 0;
 }

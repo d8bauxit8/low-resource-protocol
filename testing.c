@@ -58,7 +58,7 @@ void test_printReceiveLayer(_LRPSessionProvider *const receive, const unsigned c
     printf("\n###################################################");
 }
 
-void test_sendData(_LRPSessionProvider *const receive, unsigned char *data, const unsigned char const dataLength) {
+void test_readData(_LRPSessionProvider *const receive, unsigned char *data, const unsigned char const dataLength) {
     _LRPLineCode4B5B lineCode4B5B;
     unsigned char buffer[2];
     lineCode4B5B.buffer[0] = &buffer[0];
