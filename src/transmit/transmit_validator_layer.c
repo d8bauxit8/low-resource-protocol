@@ -14,5 +14,4 @@ void LRP_TransmitValidatorLayer_handler(_LRPSessionProvider *const sessionProvid
     LRP_Frame_addDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
 
     LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, TRANSMIT_FRAME_READY_TO_TRANSMIT);
-    // TODO: Ha nincs küldés akkor itt kell elindítani.
 }

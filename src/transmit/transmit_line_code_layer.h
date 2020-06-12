@@ -20,6 +20,10 @@ void
 LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProvider,
                                   _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data);
 
+unsigned char LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(
+        _LRPTransmitSessionProvider *const sessionProvider,
+        _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data);
+
 #ifdef    __cplusplus
 }
 #endif
