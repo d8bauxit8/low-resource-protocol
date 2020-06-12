@@ -74,3 +74,11 @@ void test_printTransmitLayer(_LRPTransmitSessionProvider *const sessionProvider,
     test_printTransmitFrameList(sessionProvider->frameBuffer, frameBufferLength);
     printf("\n###################################################");
 }
+
+void test_printCheckTransmitDataValidity(const unsigned char *const data) {
+    for (unsigned char i = 0; i < R_BUFFER_TEST_DATA_LENGTH; i++) {
+        if (r_bufferTest[i] != data[i]) {
+            printf("\n\tThe index of %u data is invalid", i);
+        }
+    }
+}

@@ -18,4 +18,6 @@ void test_printTransmitFrameList(_LRPFrame *const frameBuffer, const unsigned ch
 void test_printTransmitLayer(_LRPTransmitSessionProvider *const sessionProvider,
                              const unsigned char const frameBufferLength);
 
+void test_printCheckTransmitDataValidity(const unsigned char *const data);
+
 #endif // TRANSMIT_TESTING_H
