@@ -20,18 +20,23 @@
 #include "src/receive/receive_line_code_layer.h"
 #include "src/receive/receive_validator_layer.h"
 #include "src/receive/receive_link_layer.h"
+#include "src/transmit/transmit_application_layer.h"
+#include "src/transmit/transmit_line_code_layer.h"
+#include "src/transmit/transmit_validator_layer.h"
+#include "src/transmit/transmit_link_layer.h"
 
 void test_printData(_LRPFrame *const frame);
 
-void test_printFrameStatus(_LRPFrame *const frame);
+void test_printReceiveFrameStatus(_LRPFrame *const frame);
 
 void test_printFrameHeader(_LRPFrame *const frame);
 
 void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned char const frameBufferLength);
 
-void test_printReceiveLayer(_LRPSessionProvider *const receive, const unsigned char const frameBufferLength);
+void test_printReceiveLayer(_LRPSessionProvider *const sessionProvider, const unsigned char const frameBufferLength);
 
-void test_readData(_LRPSessionProvider *const receive, unsigned char *data, const unsigned char const dataLength);
+void
+test_readData(_LRPSessionProvider *const sessionProvider, unsigned char *data, const unsigned char const dataLength);
 
 unsigned char test_receiveFrameController(_FrameData *const frameData);
 

@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 // Recommend control codes
+// https://en.wikipedia.org/wiki/4B5B
 #define START_DELIMITER_BYTE_4B5B 0b00011000
 #define END_DELIMITER_BYTE_4B5B 0b00001101
 
