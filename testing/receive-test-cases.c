@@ -10,7 +10,8 @@ unsigned char r_bufferNope[] = {START_DELIMITER_BYTE_4B5B, 0b01110111, 0b0010101
                                 0b11111110, 0b00101101, 0b00000111,
                                 END_DELIMITER_BYTE_4B5B};
 
-const unsigned char const r_deviceId = 0b00010011;
+const unsigned char const r_sourceDeviceId = 0b00001100;
+const unsigned char const r_targetDeviceId = 0b00010011;
 #define R_FRAME_BUFFER_LENGTH 3
 
 void r_case_1(void) {
@@ -19,7 +20,7 @@ void r_case_1(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_deviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
@@ -39,7 +40,7 @@ void r_case_2(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_deviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
@@ -66,7 +67,7 @@ void r_case_3(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_deviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);

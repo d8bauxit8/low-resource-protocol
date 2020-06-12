@@ -64,7 +64,11 @@ test_printReceiveLayer(_LRPReceiveSessionProvider *const sessionProvider, const 
     printf("\nReceive layer:");
     printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(sessionProvider->linkLayerStatus));
     printf("\n\tFrame buffer length: %u", frameBufferLength);
-    printf("\n\tIndex of read byte: %u", sessionProvider->indexOfReadBytes);
+    if (sessionProvider->indexOfReadBytes != 204) {
+        printf("\n\tIndex of read byte: %u", sessionProvider->indexOfReadBytes);
+    } else {
+        printf("\n\tIndex of read byte: undefined");
+    }
     printf("\n\tReceive device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*sessionProvider->deviceId));
     printf("\n\tFrame list:");
     test_printReceiveFrameList(sessionProvider->frameBuffer, frameBufferLength);
