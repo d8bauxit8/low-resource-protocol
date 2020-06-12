@@ -16,6 +16,10 @@
   (byte & 2 ? '1' : '0'), \
   (byte & 1 ? '1' : '0')
 
+#include "../src/session_provider.h"
+
+void test_printLinkLayerStatus(_LRPSessionProvider *const sessionProvider);
+
 void test(char *description, void (*testCase(void)));
 
 #endif // TESTING_H

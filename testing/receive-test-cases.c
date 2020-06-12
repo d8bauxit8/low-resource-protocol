@@ -20,7 +20,7 @@ void r_case_1(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
@@ -40,7 +40,7 @@ void r_case_2(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
@@ -67,7 +67,7 @@ void r_case_3(void) {
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_sourceDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
     test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);

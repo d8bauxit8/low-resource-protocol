@@ -18,9 +18,4 @@ void test_printTransmitFrameList(_LRPFrame *const frameBuffer, const unsigned ch
 void test_printTransmitLayer(_LRPTransmitSessionProvider *const sessionProvider,
                              const unsigned char const frameBufferLength);
 
-void
-test_writeData(_LRPSessionProvider *const sessionProvider, unsigned char *data, const unsigned char const dataLength,
-               const unsigned char const targetDeviceId,
-               const unsigned char const command);
-
 #endif // TRANSMIT_TESTING_H

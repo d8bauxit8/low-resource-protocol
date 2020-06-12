@@ -12,12 +12,14 @@
 extern "C" {
 #endif
 
-#include "session_provider.h"
+#include "session_provider_structures.h"
 
 #define LINK_LAYER_STATUS_OK 0
 #define LINK_LAYER_STATUS_SKIP 1
 
-void LRP_LinkLayer_setError(_LRPSessionProvider *const sessionProvider);
+void LRP_LinkLayer_setSkip(_LRPSessionProvider *const sessionProvider);
+
+void LRP_LinkLayer_setOk(_LRPSessionProvider *const sessionProvider);
 
 unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *const sessionProvider);
 

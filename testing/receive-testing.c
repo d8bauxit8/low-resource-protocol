@@ -62,7 +62,7 @@ void test_printReceiveFrameList(_LRPFrame *const frameBuffer, const unsigned cha
 void
 test_printReceiveLayer(_LRPReceiveSessionProvider *const sessionProvider, const unsigned char const frameBufferLength) {
     printf("\nReceive layer:");
-    printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(sessionProvider->linkLayerStatus));
+    test_printLinkLayerStatus(sessionProvider);
     printf("\n\tFrame buffer length: %u", frameBufferLength);
     if (sessionProvider->indexOfReadBytes != 204) {
         printf("\n\tIndex of read byte: %u", sessionProvider->indexOfReadBytes);

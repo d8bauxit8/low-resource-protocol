@@ -1,8 +1,11 @@
 #include "link_layer.h"
 
-void LRP_LinkLayer_setError(_LRPSessionProvider *const sessionProvider) {
+void LRP_LinkLayer_setSkip(_LRPSessionProvider *const sessionProvider) {
     sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_SKIP;
-    LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
+}
+
+void LRP_LinkLayer_setOk(_LRPSessionProvider *const sessionProvider) {
+    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_OK;
 }
 
 unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *const sessionProvider) {

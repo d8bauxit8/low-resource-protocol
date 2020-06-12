@@ -9,7 +9,8 @@ LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, 
         const unsigned char const targetDeviceId = LRP_Frame_getTargetDeviceIdFromReceivedByte(data);
         if (targetDeviceId != *sessionProvider->deviceId &&
             targetDeviceId != FRAME_BROADCAST_ID) {
-            LRP_LinkLayer_setError((_LRPSessionProvider *) sessionProvider);
+            LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
+            LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
             return;
         }
     }
@@ -21,11 +22,11 @@ LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, 
 
 void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *const sessionProvider) {
     if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE) {
-        sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_SKIP;
+        LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
         return;
     }
     sessionProvider->indexOfReadBytes = 0;
-    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_OK;
+    LRP_LinkLayer_setOk((_LRPSessionProvider *) sessionProvider);
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_IN_RECEIVING);
 }
 

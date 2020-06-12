@@ -62,20 +62,15 @@ void test_printTransmitFrameList(_LRPFrame *const frameBuffer, const unsigned ch
 void test_printTransmitLayer(_LRPTransmitSessionProvider *const sessionProvider,
                              const unsigned char const frameBufferLength) {
     printf("\nTransmit layer:");
-    printf("\n\tStatus: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(sessionProvider->linkLayerStatus));
-    printf("\n\tIndex of wrote byte: %u", sessionProvider->indexOfWroteBytes);
+    test_printLinkLayerStatus(sessionProvider);
+    printf("\n\tFrame buffer length: %u", frameBufferLength);
+    if (sessionProvider->indexOfWroteBytes != 204) {
+        printf("\n\tIndex of wrote byte: %u", sessionProvider->indexOfWroteBytes);
+    } else {
+        printf("\n\tIndex of wrote byte: undefined");
+    }
     printf("\n\tTransmit device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(*sessionProvider->deviceId));
     printf("\n\tFrame list:");
     test_printTransmitFrameList(sessionProvider->frameBuffer, frameBufferLength);
     printf("\n###################################################");
-}
-
-
-void
-test_writeData(_LRPSessionProvider *const sessionProvider, unsigned char *data, const unsigned char const dataLength,
-               const unsigned char const targetDeviceId,
-               const unsigned char const command) {
-    LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(sessionProvider);
-    LRP_TransmitApplicationLayer_setDataIntoReservedFrame(sessionProvider, data, dataLength);
-    LRP_TransmitApplicationLayer_transmitReservedFrame(sessionProvider, targetDeviceId, command);
 }

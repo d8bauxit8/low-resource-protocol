@@ -12,17 +12,8 @@
 extern "C" {
 #endif
 
-#include "frame.h"
-
-typedef struct _LRPSessionProvider {
-    _LRPFrame *frameBuffer;
-    unsigned char linkLayerStatus;
-    unsigned char *deviceId;
-
-    _LRPFrame *linkCurrentFrame;
-    _LRPFrame *validatorCurrentFrame;
-    _LRPFrame *applicationCurrentFrame;
-} _LRPSessionProvider;
+#include "session_provider_structures.h"
+#include "link_layer.h"
 
 void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
                               _LRPFrame *const frameBuffer,
