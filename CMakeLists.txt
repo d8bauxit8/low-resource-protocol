@@ -8,6 +8,8 @@ file(GLOB SRC_SOURCES
         src/**/*.c
         src/*.h
         src/*.c
+        testing/*.h
+        testing/*.c
         )
 file(GLOB SOURCES
         *.h

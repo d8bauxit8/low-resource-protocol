@@ -16,6 +16,7 @@ void LRP_TransmitApplicationLayer_transmitReservedFrame(_LRPSessionProvider *con
                                                         const unsigned char const targetDeviceId,
                                                         const unsigned char const command) {
     sessionProvider->applicationCurrentFrame->targetDeviceId = targetDeviceId;
+    sessionProvider->applicationCurrentFrame->sourceDeviceId = *sessionProvider->deviceId;
     sessionProvider->applicationCurrentFrame->command = command;
     LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, TRANSMIT_FRAME_READY_TO_CHECK);
     sessionProvider->applicationCurrentFrame = sessionProvider->applicationCurrentFrame->next;
