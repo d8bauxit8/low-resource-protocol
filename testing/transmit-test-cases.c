@@ -46,8 +46,10 @@ void t_case_3(void) {
     LRP_TransmitApplicationLayer_setDataIntoReservedFrame(&sessionProvider, t_bufferTest, T_BUFFER_TEST_DATA_LENGTH);
     LRP_TransmitApplicationLayer_transmitReservedFrame(&sessionProvider, targetDeviceId, command);
 
+    // Validation
     LRP_TransmitValidatorLayer_handler(&sessionProvider);
 
+    // Send data
     _LRPLineCode4B5B lineCode4B5B;
     unsigned char buffer[2] = {0, 0};
     lineCode4B5B.buffer[0] = &buffer[0];
@@ -60,13 +62,15 @@ void t_case_3(void) {
         LRP_TransmitLineCodeLayer_handler(&sessionProvider, &lineCode4B5B, &data[i]);
     }
 
+    // Check data
     test_printCheckTransmitDataValidity(data);
 
+    // Print the transmit layer
     test_printTransmitLayer(&sessionProvider, FRAME_BUFFER_LENGTH);
 }
 
 void test_transmit(void) {
     test("TEST 1 - Transmit application layer testing", t_case_1);
     test("TEST 2 - Transmit application layer and validation", t_case_2);
-    test("TEST 3 - Transmit application layer and validation", t_case_3);
+    test("TEST 3 - Transmit data", t_case_3);
 }
