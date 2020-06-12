@@ -2,11 +2,13 @@
 
 #define ENCODED_HIGH_BITS_SHIFT 5
 #define DECODED_HIGH_BIT_SHIFT 4
+#define HIGH_CODE_INDEX_SHIFT 4
 
 #define DECODED_HIGH_BITS_MASK 0b11110000
 #define DECODED_LOW_BITS_MASK 0b00001111
 
 #define ENCODED_BITS_MASK 0b00011111
+#define ENCODED_TEN_BITS_MASK 0b0000001111111111
 
 #define NUMBER_OF_BITS_IN_A_DECODED_BYTE 8
 #define NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE 10
@@ -93,7 +95,7 @@ unsigned char LRP_4B5B_readADecodedByteFromBufferOfEncodedBits(_LRPLineCode4B5B 
 }
 
 unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadAnEncodedByte(_LRPLineCode4B5B *const lineCode4B5B) {
-    return lineCode4B5B->index < NUMBER_OF_BITS_WHICH_SHOULD_BE_FREE_IF_I_ADD_ENCODED_BYTE_TO_BUFFER;
+    return lineCode4B5B->index <= NUMBER_OF_BITS_WHICH_SHOULD_BE_FREE_IF_I_ADD_ENCODED_BYTE_TO_BUFFER;
 }
 
 void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(_LRPLineCode4B5B *const lineCode4B5B,
@@ -150,12 +152,15 @@ unsigned char LRP_4B5B_decode(const unsigned short *const data) {
 }
 
 unsigned short LRP_4B5B_encode(const unsigned char *const data) {
-    return (codesOf4B5B[(unsigned char) (*data & DECODED_HIGH_BITS_MASK)] << ENCODED_HIGH_BITS_SHIFT) &
-           codesOf4B5B[(unsigned char) (*data & DECODED_LOW_BITS_MASK)];
+    return ENCODED_TEN_BITS_MASK &
+           ((codesOf4B5B[(unsigned char) ((*data & DECODED_HIGH_BITS_MASK) >> HIGH_CODE_INDEX_SHIFT)]
+                   << ENCODED_HIGH_BITS_SHIFT) |
+            codesOf4B5B[(unsigned char) (*data & DECODED_LOW_BITS_MASK)]);
 }
 
 void LRP_4B5B_rotateBufferOfEncodedBitsPointer(_LRPLineCode4B5B *const lineCode4B5B) {
     unsigned char *tmp = lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
+    *tmp = 0;
     lineCode4B5B->buffer[FIRST_BUFFER_ITEM] = lineCode4B5B->buffer[SECOND_BUFFER_ITEM];
     lineCode4B5B->buffer[SECOND_BUFFER_ITEM] = tmp;
 }
