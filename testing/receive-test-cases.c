@@ -16,73 +16,73 @@ const unsigned char const r_targetDeviceId = 0b00010011;
 
 void r_case_1(void) {
     // Initialization needed variables
-    _LRPReceiveSessionProvider receive;
+    _LRPReceiveSessionProvider sessionProvider;
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&sessionProvider, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
-    LRP_ReceiveValidatorLayer_handler(&receive);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    LRP_ReceiveValidatorLayer_handler(&sessionProvider);
 
     // Print the receive layer
-    test_printReceiveLayer(&receive, R_FRAME_BUFFER_LENGTH);
+    test_printReceiveLayer(&sessionProvider, R_FRAME_BUFFER_LENGTH);
 
     // Create a frame controller and call the application layer to run the frame controller
     _LRPReceiveFrameController controllers[] = {test_receiveFrameController};
-    LRP_ReceiveApplicationLayer_controller(&receive, controllers, 1);
+    LRP_ReceiveApplicationLayer_controller(&sessionProvider, controllers, 1);
 }
 
 void r_case_2(void) {
     // Initialization needed variables
-    _LRPReceiveSessionProvider receive;
+    _LRPReceiveSessionProvider sessionProvider;
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&sessionProvider, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
-    LRP_ReceiveValidatorLayer_handler(&receive);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    LRP_ReceiveValidatorLayer_handler(&sessionProvider);
 
     // Read one more data flow then validate it
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
-    LRP_ReceiveValidatorLayer_handler(&receive);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    LRP_ReceiveValidatorLayer_handler(&sessionProvider);
 
     // Read a data flow
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
 
     // Try to read the following two data flow
-    test_receiveADataFlow(&receive, r_bufferNope, R_BUFFER_NOPE_DATA_LENGTH);
-    test_receiveADataFlow(&receive, r_bufferNope, R_BUFFER_NOPE_DATA_LENGTH);
+    test_receiveADataFlow(&sessionProvider, r_bufferNope, R_BUFFER_NOPE_DATA_LENGTH);
+    test_receiveADataFlow(&sessionProvider, r_bufferNope, R_BUFFER_NOPE_DATA_LENGTH);
 
     // Print the receive layer
-    test_printReceiveLayer(&receive, R_FRAME_BUFFER_LENGTH);
+    test_printReceiveLayer(&sessionProvider, R_FRAME_BUFFER_LENGTH);
 }
 
 void r_case_3(void) {
     // Initialization needed variables
-    _LRPReceiveSessionProvider receive;
+    _LRPReceiveSessionProvider sessionProvider;
     _LRPFrame receiveFrameBuffer[R_FRAME_BUFFER_LENGTH];
 
     // Initialization session provider
-    LRP_SessionProvider_init(&receive, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
+    LRP_SessionProvider_init(&sessionProvider, &r_targetDeviceId, receiveFrameBuffer, R_FRAME_BUFFER_LENGTH);
 
     // Read a data flow then validate it
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
-    LRP_ReceiveValidatorLayer_handler(&receive);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    LRP_ReceiveValidatorLayer_handler(&sessionProvider);
 
     // Read one more data flow then validate it
-    test_receiveADataFlow(&receive, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
-    LRP_ReceiveValidatorLayer_handler(&receive);
+    test_receiveADataFlow(&sessionProvider, r_bufferTest, R_BUFFER_TEST_DATA_LENGTH);
+    LRP_ReceiveValidatorLayer_handler(&sessionProvider);
 
     // Create a frame controller and call the application layer to run the frame controller
     _LRPReceiveFrameController controllers[] = {test_receiveFrameController};
-    LRP_ReceiveApplicationLayer_controller(&receive, controllers, 1);
+    LRP_ReceiveApplicationLayer_controller(&sessionProvider, controllers, 1);
 
     // Print the receive layer
-    test_printReceiveLayer(&receive, R_FRAME_BUFFER_LENGTH);
+    test_printReceiveLayer(&sessionProvider, R_FRAME_BUFFER_LENGTH);
 }
 
 void test_receive(void) {
