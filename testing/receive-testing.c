@@ -71,18 +71,6 @@ test_printReceiveLayer(_LRPReceiveSessionProvider *const sessionProvider, const 
     printf("\n###################################################");
 }
 
-void
-test_readData(_LRPSessionProvider *const sessionProvider, unsigned char *data, const unsigned char const dataLength) {
-    _LRPLineCode4B5B lineCode4B5B;
-    unsigned char buffer[2];
-    lineCode4B5B.buffer[0] = &buffer[0];
-    lineCode4B5B.buffer[1] = &buffer[1];
-
-    for (char i = 0; i < dataLength; i++) {
-        LRP_ReceiveLineCodeLayer_handler((_LRPReceiveSessionProvider *) sessionProvider, &lineCode4B5B, &data[i]);
-    }
-}
-
 unsigned char test_receiveFrameController(_FrameData *const frameData) {
     printf("\nReceive frame controller:");
     printf("\n\tTarget device ID: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(frameData->targetDeviceId));
@@ -94,4 +82,17 @@ unsigned char test_receiveFrameController(_FrameData *const frameData) {
         printf("%c", *frameData->data[i]);
     }
     return 1;
+}
+
+void
+test_receiveADataFlow(_LRPSessionProvider *const sessionProvider, unsigned char *data,
+                      const unsigned char const dataLength) {
+    _LRPLineCode4B5B lineCode4B5B;
+    unsigned char buffer[2];
+    lineCode4B5B.buffer[0] = &buffer[0];
+    lineCode4B5B.buffer[1] = &buffer[1];
+
+    for (char i = 0; i < dataLength; i++) {
+        LRP_ReceiveLineCodeLayer_handler((_LRPReceiveSessionProvider *) sessionProvider, &lineCode4B5B, &data[i]);
+    }
 }
