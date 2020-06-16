@@ -96,13 +96,13 @@ LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
 For the receive interrupt, you will need a _LRPLineCode4B5B of type variable. 
 ```c
-# Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
+// Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
 _LRPLineCode4B5B lineCode4B5B = {0, {0, 0}};
 ```
 You need an interrupt handler in which you have to call the line code layer handler.
 ```c
 void receiveInterrupt(void){
-    # It is the given register from which you have to read the received data
+    // It is the given register from which you have to read the received data
     const unsigned char const data = RCREG; 
     LRP_ReceiveLineCodeLayer_handler(sessionProvider, &lineCode4B5B, &data);
 }
