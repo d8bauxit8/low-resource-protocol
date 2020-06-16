@@ -19,7 +19,7 @@ void
 test_printReceiveLayer(_LRPReceiveSessionProvider *const sessionProvider, const unsigned char const frameBufferLength);
 
 void
-test_receiveADataFlow(_LRPSessionProvider *const sessionProvider, unsigned char *data,
+test_receiveADataFlow(_LRPReceiveSessionProvider *const sessionProvider, unsigned char *data,
                       const unsigned char const dataLength);
 
 unsigned char test_receiveFrameController(_FrameData *const frameData);

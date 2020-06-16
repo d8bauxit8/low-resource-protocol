@@ -89,14 +89,11 @@ unsigned char test_receiveFrameController(_FrameData *const frameData) {
 }
 
 void
-test_receiveADataFlow(_LRPSessionProvider *const sessionProvider, unsigned char *data,
+test_receiveADataFlow(_LRPReceiveSessionProvider *const sessionProvider, unsigned char *data,
                       const unsigned char const dataLength) {
-    _LRPLineCode4B5B lineCode4B5B;
-    unsigned char buffer[2];
-    lineCode4B5B.buffer[0] = &buffer[0];
-    lineCode4B5B.buffer[1] = &buffer[1];
+    _LRPLineCode4B5B lineCode4B5B = {0, {0, 0}};
 
     for (char i = 0; i < dataLength; i++) {
-        LRP_ReceiveLineCodeLayer_handler((_LRPReceiveSessionProvider *) sessionProvider, &lineCode4B5B, &data[i]);
+        LRP_ReceiveLineCodeLayer_handler(sessionProvider, &lineCode4B5B, &data[i]);
     }
 }
