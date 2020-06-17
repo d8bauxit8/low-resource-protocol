@@ -108,7 +108,7 @@ so physical communication of one byte ended.
 void receiveInterrupt(void){
     // It is the given register from which you have to read the received data
     const unsigned char const data = RCREG; 
-    LRP_ReceiveLineCodeLayer_handler(sessionProvider, &lineCode4B5B, &data);
+    LRP_ReceiveLineCodeLayer_handler(&sessionProvider, &lineCode4B5B, &data);
 }
 ```
 Besides that you will need a timer interrupt, in which you can process the decoded data.
