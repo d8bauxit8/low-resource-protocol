@@ -18,6 +18,7 @@ because in my view these communication solutions which available on the market a
     - [Link layer](#link-layer)
     - [Line code layer](#line-code-layer)
 * [Receive service](#receive-service)
+    - [What do you need with the receive module?](#what-do-you-need-with-the-receive-module)
     
 ## About the protocol
 When I designed the protocol, I tried to keep it in my mind to be easy and safe using. 
@@ -78,7 +79,7 @@ which will use the validation, or the line code layer.
 ### Line code layer
 This layer responsible the frame encoding and decoding. Before the transmitter MCU send a part of frame, 
 this layer encodes it to 4B5B coding and collect it to 8 bits group. 
-In the receiver side when the encoded byte arrived, 
+In the receive side when the encoded byte arrived, 
 the layer collect it to 10 bits group to decode it to the right 8 bits. 
 
 ## Receive module
@@ -86,17 +87,19 @@ This module provides you the receiving function
 with which you are able to read the data from the RS485 bus 
 which another device sent to yours during the LRP protocol.
  
-### What do you need with this?
-You have to create the source device ID, the session provider and the receiver frame buffer. 
+### What do you need with the receive module?
+You have to create the source device ID, the session provider and the receive frame buffer. 
 Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
 ```c
+// It will be the device ID during the receiving.
+// Thus your device will just get those frames at which the target device ID equals with this.  
 const unsigned char const sourceDeviceId = 0b00000001;
 _LRPReceiveSessionProvider sessionProvider;
 _LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
-For the receiver interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
+For the receive interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
 ```c
 // Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
 _LRPLineCode4B5B lineCode4B5B = {0, {0, 0}};
@@ -155,3 +158,5 @@ I recommend you that the timer cycle will be less than
 one frame's transmitting time between two furthest devices, 
 because if the frame buffer is overload, 
 the receive module throws the received frames until in the buffer will not be free spot.
+
+If you did everything good, your receive module will work.
