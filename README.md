@@ -1,6 +1,6 @@
 # Low Resource Protocol
 This protocol mainly is created for the 8 and 16 bits MCU (for example PIC12/16/18 series) 
-in which there is (E)USART module with which the device can connect to another via RS485 standard.
+in which there is (E)USART module with which the device can connect to another via RS-485 standard.
 (Usually you will need a peripheral IC to the communication, for example MAX485.) 
 With this protocol you are able to transmit and receive data between embedded devices with safe and sound.
 
@@ -19,6 +19,8 @@ because in my view these communication solutions which available on the market a
     - [Line code layer](#line-code-layer)
 * [Receive service](#receive-service)
     - [What do you need with the receive module?](#what-do-you-need-with-the-receive-module)
+* [Transmit module](#transmit-module)
+    - [What do you need with the transmit module?](#what-do-you-need-with-the-transmit-module)
     
 ## About the protocol
 When I designed the protocol, I tried to keep it in my mind to be easy and safe using. 
@@ -84,7 +86,7 @@ the layer collect it to 10 bits group to decode it to the right 8 bits.
 
 ## Receive module
 This module provides you the receiving function 
-with which you are able to read the data from the RS485 bus 
+with which you are able to read data from the RS-485 bus 
 which another device sent to yours during the LRP protocol.
  
 ### What do you need with the receive module?
@@ -160,3 +162,11 @@ because if the frame buffer is overload,
 the receive module throws the received frames until in the buffer will not be free spot.
 
 If you did everything good, your receive module will work.
+
+## Transmit module
+This module provides you the transmitting function 
+with which you are able to send data from the RS-485 bus 
+which another device will read from yours during the LRP protocol.
+
+### What do you need with the transmit module?
+In progress ...
