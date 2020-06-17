@@ -151,3 +151,7 @@ void timerInterrupt(void){
     LRP_ReceiveApplicationLayer_controller(&sessionProvider, controllers, receiveFrameControllerListLength);
 }
 ```
+I recommend you that the timer cycle will be less than 
+one frame's transmitting time between two furthest devices, 
+because if the frame buffer is overload, 
+the receive module throws the received frames until in the buffer will not be free spot.
