@@ -4,7 +4,7 @@ in which there is (E)USART module with which the device can connect to another v
 (Usually you will need a peripheral IC to the communication, for example MAX485.) 
 With this protocol you are able to transmit and receive data between embedded devices with safe and sound.
 
-Primarily I recommend this protocol to communication between the smart home devices 
+Primarily I recommend this protocol to communicate between the smart home devices 
 (for instance between smart switch and smart brightness controller) 
 because in my view these communication solutions which available on the market are not too safe.
 
@@ -21,19 +21,19 @@ because in my view these communication solutions which available on the market a
     
 ## About the protocol
 When I designed the protocol, I tried to keep it in my mind to be easy and safe using. 
-Thus the base of protocol is the frames. 
+Thus, the base of protocol is the frames. 
 One frame contains every information on which the transmission needs 
 that the data flow reach the right device. 
 This frames similar to IP frames 
 however I had to keep it in mind these devices have few resources, 
 so I had to collect that relevant transmission information 
 which is absolutely needed the right communication.
-As a result each frames consist of 2 main parts which are the headers and the data parts.<br>
+As a result each frame consist of 2 main parts which are the headers, and the data parts.<br>
 It looks like: `[ HEADERS ] [ DATA ]`
 
 As this MCUs usually use (E)USART module at the transmission 
 which can only send 8 bits in one stroke, so the protocol just supports this. 
-Thus if you have an extra 9th bit in your devices' register, use the parity bit checking.
+Thus, if you have an extra 9th bit in your devices' register, use the parity bit checking.
 If there is no hardware support in your MCU, there is a parity bit checker in this library 
 which you can available in the [`parity_bit.c`](src/parity_bit.c) file.
 
@@ -55,15 +55,17 @@ You can transmit through it your information between the devices.
 
 ## About the implementation
 The protocol provides your devices a receiving and a transmitting module. 
-The first is needed to the data reading, and the second is needed to the data sending.
+The data reading needs the first, and the data sending needs the second.
 Both modules have 4 layer which is the next:
 * [Application layer](#application-layer)
 * [Validation layer](#validation-layer)
 * [Link layer](#link-layer)
 * [Line code layer](#line-code-layer)
 
+Besides that it's good if you know, the buffer use FIFO method at the transmitting and receiving.
+
 ### Application layer
-You have to use this layer to process the received ot transmitted data.
+You have to use this layer to process the received or transmitted data.
 
 ### Validation layer
 This layer responsible, (in case reading) the frame parameters read from the buffer 
@@ -71,22 +73,22 @@ or (in case sending) the frame parameters write to the buffer.
 
 ### Link layer
 The task of this layer is to collect the right bytes in a buffer 
-which will use the validation or the line code layer. 
+which will use the validation, or the line code layer. 
 
 ### Line code layer
 This layer responsible the frame encoding and decoding. Before the transmitter MCU send a part of frame, 
-this layer encode it to 4B5B coding and collect it to 8 bits group. 
+this layer encodes it to 4B5B coding and collect it to 8 bits group. 
 In the receiver side when the encoded byte arrived, 
 the layer collect it to 10 bits group to decode it to the right 8 bits. 
 
 ## Receive module
-This module provide you the receiving function 
+This module provides you the receiving function 
 with which you are able to read the data from the RS485 bus 
 which another device sent to yours during the LRP protocol.
  
 ### What do you need with this?
-You have to create the source device ID, the session provider and the receive frame buffer. 
-Then you have to initialize the session provider.
+You have to create the source device ID, the session provider and the receiver frame buffer. 
+Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
 ```c
 const unsigned char const sourceDeviceId = 0b00000001;
 _LRPReceiveSessionProvider sessionProvider;
@@ -94,12 +96,14 @@ _LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
-For the receive interrupt, you will need a _LRPLineCode4B5B of type variable. 
+For the receiver interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
 ```c
 // Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
 _LRPLineCode4B5B lineCode4B5B = {0, {0, 0}};
 ```
 You need an interrupt handler in which you have to call the line code layer handler.
+You have to call this handler if the hardware buffer filled, 
+so physical communication of one byte ended. 
 ```c
 void receiveInterrupt(void){
     // It is the given register from which you have to read the received data
@@ -108,9 +112,42 @@ void receiveInterrupt(void){
 }
 ```
 Besides that you will need a timer interrupt, in which you can process the decoded data.
-In this you have to call the validation layer and the application layer.
+In this you have to call the validation layer, and the application layer.
+For the application layer, you need a receive frame controller list which contains the controllers.
+These controllers process the received data, of which you have to define these logics. 
+Each controller is a simple function which type is `_LRPReceiveFrameController`. 
+If you check this type you can see that it have a return value which type is `unsigned char`.
+This return value help you in that the right controller process the given message which is sent to him.
+In one word if your controller returned 1 (or higher which is truthy value), the message has been processed.
+Thus, other controllers won't get this message to process.
+Otherwise, if this returned value is 0, the given controller does not stop the processing flow,
+so the message can reach the right controller.
+Also, you can use this if you would like to process the given message with more controller too.
+However, you have to pay attention the controller list array because the application layer calls these in order.
+
+For example:<br>
+You have two controllers in the controller array. 
+Both controllers wait for the `A` message (frame) 
+to which the first controller's returned value is 1, and the second is 0. 
+You can see that if the layer get an `A` message, 
+the first controller will return 1 value, 
+so the second will not be able to process the message. 
+I recommend you that these controllers 
+which process more messages not just one, try to sort to the beginning of array. 
 ```c
+unsigned char oneOfReceiveFrameControllers(_FrameData *const frameData) {
+    // Define
+}
+
+unsigned char anotherReceiveFrameControllers(_FrameData *const frameData) {
+    // Define
+}
+
+_LRPReceiveFrameController controllers[] = { oneOfReceiveFrameControllers , anotherReceiveFrameControllers };
+const unsigned char const receiveFrameControllerListLength = 2;
+
 void timerInterrupt(void){
     LRP_ReceiveValidatorLayer_handler(&sessionProvider);
+    LRP_ReceiveApplicationLayer_controller(&sessionProvider, controllers, receiveFrameControllerListLength);
 }
 ```
