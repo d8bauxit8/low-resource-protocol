@@ -17,11 +17,12 @@ because in my view these communication solutions which available on the market a
     - [Validation layer](#validation-layer)
     - [Link layer](#link-layer)
     - [Line code layer](#line-code-layer)
-* [Receive service](#receive-service)
+* [Receive service](#receive-module)
     - [What do you need with the receive module?](#what-do-you-need-with-the-receive-module)
 * [Transmit module](#transmit-module)
     - [What do you need with the transmit module?](#what-do-you-need-with-the-transmit-module)
-* [Timer's value calculation](#timers-value-calculation)
+* [Calculations](#calculations)
+    - [How can I check if the collision detection work right?](#how-can-i-check-if-the-collision-detection-work-right)
     
 ## About the protocol
 When I designed the protocol, I tried to keep it in my mind to be easy and safe using. 
@@ -162,7 +163,7 @@ one frame's transmitting time between two furthest devices,
 because if the frame buffer is overload, 
 the receive module throws the received frames until in the buffer will not be free spot.
 
-For this, you can find the right calculation in the [Timer's value calculation](#timers-value-calculation) point. 
+For this, you can find the right calculation in the [Calculations](#calculations) point. 
 
 If you did everything good, your receive module will work.
 
@@ -174,6 +175,30 @@ which another device will read from yours during the LRP protocol.
 ### What do you need with the transmit module?
 In progress ...
 
-## Timer's value calculation
-During the calculation example, I will use those values and physical items which I recommend the appropriate working.
- 
+## Calculations
+In the calculation example, I will use those values and physical items which I recommend the appropriate working.
+First of all, lets see the physical cable type with which I will calculate.
+I chose the CAT 5 from which I know the propagation delay which is `4.8–5.3 ns/m` (nanosecond/meter)
+
+The next is that, I should know the cable's maximum length. 
+As I mentioned above with this protocol I have to use the RS-485 standard 
+in which define the maximum distance between two devices. It is `1200 m` (meter).
+
+The last information is the MCU's baud rate.
+For this I chose `9600 bit/s` (bit/second) speed as usually the several MCU know it.
+
+Now, I already have all information for the calculations.
+
+### How can I check if the collision detection work right?
+It is important because of the correct working. 
+With this, I have to know how long it takes a signal to reach the end of wire.
+The signal propagation rate equals the propagation delay.
+```
+5.3 ns/m = 5.3 ns/m
+```
+Then I have to multiply with the wire's length to get that time 
+during which the signal has to reach the end of the line.
+```
+5.3 ns/m * 1200 m = 6360 ns
+```
+
