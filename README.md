@@ -17,10 +17,11 @@ because in my view these communication solutions which available on the market a
     - [Validation layer](#validation-layer)
     - [Link layer](#link-layer)
     - [Line code layer](#line-code-layer)
-* [Receive service](#receive-module)
+* [Receive module](#receive-module)
     - [What do you need with the receive module?](#what-do-you-need-with-the-receive-module)
 * [Transmit module](#transmit-module)
     - [What do you need with the transmit module?](#what-do-you-need-with-the-transmit-module)
+* [Collision detection module](#collision-detection-module)
 * [Calculations](#calculations)
     - [How can I check if the collision detection work right?](#how-can-i-check-if-the-collision-detection-work-right)
     
@@ -175,6 +176,9 @@ which another device will read from yours during the LRP protocol.
 ### What do you need with the transmit module?
 In progress ...
 
+## Collision detection module
+In progress ...
+
 ## Calculations
 In the calculation example, I will use those values and physical items which I recommend the appropriate working.
 First of all, lets see the physical cable type with which I will calculate.
@@ -191,14 +195,17 @@ Now, I already have all information for the calculations.
 
 ### How can I check if the collision detection work right?
 It is important because of the correct working. 
-With this, I have to know how long it takes a signal to reach the end of wire.
-The signal propagation rate equals the propagation delay.
-```
-5.3 ns/m = 5.3 ns/m
-```
-Then I have to multiply with the wire's length to get that time 
+The first step is that, I have to know how long it takes a signal to reach the end of wire.
+Actually this equals the propagation delay.
+
+Then I have to multiply this with the wire's length to get that time 
 during which the signal has to reach the end of the line.
 ```
 5.3 ns/m * 1200 m = 6360 ns
 ```
+Okay I already know about the wire permeability, 
+but I don't know anything about how long it takes one bit transmitting.
 
+Besides that, I could not forget about that 
+in the MCUs I just can read bytes from the receive register instead of bits.
+  
