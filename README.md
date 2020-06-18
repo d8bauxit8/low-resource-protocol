@@ -37,7 +37,7 @@ which is absolutely needed the right communication.
 As a result each frame consist of 2 main parts which are the headers, and the data parts.<br>
 It looks like: `[ HEADERS ] [ DATA ]`
 
-As this MCUs usually use (E)USART module at the transmission 
+As these MCUs usually use (E)USART module at the transmission 
 which can only send 8 bits in one stroke, so the protocol just supports this. 
 Thus, if you have an extra 9th bit in your devices' register, use the parity bit checking.
 If there is no hardware support in your MCU, there is a parity bit checker in this library 
@@ -194,8 +194,10 @@ For this I chose `9600 bit/s` (bit/second) speed as usually the several MCU know
 Now, I already have all information for the calculations.
 
 ### How can I check if the collision detection work right?
-It is important because of the correct working. 
-The first step is that, I have to know how long it takes a signal to reach the end of wire.
+About the detection I know that the length of bits to be transferred, 
+the network's physical length and the signal propagation rate must be in appropriate relation to work it. 
+
+Therefore, the first step is that, I have to know how long it takes a signal to reach the end of wire.
 Actually this equals the propagation delay.
 
 Then I have to multiply this with the wire's length to get that time 
@@ -204,7 +206,7 @@ during which the signal has to reach the end of the line.
 5.3 ns/m * 1200 m = 6360 ns
 ```
 Okay I already know about the wire permeability, 
-but I don't know anything about how long it takes one bit transmitting.
+but I don't know anything about how long it takes one byte transmitting.
 
 Besides that, I could not forget about that 
 in the MCUs I just can read bytes from the receive register instead of bits.
