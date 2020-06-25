@@ -7,7 +7,7 @@ void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const 
 
     sessionProvider->deviceId = deviceId;
 
-    LRP_LinkLayer_setOk(sessionProvider);
+    LRP_LinkLayer_setSkip(sessionProvider);
 
     sessionProvider->frameBuffer = frameBuffer;
 
