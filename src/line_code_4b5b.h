@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef LINE_CODE_4B5B_H
-#define    LINE_CODE_4B5B_H
+#ifndef LRP_LINE_CODE_4B5B_H
+#define    LRP_LINE_CODE_4B5B_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -46,5 +46,5 @@ unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(_LRPLineCode4B
 }
 #endif
 
-#endif    /* LINE_CODE_4B5B_H */
+#endif    /* LRP_LINE_CODE_4B5B_H */
 

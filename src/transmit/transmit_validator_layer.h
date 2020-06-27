@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef TRANSMIT_VALIDATOR_LAYER_H
-#define    TRANSMIT_VALIDATOR_LAYER_H
+#ifndef LRP_TRANSMIT_VALIDATOR_LAYER_H
+#define    LRP_TRANSMIT_VALIDATOR_LAYER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -20,5 +20,5 @@ void LRP_TransmitValidatorLayer_handler(_LRPSessionProvider *const sessionProvid
 }
 #endif
 
-#endif    /* TRANSMIT_VALIDATOR_LAYER_H */
+#endif    /* LRP_TRANSMIT_VALIDATOR_LAYER_H */
 

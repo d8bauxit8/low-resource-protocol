@@ -1,12 +1,12 @@
 /*
- * File:   session_provider.h
+ * File:   session_provider_structures.h
  * Author: D8bauxit8
  *
  * Created on April 6, 2020, 4:30 PM
  */
 
-#ifndef SESSION_PROVIDER_STRUCTURES_H
-#define    SESSION_PROVIDER_STRUCTURES_H
+#ifndef LRP_SESSION_PROVIDER_STRUCTURES_H
+#define    LRP_SESSION_PROVIDER_STRUCTURES_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -28,4 +28,4 @@ typedef struct _LRPSessionProvider {
 }
 #endif
 
-#endif    /* SESSION_PROVIDER_STRUCTURES_H */
+#endif    /* LRP_SESSION_PROVIDER_STRUCTURES_H */

@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef TRANSMIT_LINK_LAYER_H
-#define    TRANSMIT_LINK_LAYER_H
+#ifndef LRP_TRANSMIT_LINK_LAYER_H
+#define    LRP_TRANSMIT_LINK_LAYER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -31,5 +31,5 @@ void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionPro
 }
 #endif
 
-#endif    /* TRANSMIT_LINK_LAYER_H */
+#endif    /* LRP_TRANSMIT_LINK_LAYER_H */
 

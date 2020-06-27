@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef LINK_LAYER_H
-#define    LINK_LAYER_H
+#ifndef LRP_LINK_LAYER_H
+#define    LRP_LINK_LAYER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -27,5 +27,5 @@ unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *const sessionProvide
 }
 #endif
 
-#endif    /* LINK_LAYER_H */
+#endif    /* LRP_LINK_LAYER_H */
 

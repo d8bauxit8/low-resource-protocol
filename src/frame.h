@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef FRAME_H
-#define    FRAME_H
+#ifndef LRP_FRAME_H
+#define    LRP_FRAME_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -56,5 +56,5 @@ void LRP_Frame_addDataToFrameBufferFromFrameData(_LRPFrame *const frame);
 }
 #endif
 
-#endif    /* FRAME_H */
+#endif    /* LRP_FRAME_H */
 

@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef RECEIVE_LINE_CODE_LAYER_H
-#define    RECEIVE_LINE_CODE_LAYER_H
+#ifndef LRP_RECEIVE_LINE_CODE_LAYER_H
+#define    LRP_RECEIVE_LINE_CODE_LAYER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -25,5 +25,5 @@ LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionProvid
 }
 #endif
 
-#endif    /* RECEIVE_LINE_CODE_LAYER_H */
+#endif    /* LRP_RECEIVE_LINE_CODE_LAYER_H */
 

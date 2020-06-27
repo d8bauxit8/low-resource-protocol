@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 4:30 PM
  */
 
-#ifndef SESSION_PROVIDER_H
-#define    SESSION_PROVIDER_H
+#ifndef LRP_SESSION_PROVIDER_H
+#define    LRP_SESSION_PROVIDER_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -23,4 +23,4 @@ void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const 
 }
 #endif
 
-#endif    /* SESSION_PROVIDER_H */
+#endif    /* LRP_SESSION_PROVIDER_H */

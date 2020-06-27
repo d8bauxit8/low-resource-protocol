@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 4:30 PM
  */
 
-#ifndef TRANSMIT_STRUCTURES_H
-#define    TRANSMIT_STRUCTURES_H
+#ifndef LRP_TRANSMIT_STRUCTURES_H
+#define    LRP_TRANSMIT_STRUCTURES_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -34,6 +34,6 @@ typedef struct {
 }
 #endif
 
-#endif    /* TRANSMIT_STRUCTURES_H */
+#endif    /* LRP_TRANSMIT_STRUCTURES_H */
 
 

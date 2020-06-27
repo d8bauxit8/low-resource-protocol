@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 4:30 PM
  */
 
-#ifndef RECEIVE_STRUCTURES_H
-#define    RECEIVE_STRUCTURES_H
+#ifndef LRP_RECEIVE_STRUCTURES_H
+#define    LRP_RECEIVE_STRUCTURES_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -32,6 +32,6 @@ typedef struct {
 }
 #endif
 
-#endif    /* RECEIVE_STRUCTURES_H */
+#endif    /* LRP_RECEIVE_STRUCTURES_H */
 
 

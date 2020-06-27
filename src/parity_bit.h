@@ -5,8 +5,8 @@
  * Created on April 6, 2020, 8:06 PM
  */
 
-#ifndef PARITY_BIT_H
-#define    PARITY_BIT_H
+#ifndef LRP_PARITY_BIT_H
+#define    LRP_PARITY_BIT_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -20,5 +20,5 @@ unsigned char LRP_ParityBit_isInvalidOddParityBit(unsigned char data, const unsi
 }
 #endif
 
-#endif    /* PARITY_BIT_H */
+#endif    /* LRP_PARITY_BIT_H */
 
