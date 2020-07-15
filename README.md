@@ -18,12 +18,13 @@ because in my view these communication solutions which available on the market a
     - [Link layer](#link-layer)
     - [Line code layer](#line-code-layer)
 * [Receive module](#receive-module)
-    - [What do you need with the receive module?](#what-do-you-need-with-the-receive-module)
+    - [What do you need for the receive module?](#what-do-you-need-for-the-receive-module)
 * [Transmit module](#transmit-module)
-    - [What do you need with the transmit module?](#what-do-you-need-with-the-transmit-module)
+    - [What do you need for the transmit module?](#what-do-you-need-for-the-transmit-module)
 * [Collision detection module](#collision-detection-module)
 * [Calculations](#calculations)
-    - [How can I check if the collision detection work right?](#how-can-i-check-if-the-collision-detection-work-right)
+    - [How can I check if the collision detection works right?](#how-can-i-check-if-the-collision-detection-works-right)
+* [Version](#version)
     
 ## About the protocol
 When I designed the protocol, I tried to keep in mind that it should be easy and safe to use. 
@@ -214,3 +215,5 @@ but I don't know anything about how long it takes one byte transmitting.
 Besides that, I can not forget 
 that in the MCUs I can only read bytes from the receiver register instead of bits.
   
+## Version
+##### 0.5.0
