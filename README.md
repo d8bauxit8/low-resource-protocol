@@ -8,6 +8,9 @@ Primarily I recommend this protocol to communicate between the smart home device
 (for instance between smart switch and smart brightness controller) 
 because in my view these communication solutions which available on the market are not too safe.
 
+I'm working on the test cases :pushpin:
+Be patient :wink:
+
 ## Overview
 * [About the protocol](#about-the-protocol)
     - [Headers](#headers)
@@ -178,10 +181,10 @@ with which you are able to send data from the RS-485 bus
 which another device will read from yours during the LRP protocol.
 
 ### What do you need for the transmit module?
-In progress ...
+In progress ... :pushpin:
 
 ## Collision detection module
-In progress ...
+In progress ... :pushpin:
 
 ## Calculations
 In the calculation example, I will use those values and physical items which I recommend for the appropriate working.
