@@ -21,9 +21,9 @@ TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Ok) {
 TEST_F(LinkLayerTest, Should_Be_Checked_The_Statuse_Is_Ok) {
     LRP_LinkLayer_setSkip(&sessionProvider);
 
-    ASSERT_EQ(LRP_LinkLayer_isStatusOK(&sessionProvider), 0);
+    ASSERT_FALSE(LRP_LinkLayer_isStatusOK(&sessionProvider));
 
     LRP_LinkLayer_setOk(&sessionProvider);
 
-    ASSERT_EQ(LRP_LinkLayer_isStatusOK(&sessionProvider), 1);
+    ASSERT_TRUE(LRP_LinkLayer_isStatusOK(&sessionProvider));
 }
