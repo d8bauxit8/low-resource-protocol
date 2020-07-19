@@ -16,7 +16,8 @@ extern "C" {
 
 _LRPFrame *
 TEST_createLRPFrameInWhichTheBufferIsFilled(const unsigned char const targetDeviceId, const unsigned char const command,
-                                            const unsigned char const sourceDeviceId, const unsigned char const length);
+                                            const unsigned char const sourceDeviceId,
+                                            const unsigned char const length);
 
 #ifdef    __cplusplus
 }
