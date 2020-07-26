@@ -29,7 +29,7 @@ LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProv
             }
 
             LRP_TransmitLinkLayer_endTransmitting((_LRPSessionProvider *) sessionProvider);
-            *data = END_DELIMITER_BYTE_4B5B;
+            *data = LINE_CODE_4B5B_END_DELIMITER_BYTE;
         }
     }
 }
@@ -40,7 +40,7 @@ unsigned char LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDe
     if (LRP_TransmitLinkLayer_isReadyToTransmit(sessionProvider)) {
         LRP_TransmitLinkLayer_startTransmitting(sessionProvider);
         LRP_4B5B_reset(lineCode4B5B);
-        *data = START_DELIMITER_BYTE_4B5B;
+        *data = LINE_CODE_4B5B_START_DELIMITER_BYTE;
         return 1;
     }
     return 0;

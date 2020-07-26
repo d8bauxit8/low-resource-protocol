@@ -6,14 +6,14 @@
 void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionProvider,
                                       _LRPLineCode4B5B *const lineCode4B5B,
                                       const unsigned char *const data) {
-    if (*data == START_DELIMITER_BYTE_4B5B) {
+    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE) {
         LRP_ReceiveLinkLayer_startReceiving(sessionProvider);
         LRP_4B5B_reset(lineCode4B5B);
         return;
     }
 
     if (LRP_LinkLayer_isStatusOK((_LRPSessionProvider *) sessionProvider)) {
-        if (*data == END_DELIMITER_BYTE_4B5B) {
+        if (*data == LINE_CODE_4B5B_END_DELIMITER_BYTE) {
             LRP_ReceiveLinkLayer_endReceiving((_LRPSessionProvider *) sessionProvider);
             return;
         }
