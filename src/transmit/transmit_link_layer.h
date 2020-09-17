@@ -16,15 +16,15 @@ extern "C" {
 #include "../link_layer.h"
 
 unsigned char
-LRP_TransmitLinkLayer_handler(_LRPTransmitSessionProvider *const sessionProvider);
+LRP_TransmitLinkLayer_handler(_LRPTransmitSessionProvider *sessionProvider);
 
-unsigned char LRP_TransmitLinkLayer_isEndOfBufferLength(_LRPTransmitSessionProvider *const sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isEndOfBufferLength(_LRPTransmitSessionProvider *sessionProvider);
 
-unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvider *const sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *const sessionProvider);
+void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionProvider);
+void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *sessionProvider);
 
 
 #ifdef    __cplusplus
