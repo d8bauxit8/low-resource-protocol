@@ -2,10 +2,10 @@
 
 void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
                               _LRPFrame *const frameBuffer,
-                              const unsigned char const frameBufferLength) {
+                              const unsigned char frameBufferLength) {
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
 
-    sessionProvider->deviceId = deviceId;
+    sessionProvider->deviceId = (unsigned char *) deviceId;
 
     LRP_LinkLayer_setSkip(sessionProvider);
 
