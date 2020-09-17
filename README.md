@@ -211,6 +211,7 @@ Actually this equals the propagation delay.
 Then I have to multiply this with the wire's length to get that time 
 during which the signal has to reach the end of the line.
 ```
+propagation delay (Pd) * wire length (Wl) = time of propagation delay (Tpd)
 5.3 ns/m * 1200 m = 6360 ns
 ```
 Okay I already know about the wire permeability, 
@@ -218,6 +219,43 @@ but I don't know anything about how long it takes one byte transmitting.
 
 Besides that, I can not forget 
 that in the MCUs I can only read bytes from the receiver register instead of bits.
+The cost of transmitting or receiving of one byte consist of 11 bits. These are the following:<br>
+```
+1 start bit | 8 data bits | 1 parity bit | 1 stop bit
+bits (b) = 11
+```
+The baud rate is `9600 bit/sec` from which I can calculate how long it takes one bit transmitting.
+```
+time (t) / baud rate = time of bit transmitting (Tbt)
+1.000.000 us / 9600 bit/sec = 104.1666667 us
+```
+For this reason, the formula which I can calculate the transmitting time of the given bits is the following:
+```
+Tpd + number of bits * Tbt = time of transmitting (Tt)
+```
+Before I can calculate the frame transmitting time, I would have to know how many maximum number of bytes the 4B5B encoded headers and data bytes can take up.<br> 
+```
+(9 bytes * 8 bits / 4 bits group) * 5 bits group = 90 bits = 11.25 bytes ~ 12 bytes
+```
+From this, I can see that, one frame can contain up to 14 bytes, which are the following:<br>
+```
+1 start byte | 12 4B5B encoded bytes | 1 stop byte
+bytes of frame (Bf) = 14 
+```
+Thus 1 frame transmitting time's maximum is the following with the example values:
+```
+Tpd + Bf * b * Tbt = 6.36 us + 14 * 11 * 104.1666667 us = 16048.02667 us ~ 16.1 ms
+```
+Besides that here is the formula:
+```
+Summary formula:
+Br = baud rate (bit/second)
+Pd = propagation delay (nanosecond / meter)
+Wl = wire length (meter)
+Be = number of bytes which have to encode
+
+(Pd * Wl / 1000) + (2 + (Be * 8 / 4) * 5) * 11 * (1000000 / Br) 
+```
 
 ## Demo
 The demo software will be run on the PIC 18F45K22 microcontroller.

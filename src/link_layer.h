@@ -17,11 +17,11 @@ extern "C" {
 #define LINK_LAYER_STATUS_OK 0
 #define LINK_LAYER_STATUS_SKIP 1
 
-void LRP_LinkLayer_setSkip(_LRPSessionProvider *const sessionProvider);
+void LRP_LinkLayer_setSkip(_LRPSessionProvider * sessionProvider);
 
-void LRP_LinkLayer_setOk(_LRPSessionProvider *const sessionProvider);
+void LRP_LinkLayer_setOk(_LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *const sessionProvider);
+unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

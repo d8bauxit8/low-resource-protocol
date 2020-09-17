@@ -16,11 +16,11 @@ extern "C" {
 #include "../link_layer.h"
 
 void
-LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data);
+LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
 
-void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *const sessionProvider);
+void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *sessionProvider);
 
-void LRP_ReceiveLinkLayer_endReceiving(_LRPSessionProvider *const sessionProvider);
+void LRP_ReceiveLinkLayer_endReceiving(_LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

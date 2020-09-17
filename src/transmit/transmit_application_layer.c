@@ -5,7 +5,7 @@
  */
 void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *const sessionProvider,
                                                            const unsigned char *const data,
-                                                           const unsigned char const dataLength) {
+                                                           const unsigned char dataLength) {
     sessionProvider->applicationCurrentFrame->length = dataLength;
     for (unsigned char i = 0; i < dataLength; i++) {
         sessionProvider->applicationCurrentFrame->data[i] = &data[i];
@@ -13,8 +13,8 @@ void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *
 }
 
 void LRP_TransmitApplicationLayer_transmitReservedFrame(_LRPSessionProvider *const sessionProvider,
-                                                        const unsigned char const targetDeviceId,
-                                                        const unsigned char const command) {
+                                                        const unsigned char targetDeviceId,
+                                                        const unsigned char command) {
     sessionProvider->applicationCurrentFrame->targetDeviceId = targetDeviceId;
     sessionProvider->applicationCurrentFrame->sourceDeviceId = *sessionProvider->deviceId;
     sessionProvider->applicationCurrentFrame->command = command;
