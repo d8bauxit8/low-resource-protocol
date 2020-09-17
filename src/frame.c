@@ -1,9 +1,9 @@
 #include "frame.h"
 
-#define FRAME_TARGET_DEVICE_ID_MASK 0b11111000
-#define FRAME_COMMAND_MASK 0b00000111
-#define FRAME_SOURCE_DEVICE_ID_MASK 0b11111000
-#define FRAME_LENGTH_MASK 0b00000111
+#define FRAME_TARGET_DEVICE_ID_MASK 0b11111000u
+#define FRAME_COMMAND_MASK 0b00000111u
+#define FRAME_SOURCE_DEVICE_ID_MASK 0b11111000u
+#define FRAME_LENGTH_MASK 0b00000111u
 
 /**
  * Public method declarations
@@ -18,7 +18,7 @@ void LRP_Frame_initBuffer(_LRPFrame *const frameBuffer, const unsigned char *con
     frameBuffer[i - 1].next = &frameBuffer[0];
 }
 
-void LRP_Frame_setStatus(_LRPFrame *const frame, const unsigned char const status) {
+void LRP_Frame_setStatus(_LRPFrame *const frame, const unsigned char status) {
     frame->status = status;
 }
 
@@ -27,13 +27,13 @@ void LRP_Frame_resetStatus(_LRPFrame *const frame) {
 }
 
 unsigned char LRP_Frame_getTargetDeviceIdFromReceivedByte(const unsigned char *const data) {
-    return (*data & FRAME_TARGET_DEVICE_ID_MASK) >> 3;
+    return (*data & FRAME_TARGET_DEVICE_ID_MASK) >> 3u;
 }
 
 void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(_LRPFrame *const frame) {
     frame->targetDeviceId = LRP_Frame_getTargetDeviceIdFromReceivedByte(&frame->buffer[0]);
     frame->command = frame->buffer[0] & FRAME_COMMAND_MASK;
-    frame->sourceDeviceId = (frame->buffer[1] & FRAME_SOURCE_DEVICE_ID_MASK) >> 3;
+    frame->sourceDeviceId = (frame->buffer[1] & FRAME_SOURCE_DEVICE_ID_MASK) >> 3u;
     frame->length = frame->buffer[1] & FRAME_LENGTH_MASK;
 }
 
@@ -44,8 +44,8 @@ void LRP_Frame_addDataToFrameDataFromFrameBuffer(_LRPFrame *const frame) {
 }
 
 void LRP_Frame_addHeaderDataToFrameBufferFromFrameData(_LRPFrame *const frame) {
-    frame->buffer[0] = (frame->targetDeviceId << 3) | (FRAME_COMMAND_MASK & frame->command);
-    frame->buffer[1] = (frame->sourceDeviceId << 3) | (FRAME_LENGTH_MASK & frame->length);
+    frame->buffer[0] = (unsigned char)(frame->targetDeviceId << 3u) | (FRAME_COMMAND_MASK & frame->command);
+    frame->buffer[1] = (unsigned char)(frame->sourceDeviceId << 3u) | (FRAME_LENGTH_MASK & frame->length);
 }
 
 void LRP_Frame_addDataToFrameBufferFromFrameData(_LRPFrame *const frame) {
