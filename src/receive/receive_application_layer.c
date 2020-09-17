@@ -5,7 +5,7 @@
  */
 void LRP_ReceiveApplicationLayer_controller(_LRPSessionProvider *const sessionProvider,
                                             _LRPReceiveFrameController *const receiveFrameControllerList,
-                                            const unsigned char const receiveFrameControllerListLength) {
+                                            const unsigned char receiveFrameControllerListLength) {
     if (sessionProvider->applicationCurrentFrame->status != RECEIVE_FRAME_READY_TO_READ) {
         return;
     }
