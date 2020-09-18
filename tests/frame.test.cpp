@@ -43,7 +43,7 @@ protected:
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item) {
     const unsigned char frameBufferLength = 1;
-    _LRPFrame frameBuffer[1];
+    _LRPFrame frameBuffer[1]{};
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
     ASSERT_EQ(&frameBuffer[0], frameBuffer[0].next);
@@ -52,7 +52,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_Items) {
     const unsigned char frameBufferLength = 3;
-    _LRPFrame frameBuffer[3];
+    _LRPFrame frameBuffer[3]{};
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
 
