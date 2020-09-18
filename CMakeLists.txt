@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.16)
-project(LowResourceProtocolLibrary)
+cmake_minimum_required(VERSION 3.15)
+project(LowResourceProtocolLibrary C CXX)
 
+set(CMAKE_C_STANDARD 90)
 set(CMAKE_CXX_STANDARD 14)
 
 # Download and unpack googletest at configure time
