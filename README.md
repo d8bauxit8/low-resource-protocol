@@ -104,7 +104,7 @@ Then you have to initialize the session provider with the `LRP_SessionProvider_i
 ```c
 // It will be the device ID during the receiving.
 // Thus your device will just get those frames at which the target device ID equals with this.  
-const unsigned char const sourceDeviceId = 0b00000001;
+const unsigned char sourceDeviceId = 0b00000001;
 _LRPReceiveSessionProvider sessionProvider;
 _LRPFrame frameBuffer[3];
 
@@ -124,7 +124,7 @@ so physical communication of one byte ended.
 ```c
 void receiveInterrupt(void){
     // It is the given register from which you have to read the received data
-    const unsigned char const data = RCREG; 
+    const unsigned char data = RCREG; 
     LRP_ReceiveLineCodeLayer_handler(&sessionProvider, &lineCode4B5B, &data);
 }
 ```
@@ -161,7 +161,7 @@ unsigned char anotherReceiveFrameControllers(_FrameData *const frameData) {
 }
 
 _LRPReceiveFrameController controllers[] = { oneOfReceiveFrameControllers , anotherReceiveFrameControllers };
-const unsigned char const receiveFrameControllerListLength = 2;
+const unsigned char receiveFrameControllerListLength = 2;
 
 void timerInterrupt(void){
     LRP_ReceiveValidatorLayer_handler(&sessionProvider);
