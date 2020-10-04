@@ -44,12 +44,8 @@ file(GLOB SOURCE_FILES
         )
 
 file(GLOB TESTS_FILES
-        tests/**/*.test.h
         tests/**/*.test.cpp
-        tests/**/*.test.c
-        tests/*.test.h
         tests/*.test.cpp
-        tests/*.test.c
         )
 
 # Now simply link against gtest or gtest_main as needed. Eg
