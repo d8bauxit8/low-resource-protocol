@@ -152,11 +152,11 @@ the first controller will return 1 value, so the second will not be able to proc
 I recommend you to sort these controllers 
 which process more messages not just one to the beginning of array.
 ```c
-unsigned char oneOfReceiveFrameControllers(_FrameData *const frameData) {
+unsigned char oneOfReceiveFrameControllers(_FrameData *const frameData){
     // Define
 }
 
-unsigned char anotherReceiveFrameControllers(_FrameData *const frameData) {
+unsigned char anotherReceiveFrameControllers(_FrameData *const frameData){
     // Define
 }
 
@@ -182,7 +182,92 @@ with which you are able to send data from the RS-485 bus
 which another device will read from yours during the LRP protocol.
 
 ### What do you need for the transmit module?
-In progress ... :pushpin:
+You have to create the source device ID, the session provider and the transmit frame buffer. 
+Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
+```c
+// It will be the device ID during the transmitting.  
+const unsigned char const sourceDeviceId = 0b00000001;
+_LRPTransmitSessionProvider sessionProvider;
+_LRPFrame frameBuffer[3];
+
+LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
+```
+For the transmit interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
+```c
+// Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
+_LRPLineCode4B5B lineCode4B5B;
+unsigned char buffer[2] = {0, 0};
+lineCode4B5B.buffer[0] = &buffer[0];
+lineCode4B5B.buffer[1] = &buffer[1];
+```
+You need an interrupt handler in which you have to call the line code layer handler.
+But before you call that function, you need a type of `unsigned char` variable into which the line code layer will write the encoded data.
+If its value is zero, there is no data to be transmitted otherwise there is data to be sent.  
+```c
+void transmitInterrupt(void){
+    // It is the given register in which you have to write the data to be transmitted.
+    unsigned char data = 0; 
+    LRP_TransmitLineCodeLayer_handler(&sessionProvider, &lineCode4B5B, &data);
+    if(!data){
+        // Stop transmitting
+        // For example, disable the transmit interrupt
+        // PIE.TXIE = 0;
+        return;
+    }
+    // It is the given register in which you have to write that data which you want to send.
+    TXREG = data;
+}
+```
+Besides that you will need a timer interrupt, in which you can process the data which you want to send.
+In this you have to call the validation layer. Then you will need a type of `unsigned char` variable 
+into which the line code layer will put the encoded data. The line code layer's function have a return value
+which is 1 if there is data to be transmitted. If this is met, you can write the variable's value into transmit register. 
+```c
+void timerInterrupt(void){
+    LRP_TransmitValidatorLayer_handler(&sessionProvider);
+    unsigned char data;
+    if(LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(&tSessionProvider, &tLineCode4B5B, &data)){
+        TXREG = data;
+        // And if your transmit interrupt was disabled, set to enabled
+        // PIE.TXIE = 1;
+    }
+}
+```
+If you were done the configuration, you can start using those function with which you can send data to another device.
+With this, you have 3 methods which are the following:
+* `LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(...)`<br>
+With this method you can reserve a frame in which you can add content. The method have a return value. 
+If this is 0, there is no such a frame which is unused, thus the method can not reserve.
+But if the return value is 1, the method could reserve a frame in which you can work.
+* `LRP_TransmitApplicationLayer_setDataIntoReservedFrame(...)`<br>
+With this method you can write data into reserved frame.
+* `LRP_TransmitApplicationLayer_transmitReservedFrame(...)`<br>
+With this method you can send that frame which has been reserved.
+
+For example:
+```c
+// We can say that this function is called if you touch a capacitive sensor.
+void touched(void){
+    // If somebody touched the sensor, we just try to reserve a frame.
+    // If it is successful
+    if(LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(&sessionProvider)){
+        // We can write the data into the reserved frame
+        const unsigned char touched[] = "touched";
+        const unsigned char lengthOfData = 7;
+        LRP_TransmitApplicationLayer_setDataIntoReservedFrame(&sessionProvider, touched, lengthOfData);
+        // Then send it
+        const unsigned char command = 0b000; 
+        const unsigned char targetDeviceId = 0b00010; 
+        LRP_TransmitApplicationLayer_transmitReservedFrame(&sessionProvider, targetDeviceId, command);
+    }
+}
+```
+I suggest that the timer cycle will be less than one frame's transmitting time 
+between two furthest devices, because you can not take advantage of the full bandwidth, if your validation layer is slow. 
+
+For this, you can find the right calculation in the [Calculations](#calculations) point. 
+
+If you did everything well, your transmit module will work.
 
 ## Collision detection module
 In progress ... :pushpin:
