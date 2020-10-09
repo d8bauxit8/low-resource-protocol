@@ -227,7 +227,8 @@ which is 1 if there is data to be transmitted. If this is met, you can write the
 void timerInterrupt(void){
     LRP_TransmitValidatorLayer_handler(&sessionProvider);
     unsigned char data;
-    if(LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(&sessionProvider, &lineCode4B5B, &data)){
+    if(LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(&sessionProvider)){
+        LRP_TransmitLineCodeLayer_startTransmitting(&sessionProvider, &lineCode4B5B, &data);
         TXREG = data;
         // And if your transmit interrupt was disabled, set to enabled
         // PIE.TXIE = 1;
