@@ -3,6 +3,7 @@ This protocol is mainly created for the 8 and 16 bits MCU (for example PIC12/16/
 in which there is (E)USART module with which the device can connect to another via RS-485 standard.
 (Usually you will need a peripheral IC for communication, for example MAX485.) 
 With this protocol you are able to transmit and receive data between embedded devices safe and sound.
+The protocol needs one master device which control the communication between the connected devices. 
 
 Primarily I recommend this protocol to communicate between the smart home devices 
 (for instance between smart switch and smart brightness controller) 
