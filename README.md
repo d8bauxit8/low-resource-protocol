@@ -220,13 +220,13 @@ void transmitInterrupt(void){
 ```
 Besides that you will need a timer interrupt, in which you can process the data which you want to send.
 In this you have to call the validation layer. Then you will need a type of `unsigned char` variable 
-into which the line code layer will put the encoded data. The line code layer's function have a return value
+into which the line code layer will put the starting delimiter byte. The line code layer's function have a return value
 which is 1 if there is data to be transmitted. If this is met, you can write the variable's value into transmit register. 
 ```c
 void timerInterrupt(void){
     LRP_TransmitValidatorLayer_handler(&sessionProvider);
     unsigned char data;
-    if(LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(&tSessionProvider, &tLineCode4B5B, &data)){
+    if(LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(&sessionProvider, &lineCode4B5B, &data)){
         TXREG = data;
         // And if your transmit interrupt was disabled, set to enabled
         // PIE.TXIE = 1;
