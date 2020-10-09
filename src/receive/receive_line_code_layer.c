@@ -32,8 +32,7 @@ void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionP
             // If the received byte could not be decoded,
             // the frame should be threw because it would be invalid.
             if (LRP_4B5B_isDecodingFailed(&decodingState)) {
-                LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
-                LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
+                LRP_LinkLayer_setError((_LRPSessionProvider *) sessionProvider);
                 return;
             }
 
