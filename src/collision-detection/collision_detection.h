@@ -25,6 +25,10 @@ void LRP_CollisionDetection_init(_LRPCollisionDetection *collisionDetection,
                                  _LRPTransmitSessionProvider *transmitSessionProvider,
                                  _LRPReceiveSessionProvider *receiveSessionProvider);
 
+void
+LRP_CollisionDetection_slaveController(_LRPCollisionDetection *collisionDetection,
+                                       const unsigned char *data);
+
 #ifdef    __cplusplus
 }
 #endif
