@@ -15,13 +15,18 @@ extern "C" {
 #include "session_provider_structures.h"
 
 #define LINK_LAYER_STATUS_OK 0
-#define LINK_LAYER_STATUS_SKIP 1
+#define LINK_LAYER_STATUS_ERROR 1
+#define LINK_LAYER_STATUS_SKIP 2
 
-void LRP_LinkLayer_setSkip(_LRPSessionProvider * sessionProvider);
+void LRP_LinkLayer_setSkip(_LRPSessionProvider *sessionProvider);
+
+void LRP_LinkLayer_setError(_LRPSessionProvider *sessionProvider);
 
 void LRP_LinkLayer_setOk(_LRPSessionProvider *sessionProvider);
 
 unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *sessionProvider);
+
+unsigned char LRP_LinkLayer_isStatusError(_LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }
