@@ -46,9 +46,11 @@ void LRP_TransmitLineCodeLayer_startTransmitting(
 
 unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
         _LRPTransmitSessionProvider *const sessionProvider) {
-    if (LRP_TransmitLinkLayer_isReadyToTransmit(sessionProvider) && !LRP_LinkLayer_isStatusError(
-            (_LRPSessionProvider *) sessionProvider)) {
-        return 1;
+    if (LRP_TransmitLinkLayer_isReadyToTransmit(sessionProvider)) {
+        if (!LRP_LinkLayer_isStatusError(
+                (_LRPSessionProvider *) sessionProvider)) {
+            return 1;
+        }
     }
     return 0;
 }
