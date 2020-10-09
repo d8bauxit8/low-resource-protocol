@@ -26,8 +26,9 @@ void LRP_CollisionDetection_init(_LRPCollisionDetection *collisionDetection,
                                  _LRPReceiveSessionProvider *receiveSessionProvider);
 
 void
-LRP_CollisionDetection_slaveController(_LRPCollisionDetection *collisionDetection,
-                                       const unsigned char *data);
+LRP_CollisionDetection_receiveNoiseStrokeController(_LRPCollisionDetection *collisionDetection,
+                                                    const unsigned char *data);
+
 
 #ifdef    __cplusplus
 }
