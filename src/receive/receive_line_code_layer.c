@@ -1,15 +1,15 @@
 #include "receive_line_code_layer.h"
 
+unsigned char LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(
+        _LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
+
 /**
  * Public method declarations
  */
 void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionProvider,
                                       _LRPLineCode4B5B *const lineCode4B5B,
                                       const unsigned char *const data) {
-    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE) {
-        if (LRP_LinkLayer_isStatusError((_LRPSessionProvider *) sessionProvider)) {
-            return;
-        }
+    if (LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(sessionProvider, data)) {
         LRP_ReceiveLinkLayer_startReceiving(sessionProvider);
         LRP_4B5B_reset(lineCode4B5B);
         return;
@@ -40,4 +40,15 @@ void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionP
             LRP_ReceiveLinkLayer_handler(sessionProvider, &decodedData);
         }
     }
+}
+
+unsigned char LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(
+        _LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data) {
+    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE) {
+        if (!LRP_LinkLayer_isStatusError(
+                (_LRPSessionProvider *) sessionProvider)) {
+            return 1;
+        }
+    }
+    return 0;
 }
