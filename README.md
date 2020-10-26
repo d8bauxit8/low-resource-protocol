@@ -7,6 +7,8 @@ With this protocol you are able to transmit and receive data between embedded de
 Primarily I recommend this protocol to communicate between the smart home devices. 
 (for instance between smart switch and smart brightness controller)
 
+![LowResourceProtocol CI](https://github.com/d8bauxit8/LowResourceProtocolLibrary/workflows/LowResourceProtocol%20CI/badge.svg?branch=master)
+
 I'm working on the test cases :pushpin:
 Be patient :wink:
 
