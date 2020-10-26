@@ -6,8 +6,9 @@
 void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *const sessionProvider,
                                                            const unsigned char *const data,
                                                            const unsigned char dataLength) {
+    unsigned char i = 0;
     sessionProvider->applicationCurrentFrame->length = dataLength;
-    for (unsigned char i = 0; i < dataLength; i++) {
+    for (; i < dataLength; i++) {
         sessionProvider->applicationCurrentFrame->data[i] = &data[i];
     }
 }
