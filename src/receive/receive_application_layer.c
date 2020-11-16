@@ -16,7 +16,6 @@ void LRP_ReceiveApplicationLayer_controller(_LRPSessionProvider *const sessionPr
         }
     }
 
-    LRP_LinkLayer_setSkip(sessionProvider);
     LRP_Frame_resetStatus(sessionProvider->applicationCurrentFrame);
     sessionProvider->applicationCurrentFrame = sessionProvider->applicationCurrentFrame->next;
 }
