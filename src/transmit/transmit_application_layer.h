@@ -15,7 +15,7 @@ extern "C" {
 #include "transmit_structures.h"
 
 void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *sessionProvider,
-                                                           const unsigned char *data,
+                                                           unsigned char *data,
                                                            unsigned char dataLength);
 
 void LRP_TransmitApplicationLayer_transmitReservedFrame(_LRPSessionProvider *sessionProvider,

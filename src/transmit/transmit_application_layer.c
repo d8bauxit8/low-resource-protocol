@@ -4,7 +4,7 @@
  * Public method declarations
  */
 void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *const sessionProvider,
-                                                           const unsigned char *const data,
+                                                           unsigned char *const data,
                                                            const unsigned char dataLength) {
     sessionProvider->applicationCurrentFrame->length = dataLength;
     for (unsigned char i = 0; i < dataLength; i++) {
@@ -18,7 +18,10 @@ void LRP_TransmitApplicationLayer_transmitReservedFrame(_LRPSessionProvider *con
     sessionProvider->applicationCurrentFrame->targetDeviceId = targetDeviceId;
     sessionProvider->applicationCurrentFrame->sourceDeviceId = *sessionProvider->deviceId;
     sessionProvider->applicationCurrentFrame->command = command;
+
+    LRP_LinkLayer_setSkip(sessionProvider);
     LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, TRANSMIT_FRAME_READY_TO_CHECK);
+
     sessionProvider->applicationCurrentFrame = sessionProvider->applicationCurrentFrame->next;
 }
 
