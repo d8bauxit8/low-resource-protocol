@@ -22,7 +22,6 @@ LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, 
 
 void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *const sessionProvider) {
     if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE) {
-        LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
         return;
     }
     sessionProvider->indexOfReadBytes = 0;
