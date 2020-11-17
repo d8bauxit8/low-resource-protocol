@@ -18,16 +18,18 @@ extern "C" {
 typedef struct _LRPCollisionDetection {
     _LRPTransmitSessionProvider *transmitSessionProvider;
     _LRPReceiveSessionProvider *receiveSessionProvider;
-    unsigned char readNumberOfNoiseStroke;
 } _LRPCollisionDetection;
 
 void LRP_CollisionDetection_init(_LRPCollisionDetection *collisionDetection,
                                  _LRPTransmitSessionProvider *transmitSessionProvider,
                                  _LRPReceiveSessionProvider *receiveSessionProvider);
 
-void
-LRP_CollisionDetection_receiveNoiseStrokeController(_LRPCollisionDetection *collisionDetection,
-                                                    const unsigned char *data);
+unsigned char
+LRP_CollisionDetection_decodeErrorHandler(_LRPCollisionDetection *collisionDetection, unsigned char *data);
+
+unsigned char
+LRP_CollisionDetection_noiseStrokeErrorHandler(_LRPCollisionDetection *collisionDetection,
+                                               const unsigned char *data);
 
 
 #ifdef    __cplusplus

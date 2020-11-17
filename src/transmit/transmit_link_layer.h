@@ -26,6 +26,7 @@ void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *sessio
 
 void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *sessionProvider);
 
+void LRP_TransmitLinkLayer_errorStatusHandler(_LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

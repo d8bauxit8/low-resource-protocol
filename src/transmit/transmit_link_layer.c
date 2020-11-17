@@ -28,3 +28,14 @@ void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionPro
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
     LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
 }
+
+void LRP_TransmitLinkLayer_errorStatusHandler(_LRPSessionProvider *const sessionProvider) {
+    if (LRP_LinkLayer_isStatusError(sessionProvider)) {
+        if (sessionProvider->linkCurrentFrame->status ==
+            TRANSMIT_FRAME_TRANSMITTING) {
+            LRP_Frame_setStatus(sessionProvider->linkCurrentFrame,
+                                TRANSMIT_FRAME_READY_TO_TRANSMIT);
+        }
+        LRP_LinkLayer_setSkip(sessionProvider);
+    }
+}

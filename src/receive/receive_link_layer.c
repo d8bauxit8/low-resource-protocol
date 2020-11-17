@@ -33,3 +33,10 @@ void LRP_ReceiveLinkLayer_endReceiving(_LRPSessionProvider *const sessionProvide
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_READY_TO_CHECK);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
 }
+
+void LRP_ReceiveLinkLayer_errorStatusHandler(_LRPSessionProvider *sessionProvider) {
+    if (LRP_LinkLayer_isStatusError(sessionProvider)) {
+        LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
+        LRP_LinkLayer_setSkip(sessionProvider);
+    }
+}
