@@ -16,15 +16,15 @@ extern "C" {
 #define FRAME_NUMBER_OF_HEADER_BYTES 2u
 #define FRAME_NUMBER_OF_FRAME_BYTES (FRAME_NUMBER_OF_HEADER_BYTES + FRAME_NUMBER_OF_MAX_DATA_BYTES)
 
-typedef struct _FrameData {
+typedef struct FrameData {
     unsigned char sourceDeviceId;
     unsigned char targetDeviceId;
     unsigned char command;
     unsigned char length;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
-} _FrameData;
+} FrameData;
 
-typedef struct _LRPFrame {
+typedef struct LRPFrame {
     unsigned char sourceDeviceId;
     unsigned char targetDeviceId;
     unsigned char command;
@@ -32,29 +32,29 @@ typedef struct _LRPFrame {
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
     unsigned char status;
     unsigned char buffer[FRAME_NUMBER_OF_FRAME_BYTES];
-    struct _LRPFrame *next;
-} _LRPFrame;
+    struct LRPFrame *next;
+} LRPFrame;
 
 // Statuses
 #define FRAME_READY_TO_REDEFINE 0u
 
 #define FRAME_BROADCAST_ID 0b00011111u
 
-void LRP_Frame_initBuffer(_LRPFrame *frameBuffer, const unsigned char *frameBufferLength);
+void LRP_Frame_initBuffer(LRPFrame *frameBuffer, const unsigned char *frameBufferLength);
 
-void LRP_Frame_setStatus(_LRPFrame *frame, unsigned char status);
+void LRP_Frame_setStatus(LRPFrame *frame, unsigned char status);
 
-void LRP_Frame_resetStatus(_LRPFrame *frame);
+void LRP_Frame_resetStatus(LRPFrame *frame);
 
 unsigned char LRP_Frame_getTargetDeviceIdFromReceivedByte(const unsigned char *data);
 
-void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(_LRPFrame *frame);
+void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *frame);
 
-void LRP_Frame_addDataToFrameDataFromFrameBuffer(_LRPFrame *frame);
+void LRP_Frame_addDataToFrameDataFromFrameBuffer(LRPFrame *frame);
 
-void LRP_Frame_addHeaderDataToFrameBufferFromFrameData(_LRPFrame *frame);
+void LRP_Frame_addHeaderDataToFrameBufferFromFrameData(LRPFrame *frame);
 
-void LRP_Frame_addDataToFrameBufferFromFrameData(_LRPFrame *frame);
+void LRP_Frame_addDataToFrameBufferFromFrameData(LRPFrame *frame);
 
 #ifdef    __cplusplus
 }

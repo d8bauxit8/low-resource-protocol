@@ -3,8 +3,8 @@
 /**
  * Public method declarations
  */
-void LRP_ReceiveApplicationLayer_controller(_LRPSessionProvider *const sessionProvider,
-                                            _LRPReceiveFrameController *const receiveFrameControllerList,
+void LRP_ReceiveApplicationLayer_controller(LRPSessionProvider *const sessionProvider,
+                                            LRPReceiveFrameController *const receiveFrameControllerList,
                                             const unsigned char receiveFrameControllerListLength) {
     if (sessionProvider->applicationCurrentFrame->status != RECEIVE_FRAME_READY_TO_READ) {
         return;
@@ -12,7 +12,7 @@ void LRP_ReceiveApplicationLayer_controller(_LRPSessionProvider *const sessionPr
 
     unsigned char i = 0;
     for (; i < receiveFrameControllerListLength; i++) {
-        if (receiveFrameControllerList[i]((_FrameData *const) sessionProvider->applicationCurrentFrame)) {
+        if (receiveFrameControllerList[i]((FrameData *const) sessionProvider->applicationCurrentFrame)) {
             break;
         }
     }
