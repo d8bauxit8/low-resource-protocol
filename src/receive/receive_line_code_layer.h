@@ -18,7 +18,7 @@ extern "C" {
 
 void
 LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *sessionProvider,
-                                 _LRPLineCode4B5B *lineCode4B5B,
+                                 LRPLineCode4B5B *lineCode4B5B,
                                  const unsigned char *data);
 
 #ifdef    __cplusplus

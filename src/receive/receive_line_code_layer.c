@@ -7,7 +7,7 @@ unsigned char LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(
  * Public method declarations
  */
 void LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *const sessionProvider,
-                                      _LRPLineCode4B5B *const lineCode4B5B,
+                                      LRPLineCode4B5B *const lineCode4B5B,
                                       const unsigned char *const data) {
     if (LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(sessionProvider, data)) {
         LRP_ReceiveLinkLayer_startReceiving(sessionProvider);

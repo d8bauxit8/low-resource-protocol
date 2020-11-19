@@ -18,11 +18,11 @@ extern "C" {
 
 void
 LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *sessionProvider,
-                                  _LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
+                                  LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
 
 void LRP_TransmitLineCodeLayer_startTransmitting(
         _LRPTransmitSessionProvider *sessionProvider,
-        _LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
+        LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
 
 unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
         _LRPTransmitSessionProvider *sessionProvider);

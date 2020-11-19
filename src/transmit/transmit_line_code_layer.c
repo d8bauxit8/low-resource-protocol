@@ -5,7 +5,7 @@
  */
 void
 LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProvider,
-                                  _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
+                                  LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
     if (LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(sessionProvider)) {
         LRP_TransmitLineCodeLayer_startTransmitting(sessionProvider, lineCode4B5B,
                                                     data);
@@ -37,7 +37,7 @@ LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProv
 
 void LRP_TransmitLineCodeLayer_startTransmitting(
         _LRPTransmitSessionProvider *const sessionProvider,
-        _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
+        LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
     LRP_TransmitLinkLayer_startTransmitting(sessionProvider);
     LRP_4B5B_reset(lineCode4B5B);
     *data = LINE_CODE_4B5B_START_DELIMITER_BYTE;

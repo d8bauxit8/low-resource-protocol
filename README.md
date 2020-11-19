@@ -111,10 +111,10 @@ LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
-For the receive interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
+For the receive interrupt, you will need a `LRPLineCode4B5B` of type variable. 
 ```c
 // Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
-_LRPLineCode4B5B lineCode4B5B;
+LRPLineCode4B5B lineCode4B5B;
 unsigned char buffer[2] = {0, 0};
 lineCode4B5B.buffer[0] = &buffer[0];
 lineCode4B5B.buffer[1] = &buffer[1];
@@ -193,10 +193,10 @@ LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
-For the transmit interrupt, you will need a `_LRPLineCode4B5B` of type variable. 
+For the transmit interrupt, you will need a `LRPLineCode4B5B` of type variable. 
 ```c
 // Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
-_LRPLineCode4B5B lineCode4B5B;
+LRPLineCode4B5B lineCode4B5B;
 unsigned char buffer[2] = {0, 0};
 lineCode4B5B.buffer[0] = &buffer[0];
 lineCode4B5B.buffer[1] = &buffer[1];

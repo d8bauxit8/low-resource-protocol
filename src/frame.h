@@ -16,7 +16,7 @@ extern "C" {
 #define FRAME_NUMBER_OF_HEADER_BYTES 2u
 #define FRAME_NUMBER_OF_FRAME_BYTES (FRAME_NUMBER_OF_HEADER_BYTES + FRAME_NUMBER_OF_MAX_DATA_BYTES)
 
-typedef struct FrameData {
+typedef struct {
     unsigned char sourceDeviceId;
     unsigned char targetDeviceId;
     unsigned char command;
