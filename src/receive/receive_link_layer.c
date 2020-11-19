@@ -4,7 +4,7 @@
  * Public method declarations
  */
 void
-LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data) {
+LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data) {
     if (sessionProvider->indexOfReadBytes == 0) {
         const unsigned char targetDeviceId = LRP_Frame_getTargetDeviceIdFromReceivedByte(data);
         if (targetDeviceId != *sessionProvider->deviceId &&
@@ -20,7 +20,7 @@ LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *const sessionProvider, 
     sessionProvider->indexOfReadBytes++;
 }
 
-void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *const sessionProvider) {
+void LRP_ReceiveLinkLayer_startReceiving(LRPReceiveSessionProvider *const sessionProvider) {
     if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE) {
         return;
     }

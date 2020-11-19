@@ -16,9 +16,9 @@ extern "C" {
 #include "../link_layer.h"
 
 void
-LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
+LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
 
-void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *sessionProvider);
+void LRP_ReceiveLinkLayer_startReceiving(LRPReceiveSessionProvider *sessionProvider);
 
 void LRP_ReceiveLinkLayer_endReceiving(LRPSessionProvider *sessionProvider);
 

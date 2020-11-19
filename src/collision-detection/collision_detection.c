@@ -9,7 +9,7 @@ void LRP_CollisionDetection_setNoiseStrokeError(_LRPCollisionDetection *collisio
 
 void LRP_CollisionDetection_init(_LRPCollisionDetection *const collisionDetection,
                                  LRPTransmitSessionProvider *const transmitSessionProvider,
-                                 _LRPReceiveSessionProvider *const receiveSessionProvider) {
+                                 LRPReceiveSessionProvider *const receiveSessionProvider) {
     collisionDetection->transmitSessionProvider = transmitSessionProvider;
     collisionDetection->receiveSessionProvider = receiveSessionProvider;
 }
