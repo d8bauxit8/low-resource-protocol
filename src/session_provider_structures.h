@@ -15,14 +15,14 @@ extern "C" {
 #include "frame.h"
 
 typedef struct _LRPSessionProvider {
-    _LRPFrame *frameBuffer;
+    LRPFrame *frameBuffer;
     unsigned char linkLayerStatus;
     unsigned char linkLayerErrorCode;
     unsigned char *deviceId;
 
-    _LRPFrame *linkCurrentFrame;
-    _LRPFrame *validatorCurrentFrame;
-    _LRPFrame *applicationCurrentFrame;
+    LRPFrame *linkCurrentFrame;
+    LRPFrame *validatorCurrentFrame;
+    LRPFrame *applicationCurrentFrame;
 } _LRPSessionProvider;
 
 #ifdef    __cplusplus

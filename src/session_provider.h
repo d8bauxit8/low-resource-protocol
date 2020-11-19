@@ -16,7 +16,7 @@ extern "C" {
 #include "link_layer.h"
 
 void LRP_SessionProvider_init(_LRPSessionProvider *sessionProvider, const unsigned char *deviceId,
-                              _LRPFrame *frameBuffer,
+                              LRPFrame *frameBuffer,
                               unsigned char frameBufferLength);
 
 #ifdef    __cplusplus

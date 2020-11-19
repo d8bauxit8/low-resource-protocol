@@ -107,7 +107,7 @@ Then you have to initialize the session provider with the `LRP_SessionProvider_i
 // Thus your device will just get those frames at which the target device ID equals with this.  
 const unsigned char sourceDeviceId = 0b00000001;
 _LRPReceiveSessionProvider sessionProvider;
-_LRPFrame frameBuffer[3];
+LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```
@@ -153,11 +153,11 @@ the first controller will return 1 value, so the second will not be able to proc
 I recommend you to sort these controllers 
 which process more messages not just one to the beginning of array.
 ```c
-unsigned char oneOfReceiveFrameControllers(_FrameData *const frameData){
+unsigned char oneOfReceiveFrameControllers(FrameData *const frameData){
     // Define
 }
 
-unsigned char anotherReceiveFrameControllers(_FrameData *const frameData){
+unsigned char anotherReceiveFrameControllers(FrameData *const frameData){
     // Define
 }
 
@@ -189,7 +189,7 @@ Then you have to initialize the session provider with the `LRP_SessionProvider_i
 // It will be the device ID during the transmitting.  
 const unsigned char const sourceDeviceId = 0b00000001;
 _LRPTransmitSessionProvider sessionProvider;
-_LRPFrame frameBuffer[3];
+LRPFrame frameBuffer[3];
 
 LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 ```

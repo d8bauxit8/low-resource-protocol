@@ -11,7 +11,7 @@ void LRP_ReceiveApplicationLayer_controller(_LRPSessionProvider *const sessionPr
     }
 
     for (unsigned char i = 0; i < receiveFrameControllerListLength; i++) {
-        if (receiveFrameControllerList[i]((_FrameData *const) sessionProvider->applicationCurrentFrame)) {
+        if (receiveFrameControllerList[i]((FrameData *const) sessionProvider->applicationCurrentFrame)) {
             break;
         }
     }
