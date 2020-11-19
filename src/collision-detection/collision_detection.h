@@ -15,20 +15,20 @@
 extern "C" {
 #endif
 
-typedef struct _LRPCollisionDetection {
+typedef struct LRPCollisionDetection {
     LRPTransmitSessionProvider *transmitSessionProvider;
     LRPReceiveSessionProvider *receiveSessionProvider;
-} _LRPCollisionDetection;
+} LRPCollisionDetection;
 
-void LRP_CollisionDetection_init(_LRPCollisionDetection *collisionDetection,
+void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
                                  LRPTransmitSessionProvider *transmitSessionProvider,
                                  LRPReceiveSessionProvider *receiveSessionProvider);
 
 unsigned char
-LRP_CollisionDetection_decodeErrorHandler(_LRPCollisionDetection *collisionDetection, unsigned char *data);
+LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *collisionDetection, unsigned char *data);
 
 unsigned char
-LRP_CollisionDetection_noiseStrokeErrorHandler(_LRPCollisionDetection *collisionDetection,
+LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *collisionDetection,
                                                const unsigned char *data);
 
 
