@@ -10,6 +10,7 @@
 
 #include "../transmit/transmit_structures.h"
 #include "../receive/receive_structures.h"
+#include "../msws.h"
 
 #ifdef    __cplusplus
 extern "C" {
@@ -18,11 +19,14 @@ extern "C" {
 typedef struct LRPCollisionDetection {
     LRPTransmitSessionProvider *transmitSessionProvider;
     LRPReceiveSessionProvider *receiveSessionProvider;
+    unsigned char delay;
 } LRPCollisionDetection;
 
 void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
                                  LRPTransmitSessionProvider *transmitSessionProvider,
                                  LRPReceiveSessionProvider *receiveSessionProvider);
+
+unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection);
 
 unsigned char
 LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *collisionDetection, unsigned char *data);
