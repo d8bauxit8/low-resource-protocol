@@ -38,7 +38,8 @@ void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {
 }
 
 void LRP_Frame_addDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {
-    for (unsigned char i = 0; i < frame->length; i++) {
+    unsigned char i = 0;
+    for (; i < frame->length; i++) {
         frame->data[i] = &frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES];
     }
 }
@@ -49,7 +50,8 @@ void LRP_Frame_addHeaderDataToFrameBufferFromFrameData(LRPFrame *const frame) {
 }
 
 void LRP_Frame_addDataToFrameBufferFromFrameData(LRPFrame *const frame) {
-    for (unsigned char i = 0; i < frame->length; i++) {
+    unsigned char i = 0;
+    for (; i < frame->length; i++) {
         frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES] = *frame->data[i];
     }
 }

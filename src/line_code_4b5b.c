@@ -144,7 +144,8 @@ unsigned char LRP_4B5B_decode(const unsigned short *const data, unsigned char *d
     *decodingState = FAILED_TO_DECODED;
     unsigned char encodedLowBits = *data & ENCODED_BITS_MASK;
     unsigned char encodedHighBits = (unsigned char) (*data >> ENCODED_HIGH_BITS_SHIFT) & ENCODED_BITS_MASK;
-    for (unsigned char i = 0; i < NUMBER_OF_4B5B_CODES; i++) {
+    unsigned char i = 0;
+    for (; i < NUMBER_OF_4B5B_CODES; i++) {
         if (codesOf4B5B[i] == encodedLowBits) {
             decodedByte = decodedByte | i;
             encodedLowBits = 0;
