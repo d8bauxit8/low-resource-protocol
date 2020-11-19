@@ -3,7 +3,7 @@
 /**
  * Public method declarations
  */
-void LRP_ReceiveValidatorLayer_handler(_LRPSessionProvider *const sessionProvider) {
+void LRP_ReceiveValidatorLayer_handler(LRPSessionProvider *const sessionProvider) {
     if (sessionProvider->validatorCurrentFrame->status != RECEIVE_FRAME_READY_TO_CHECK) {
         return;
     }

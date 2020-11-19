@@ -19,17 +19,17 @@ unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvide
 
 void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *const sessionProvider) {
     sessionProvider->indexOfWroteBytes = 0;
-    LRP_LinkLayer_setOk((_LRPSessionProvider *) sessionProvider);
+    LRP_LinkLayer_setOk((LRPSessionProvider *) sessionProvider);
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, TRANSMIT_FRAME_TRANSMITTING);
 }
 
-void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *const sessionProvider) {
+void LRP_TransmitLinkLayer_endTransmitting(LRPSessionProvider *const sessionProvider) {
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, FRAME_READY_TO_REDEFINE);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
-    LRP_LinkLayer_setSkip((_LRPSessionProvider *) sessionProvider);
+    LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
 }
 
-void LRP_TransmitLinkLayer_errorStatusHandler(_LRPSessionProvider *const sessionProvider) {
+void LRP_TransmitLinkLayer_errorStatusHandler(LRPSessionProvider *const sessionProvider) {
     if (LRP_LinkLayer_isStatusError(sessionProvider)) {
         if (sessionProvider->linkCurrentFrame->status ==
             TRANSMIT_FRAME_TRANSMITTING) {

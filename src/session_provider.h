@@ -15,7 +15,7 @@ extern "C" {
 #include "session_provider_structures.h"
 #include "link_layer.h"
 
-void LRP_SessionProvider_init(_LRPSessionProvider *sessionProvider, const unsigned char *deviceId,
+void LRP_SessionProvider_init(LRPSessionProvider *sessionProvider, const unsigned char *deviceId,
                               LRPFrame *frameBuffer,
                               unsigned char frameBufferLength);
 

@@ -24,9 +24,9 @@ unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(_LRPTransmitSessionProvide
 
 void LRP_TransmitLinkLayer_startTransmitting(_LRPTransmitSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_endTransmitting(_LRPSessionProvider *sessionProvider);
+void LRP_TransmitLinkLayer_endTransmitting(LRPSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_errorStatusHandler(_LRPSessionProvider *sessionProvider);
+void LRP_TransmitLinkLayer_errorStatusHandler(LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

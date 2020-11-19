@@ -14,7 +14,7 @@ extern "C" {
 
 #include "frame.h"
 
-typedef struct _LRPSessionProvider {
+typedef struct LRPSessionProvider {
     LRPFrame *frameBuffer;
     unsigned char linkLayerStatus;
     unsigned char linkLayerErrorCode;
@@ -23,7 +23,7 @@ typedef struct _LRPSessionProvider {
     LRPFrame *linkCurrentFrame;
     LRPFrame *validatorCurrentFrame;
     LRPFrame *applicationCurrentFrame;
-} _LRPSessionProvider;
+} LRPSessionProvider;
 
 #ifdef    __cplusplus
 }

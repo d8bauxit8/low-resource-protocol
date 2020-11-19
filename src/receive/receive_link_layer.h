@@ -20,9 +20,9 @@ LRP_ReceiveLinkLayer_handler(_LRPReceiveSessionProvider *sessionProvider, const 
 
 void LRP_ReceiveLinkLayer_startReceiving(_LRPReceiveSessionProvider *sessionProvider);
 
-void LRP_ReceiveLinkLayer_endReceiving(_LRPSessionProvider *sessionProvider);
+void LRP_ReceiveLinkLayer_endReceiving(LRPSessionProvider *sessionProvider);
 
-void LRP_ReceiveLinkLayer_errorStatusHandler(_LRPSessionProvider *sessionProvider);
+void LRP_ReceiveLinkLayer_errorStatusHandler(LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

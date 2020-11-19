@@ -12,7 +12,7 @@ LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProv
         return;
     }
 
-    if (LRP_LinkLayer_isStatusOK((_LRPSessionProvider *) sessionProvider)) {
+    if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
         if (LRP_TransmitLinkLayer_isEndOfBufferLength(sessionProvider)) {
 
             if (LRP_4B5B_isBufferOfEncodedBitsReadyToReadAnEncodedByte(lineCode4B5B)) {
@@ -29,7 +29,7 @@ LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProv
                 return;
             }
 
-            LRP_TransmitLinkLayer_endTransmitting((_LRPSessionProvider *) sessionProvider);
+            LRP_TransmitLinkLayer_endTransmitting((LRPSessionProvider *) sessionProvider);
             *data = LINE_CODE_4B5B_END_DELIMITER_BYTE;
         }
     }
@@ -47,7 +47,7 @@ unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
         _LRPTransmitSessionProvider *const sessionProvider) {
     if (LRP_TransmitLinkLayer_isReadyToTransmit(sessionProvider)) {
         if (!LRP_LinkLayer_isStatusError(
-                (_LRPSessionProvider *) sessionProvider)) {
+                (LRPSessionProvider *) sessionProvider)) {
             return 1;
         }
     }

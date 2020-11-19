@@ -22,17 +22,17 @@ extern "C" {
 #define LINK_LAYER_NOISE_STROKE_ERROR 1
 #define LINK_LAYER_DECODE_ERROR 2
 
-void LRP_LinkLayer_setSkip(_LRPSessionProvider *sessionProvider);
+void LRP_LinkLayer_setSkip(LRPSessionProvider *sessionProvider);
 
-void LRP_LinkLayer_setError(_LRPSessionProvider *sessionProvider, unsigned char errorCode);
+void LRP_LinkLayer_setError(LRPSessionProvider *sessionProvider, unsigned char errorCode);
 
-void LRP_LinkLayer_setOk(_LRPSessionProvider *sessionProvider);
+void LRP_LinkLayer_setOk(LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isStatusOK(_LRPSessionProvider *sessionProvider);
+unsigned char LRP_LinkLayer_isStatusOK(LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isStatusError(_LRPSessionProvider *sessionProvider);
+unsigned char LRP_LinkLayer_isStatusError(LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isError(_LRPSessionProvider *sessionProvider, unsigned char errorCode);
+unsigned char LRP_LinkLayer_isError(LRPSessionProvider *sessionProvider, unsigned char errorCode);
 
 #ifdef    __cplusplus
 }

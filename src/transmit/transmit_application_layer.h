@@ -14,16 +14,16 @@ extern "C" {
 
 #include "transmit_structures.h"
 
-void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(_LRPSessionProvider *sessionProvider,
+void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPSessionProvider *sessionProvider,
                                                            unsigned char *data,
                                                            unsigned char dataLength);
 
-void LRP_TransmitApplicationLayer_transmitReservedFrame(_LRPSessionProvider *sessionProvider,
+void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPSessionProvider *sessionProvider,
                                                         unsigned char targetDeviceId,
                                                         unsigned char command);
 
 unsigned char
-LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(_LRPSessionProvider *sessionProvider);
+LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

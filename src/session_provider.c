@@ -1,6 +1,6 @@
 #include "session_provider.h"
 
-void LRP_SessionProvider_init(_LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
+void LRP_SessionProvider_init(LRPSessionProvider *const sessionProvider, const unsigned char *const deviceId,
                               LRPFrame *const frameBuffer,
                               const unsigned char frameBufferLength) {
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
