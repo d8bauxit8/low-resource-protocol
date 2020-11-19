@@ -17,15 +17,15 @@ extern "C" {
 #include "transmit_link_layer.h"
 
 void
-LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *sessionProvider,
+LRP_TransmitLineCodeLayer_handler(LRPTransmitSessionProvider *sessionProvider,
                                   LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
 
 void LRP_TransmitLineCodeLayer_startTransmitting(
-        _LRPTransmitSessionProvider *sessionProvider,
+        LRPTransmitSessionProvider *sessionProvider,
         LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
 
 unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
-        _LRPTransmitSessionProvider *sessionProvider);
+        LRPTransmitSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

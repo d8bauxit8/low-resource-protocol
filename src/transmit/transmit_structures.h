@@ -25,7 +25,7 @@ extern "C" {
 #define TRANSMIT_FRAME_READY_TO_TRANSMIT 3
 #define TRANSMIT_FRAME_TRANSMITTING 4
 
-typedef struct {
+typedef struct LRPTransmitSessionProvider {
     LRPFrame *frameBuffer;
     unsigned char linkLayerStatus;
     unsigned char *deviceId;
@@ -34,7 +34,7 @@ typedef struct {
     LRPFrame *validatorCurrentFrame;
     LRPFrame *applicationCurrentFrame;
     unsigned char indexOfWroteBytes;
-} _LRPTransmitSessionProvider;
+} LRPTransmitSessionProvider;
 
 #ifdef    __cplusplus
 }

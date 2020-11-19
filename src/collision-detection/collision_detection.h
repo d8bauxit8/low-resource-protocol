@@ -16,12 +16,12 @@ extern "C" {
 #endif
 
 typedef struct _LRPCollisionDetection {
-    _LRPTransmitSessionProvider *transmitSessionProvider;
+    LRPTransmitSessionProvider *transmitSessionProvider;
     _LRPReceiveSessionProvider *receiveSessionProvider;
 } _LRPCollisionDetection;
 
 void LRP_CollisionDetection_init(_LRPCollisionDetection *collisionDetection,
-                                 _LRPTransmitSessionProvider *transmitSessionProvider,
+                                 LRPTransmitSessionProvider *transmitSessionProvider,
                                  _LRPReceiveSessionProvider *receiveSessionProvider);
 
 unsigned char
