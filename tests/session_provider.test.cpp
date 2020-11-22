@@ -4,7 +4,7 @@
 class SessionProviderTest : public ::testing::Test {
 protected:
     LRPSessionProvider sessionProvider{};
-    const unsigned char deviceId = 20;
+    const unsigned char deviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 };
 

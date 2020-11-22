@@ -7,16 +7,19 @@ protected:
     LRPTransmitSessionProvider transmitSessionProvider{};
     const unsigned char deviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
+    unsigned char data0 = 'L';
+    unsigned char data1 = 'R';
+    unsigned char data2 = 'P';
+
 
     void SetUp() override {
         LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
 
         transmitSessionProvider.validatorCurrentFrame->length = 3;
 
-        unsigned char data[] = "LRP";
-        transmitSessionProvider.validatorCurrentFrame->data[0] = &data[0];
-        transmitSessionProvider.validatorCurrentFrame->data[1] = &data[1];
-        transmitSessionProvider.validatorCurrentFrame->data[2] = &data[2];
+        transmitSessionProvider.validatorCurrentFrame->data[0] = &data0;
+        transmitSessionProvider.validatorCurrentFrame->data[1] = &data1;
+        transmitSessionProvider.validatorCurrentFrame->data[2] = &data2;
 
         transmitSessionProvider.validatorCurrentFrame->command = 0b101;
         transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
@@ -68,11 +71,11 @@ TEST_F(TransmitValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready_To
     // Header 2
     ASSERT_EQ(frameBuffer[0].buffer[1], 0b10100011);
     // Data 1
-    ASSERT_EQ(frameBuffer[0].buffer[2], 'L');
+    ASSERT_EQ(frameBuffer[0].buffer[2], data0);
     // Data 2
-    ASSERT_EQ(frameBuffer[0].buffer[3], 'R');
+    ASSERT_EQ(frameBuffer[0].buffer[3], data1);
     // Data 3
-    ASSERT_EQ(frameBuffer[0].buffer[4], 'P');
+    ASSERT_EQ(frameBuffer[0].buffer[4], data2);
 
     ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(transmitSessionProvider.validatorCurrentFrame, &frameBuffer[1]);

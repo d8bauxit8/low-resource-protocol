@@ -5,19 +5,21 @@ class FrameTest : public ::testing::Test {
 protected:
     LRPFrame frame{};
 
-    const unsigned char targetDeviceId = 0b00001;
-    const unsigned char command = 0b001;
-    const unsigned char sourceDeviceId = 0b00010;
-    const unsigned char length = 0b010;
+    const unsigned char targetDeviceId = 0b11001;
+    const unsigned char command = 0b101;
+    const unsigned char sourceDeviceId = 0b10100;
+    const unsigned char length = 3;
     const unsigned char status = 0xFF;
-    unsigned char data0 = 0b00011000;
-    unsigned char data1 = 0b11100111;
+    unsigned char data0 = 'L';
+    unsigned char data1 = 'R';
+    unsigned char data2 = 'P';
 
 
     const unsigned char buffer0 = (unsigned char) (targetDeviceId << 3u) | command;
     const unsigned char buffer1 = (unsigned char) (sourceDeviceId << 3u) | length;
     const unsigned char buffer2 = data0;
     const unsigned char buffer3 = data1;
+    const unsigned char buffer4 = data2;
 
     void SetUp() override {
         frame.status = status;
@@ -31,6 +33,7 @@ protected:
         frame.status = status;
         frame.data[0] = &data0;
         frame.data[1] = &data1;
+        frame.data[2] = &data2;
     }
 
     void initBufferPart() {
@@ -38,6 +41,7 @@ protected:
         frame.buffer[1] = (unsigned char) (sourceDeviceId << 3u) | length;
         frame.buffer[2] = buffer2;
         frame.buffer[3] = buffer3;
+        frame.buffer[4] = buffer4;
     }
 };
 
