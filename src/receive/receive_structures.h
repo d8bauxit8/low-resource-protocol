@@ -23,16 +23,16 @@ extern "C" {
 #define RECEIVE_FRAME_READY_TO_CHECK 2
 #define RECEIVE_FRAME_READY_TO_READ 3
 
-typedef struct {
-    _LRPFrame *frameBuffer;
+typedef struct LRPReceiveSessionProvider {
+    LRPFrame *frameBuffer;
     unsigned char linkLayerStatus;
     unsigned char *deviceId;
 
-    _LRPFrame *linkCurrentFrame;
-    _LRPFrame *validatorCurrentFrame;
-    _LRPFrame *applicationCurrentFrame;
+    LRPFrame *linkCurrentFrame;
+    LRPFrame *validatorCurrentFrame;
+    LRPFrame *applicationCurrentFrame;
     unsigned char indexOfReadBytes;
-} _LRPReceiveSessionProvider;
+} LRPReceiveSessionProvider;
 
 #ifdef    __cplusplus
 }

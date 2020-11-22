@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(LowResourceProtocolLibrary C CXX)
+project(LowResourceProtocol C CXX)
 
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_CXX_STANDARD 14)
@@ -49,5 +49,8 @@ file(GLOB TESTS_FILES
         )
 
 # Now simply link against gtest or gtest_main as needed. Eg
-add_executable(LowResourceProtocolLibrary main.cpp ${SOURCE_FILES} ${TESTS_FILES})
-target_link_libraries(LowResourceProtocolLibrary gtest gtest_main)
+add_executable(LowResourceProtocol ${SOURCE_FILES} ${TESTS_FILES})
+target_link_libraries(LowResourceProtocol gtest gtest_main)
+
+enable_testing()
+add_test(NAME LowResourceProtocol_test COMMAND LowResourceProtocol)

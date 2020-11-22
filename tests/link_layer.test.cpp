@@ -3,7 +3,7 @@
 
 class LinkLayerTest : public ::testing::Test {
 protected:
-    _LRPSessionProvider sessionProvider{};
+    LRPSessionProvider sessionProvider{};
 };
 
 TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Skip) {

@@ -14,7 +14,7 @@ extern "C" {
 
 #include "transmit_structures.h"
 
-void LRP_TransmitValidatorLayer_handler(_LRPSessionProvider *sessionProvider);
+void LRP_TransmitValidatorLayer_handler(LRPSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

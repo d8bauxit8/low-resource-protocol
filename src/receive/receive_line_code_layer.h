@@ -17,8 +17,8 @@ extern "C" {
 #include "receive_link_layer.h"
 
 void
-LRP_ReceiveLineCodeLayer_handler(_LRPReceiveSessionProvider *sessionProvider,
-                                 _LRPLineCode4B5B *lineCode4B5B,
+LRP_ReceiveLineCodeLayer_handler(LRPReceiveSessionProvider *sessionProvider,
+                                 LRPLineCode4B5B *lineCode4B5B,
                                  const unsigned char *data);
 
 #ifdef    __cplusplus

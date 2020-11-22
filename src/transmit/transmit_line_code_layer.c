@@ -4,14 +4,15 @@
  * Public method declarations
  */
 void
-LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProvider,
-                                  _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
-    if (LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(sessionProvider, lineCode4B5B,
-                                                                                          data)) {
+LRP_TransmitLineCodeLayer_handler(LRPTransmitSessionProvider *const sessionProvider,
+                                  LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
+    if (LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(sessionProvider)) {
+        LRP_TransmitLineCodeLayer_startTransmitting(sessionProvider, lineCode4B5B,
+                                                    data);
         return;
     }
 
-    if (LRP_LinkLayer_isStatusOK((_LRPSessionProvider *) sessionProvider)) {
+    if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
         if (LRP_TransmitLinkLayer_isEndOfBufferLength(sessionProvider)) {
 
             if (LRP_4B5B_isBufferOfEncodedBitsReadyToReadAnEncodedByte(lineCode4B5B)) {
@@ -28,20 +29,27 @@ LRP_TransmitLineCodeLayer_handler(_LRPTransmitSessionProvider *const sessionProv
                 return;
             }
 
-            LRP_TransmitLinkLayer_endTransmitting((_LRPSessionProvider *) sessionProvider);
+            LRP_TransmitLinkLayer_endTransmitting((LRPSessionProvider *) sessionProvider);
             *data = LINE_CODE_4B5B_END_DELIMITER_BYTE;
         }
     }
 }
 
-unsigned char LRP_TransmitLineCodeLayer_ifThereIsNoTransmittingSendTheStartingDelimiterByte4B5B(
-        _LRPTransmitSessionProvider *const sessionProvider,
-        _LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
+void LRP_TransmitLineCodeLayer_startTransmitting(
+        LRPTransmitSessionProvider *const sessionProvider,
+        LRPLineCode4B5B *const lineCode4B5B, unsigned char *const data) {
+    LRP_TransmitLinkLayer_startTransmitting(sessionProvider);
+    LRP_4B5B_reset(lineCode4B5B);
+    *data = LINE_CODE_4B5B_START_DELIMITER_BYTE;
+}
+
+unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
+        LRPTransmitSessionProvider *const sessionProvider) {
     if (LRP_TransmitLinkLayer_isReadyToTransmit(sessionProvider)) {
-        LRP_TransmitLinkLayer_startTransmitting(sessionProvider);
-        LRP_4B5B_reset(lineCode4B5B);
-        *data = LINE_CODE_4B5B_START_DELIMITER_BYTE;
-        return 1;
+        if (!LRP_LinkLayer_isStatusError(
+                (LRPSessionProvider *) sessionProvider)) {
+            return 1;
+        }
     }
     return 0;
 }

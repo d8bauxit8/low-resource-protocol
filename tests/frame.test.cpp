@@ -3,7 +3,7 @@
 
 class FrameTest : public ::testing::Test {
 protected:
-    _LRPFrame frame{};
+    LRPFrame frame{};
 
     const unsigned char targetDeviceId = 0b00001;
     const unsigned char command = 0b001;
@@ -43,7 +43,7 @@ protected:
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item) {
     const unsigned char frameBufferLength = 1;
-    _LRPFrame frameBuffer[1]{};
+    LRPFrame frameBuffer[1]{};
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
     ASSERT_EQ(&frameBuffer[0], frameBuffer[0].next);
@@ -52,7 +52,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_Items) {
     const unsigned char frameBufferLength = 3;
-    _LRPFrame frameBuffer[3]{};
+    LRPFrame frameBuffer[3]{};
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
 
@@ -89,7 +89,7 @@ TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
 
     LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(&frame);
 
-    _FrameData *frameData = ((_FrameData *) &frame);
+    FrameData *frameData = ((FrameData *) &frame);
 
     ASSERT_EQ(frameData->targetDeviceId, targetDeviceId);
     ASSERT_EQ(frameData->command, command);
@@ -103,7 +103,7 @@ TEST_F(FrameTest, Should_Be_Added_Data_To_Frame_Data_From_Frame_Buffer) {
 
     LRP_Frame_addDataToFrameDataFromFrameBuffer(&frame);
 
-    _FrameData *frameData = ((_FrameData *) &frame);
+    FrameData *frameData = ((FrameData *) &frame);
 
     ASSERT_EQ(*frameData->data[0], buffer2);
     ASSERT_EQ(*frameData->data[1], buffer3);
