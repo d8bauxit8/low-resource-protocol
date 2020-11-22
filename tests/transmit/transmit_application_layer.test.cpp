@@ -5,7 +5,7 @@ class TransmitApplicationLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 20;
+    const unsigned char deviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     void SetUp() override {
@@ -49,7 +49,7 @@ TEST_F(TransmitApplicationLayerTest, Should_Be_Set_Data_Into_Reserved_Frame) {
 }
 
 TEST_F(TransmitApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
-    const unsigned char targetDeviceId = 25;
+    const unsigned char targetDeviceId = 0b11001;
     const unsigned char command = 0b101;
 
     LRP_TransmitApplicationLayer_transmitReservedFrame(&transmitSessionProvider,

@@ -5,7 +5,7 @@ class TransmitValidatorLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 20;
+    const unsigned char deviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     void SetUp() override {
@@ -20,7 +20,7 @@ protected:
 
         transmitSessionProvider.validatorCurrentFrame->command = 0b101;
         transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
-        transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 25;
+        transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 0b11001;
     }
 
     void TearDown() override {
