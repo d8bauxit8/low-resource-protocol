@@ -15,7 +15,7 @@ LRP_TransmitLineCodeLayer_handler(LRPTransmitSessionProvider *const sessionProvi
     if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
         if (LRP_TransmitLinkLayer_isEndOfBufferLength(sessionProvider)) {
 
-            if (LRP_4B5B_isBufferOfEncodedBitsReadyToReadAnEncodedByte(lineCode4B5B)) {
+            if (LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(lineCode4B5B)) {
                 const unsigned char bufferData = LRP_TransmitLinkLayer_handler(sessionProvider);
                 LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(lineCode4B5B,
                                                                      &bufferData);
