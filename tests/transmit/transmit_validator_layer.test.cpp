@@ -10,6 +10,17 @@ protected:
 
     void SetUp() override {
         LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+
+        transmitSessionProvider.validatorCurrentFrame->length = 3;
+
+        unsigned char data[] = "LRP";
+        transmitSessionProvider.validatorCurrentFrame->data[0] = &data[0];
+        transmitSessionProvider.validatorCurrentFrame->data[1] = &data[1];
+        transmitSessionProvider.validatorCurrentFrame->data[2] = &data[2];
+
+        transmitSessionProvider.validatorCurrentFrame->command = 0b101;
+        transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
+        transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 25;
     }
 
     void TearDown() override {
@@ -30,17 +41,6 @@ protected:
 };
 
 TEST_F(TransmitValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_Ready_To_Check) {
-    transmitSessionProvider.validatorCurrentFrame->length = 3;
-
-    unsigned char data[] = "LRP";
-    transmitSessionProvider.validatorCurrentFrame->data[0] = &data[0];
-    transmitSessionProvider.validatorCurrentFrame->data[1] = &data[1];
-    transmitSessionProvider.validatorCurrentFrame->data[2] = &data[2];
-
-    transmitSessionProvider.validatorCurrentFrame->command = 0b101;
-    transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
-    transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 25;
-
     LRP_TransmitValidatorLayer_handler(&transmitSessionProvider);
 
     // Header 1
@@ -59,16 +59,6 @@ TEST_F(TransmitValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_Read
 }
 
 TEST_F(TransmitValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready_To_Check) {
-    transmitSessionProvider.validatorCurrentFrame->length = 3;
-
-    unsigned char data[] = "LRP";
-    transmitSessionProvider.validatorCurrentFrame->data[0] = &data[0];
-    transmitSessionProvider.validatorCurrentFrame->data[1] = &data[1];
-    transmitSessionProvider.validatorCurrentFrame->data[2] = &data[2];
-
-    transmitSessionProvider.validatorCurrentFrame->command = 0b101;
-    transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
-    transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 25;
     transmitSessionProvider.validatorCurrentFrame->status = TRANSMIT_FRAME_READY_TO_CHECK;
 
     LRP_TransmitValidatorLayer_handler(&transmitSessionProvider);
