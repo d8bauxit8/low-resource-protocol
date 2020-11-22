@@ -100,7 +100,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Tried_To_Read_A_Decoded_Byte_From_Buffer_Of_E
     ASSERT_EQ(lineCode4B5B.index, 6);
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Is_Decoding_Failed) {
+TEST_F(LineCode4b5bTest, Should_Be_Tested_Status_Of_Decoding_Failed) {
     // FAILED_TO_DECODED macro in line_code_4b5b.c
     unsigned char failedDecodingState = 1;
     // SUCCEED_TO_DECODED macro in line_code_4b5b.c
@@ -111,7 +111,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Is_Decoding_Failed) {
     ASSERT_FALSE(LRP_4B5B_isDecodingFailed(&succeededDecodingState));
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Is_Buffer_Of_Encoded_Bits_Ready_To_Add_The_Next_Byte_To_Encode) {
+TEST_F(LineCode4b5bTest, Buffer_Of_Encoded_Bits_Should_Be_Ready_To_Add_The_Next_Byte_To_Encode) {
     lineCode4B5B.index = 0;
     ASSERT_TRUE(LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(&lineCode4B5B));
 
@@ -128,7 +128,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Is_Buffer_Of_Encoded_Bits_Ready_To_Add_The_Ne
     ASSERT_FALSE(LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(&lineCode4B5B));
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Encode_Data_Byte_And_Add_It_To_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, Should_Be_Encoded_Data_Byte_And_Add_It_To_Buffer_Of_Encoded_Bits) {
     unsigned char dataToBeEncoded = 0xFF;
     LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(&lineCode4B5B, &dataToBeEncoded);
 
@@ -161,7 +161,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Read_An_Encoded_Byte_From_Buffer_Of_Encoded_B
     ASSERT_EQ(*lineCode4B5B.buffer[1], 0);
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Is_There_Remaining_Bits_In_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, Should_Be_Checked_Remaining_Bits_In_Buffer_Of_Encoded_Bits) {
     ASSERT_FALSE(LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
 
     lineCode4B5B.index = 1;

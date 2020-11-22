@@ -29,7 +29,7 @@ LRP_TransmitLineCodeLayer_handler(LRPTransmitSessionProvider *const sessionProvi
                 return;
             }
 
-            LRP_TransmitLinkLayer_endTransmitting((LRPSessionProvider *) sessionProvider);
+            LRP_TransmitLinkLayer_endTransmitting(sessionProvider);
             *data = LINE_CODE_4B5B_END_DELIMITER_BYTE;
         }
     }

@@ -17,7 +17,7 @@ void LRP_ReceiveLineCodeLayer_handler(LRPReceiveSessionProvider *const sessionPr
 
     if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
         if (*data == LINE_CODE_4B5B_END_DELIMITER_BYTE) {
-            LRP_ReceiveLinkLayer_endReceiving((LRPSessionProvider *) sessionProvider);
+            LRP_ReceiveLinkLayer_endReceiving(sessionProvider);
             return;
         }
 
