@@ -10,11 +10,13 @@ protected:
 
     void SetUp() override {
         LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+
         frameBuffer[0].buffer[0] = 0b11001101;
         frameBuffer[0].buffer[1] = 0b10100011;
         frameBuffer[0].buffer[2] = 'L';
         frameBuffer[0].buffer[3] = 'R';
         frameBuffer[0].buffer[4] = 'P';
+
         transmitSessionProvider.linkCurrentFrame->length = 3;
         transmitSessionProvider.linkCurrentFrame->status = TRANSMIT_FRAME_READY_TO_TRANSMIT;
     }
