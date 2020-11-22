@@ -3,7 +3,7 @@
 /**
  * Public method declarations
  */
-void LRP_ReceiveValidatorLayer_handler(LRPSessionProvider *const sessionProvider) {
+void LRP_ReceiveValidatorLayer_handler(LRPReceiveSessionProvider *const sessionProvider) {
     if (sessionProvider->validatorCurrentFrame->status != RECEIVE_FRAME_READY_TO_CHECK) {
         return;
     }
@@ -13,7 +13,7 @@ void LRP_ReceiveValidatorLayer_handler(LRPSessionProvider *const sessionProvider
     LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(sessionProvider->validatorCurrentFrame);
     LRP_Frame_addDataToFrameDataFromFrameBuffer(sessionProvider->validatorCurrentFrame);
 
-    LRP_LinkLayer_setSkip(sessionProvider);
+    LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
     LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, RECEIVE_FRAME_READY_TO_READ);
     sessionProvider->validatorCurrentFrame = sessionProvider->validatorCurrentFrame->next;
 }

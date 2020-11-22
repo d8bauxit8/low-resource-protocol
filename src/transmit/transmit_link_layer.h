@@ -18,15 +18,15 @@ extern "C" {
 unsigned char
 LRP_TransmitLinkLayer_handler(LRPTransmitSessionProvider *sessionProvider);
 
-unsigned char LRP_TransmitLinkLayer_isEndOfBufferLength(LRPTransmitSessionProvider *sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(LRPTransmitSessionProvider *sessionProvider);
 
 unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(LRPTransmitSessionProvider *sessionProvider);
 
 void LRP_TransmitLinkLayer_startTransmitting(LRPTransmitSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_endTransmitting(LRPSessionProvider *sessionProvider);
+void LRP_TransmitLinkLayer_endTransmitting(LRPTransmitSessionProvider *sessionProvider);
 
-void LRP_TransmitLinkLayer_errorStatusHandler(LRPSessionProvider *sessionProvider);
+void LRP_TransmitLinkLayer_errorStatusHandler(LRPTransmitSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }

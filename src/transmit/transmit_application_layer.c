@@ -3,7 +3,7 @@
 /**
  * Public method declarations
  */
-void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPSessionProvider *const sessionProvider,
+void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPTransmitSessionProvider *const sessionProvider,
                                                            unsigned char *const data,
                                                            const unsigned char dataLength) {
     unsigned char i = 0;
@@ -13,7 +13,7 @@ void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPSessionProvider *c
     }
 }
 
-void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPSessionProvider *const sessionProvider,
+void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPTransmitSessionProvider *const sessionProvider,
                                                         const unsigned char targetDeviceId,
                                                         const unsigned char command) {
     sessionProvider->applicationCurrentFrame->targetDeviceId = targetDeviceId;
@@ -26,7 +26,7 @@ void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPSessionProvider *cons
 }
 
 unsigned char
-LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(LRPSessionProvider *const sessionProvider) {
+LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(LRPTransmitSessionProvider *const sessionProvider) {
     if (sessionProvider->applicationCurrentFrame->status == FRAME_READY_TO_REDEFINE) {
         LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, TRANSMIT_FRAME_RESERVED);
         return 1;

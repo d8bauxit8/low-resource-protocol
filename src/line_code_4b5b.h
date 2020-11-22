@@ -34,7 +34,7 @@ unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4
 
 unsigned char LRP_4B5B_isDecodingFailed(const unsigned char *decodingState);
 
-unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadAnEncodedByte(LRPLineCode4B5B *lineCode4B5B);
+unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(LRPLineCode4B5B *lineCode4B5B);
 
 void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B,
                                                           const unsigned char *data);
