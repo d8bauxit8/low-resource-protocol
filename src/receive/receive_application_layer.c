@@ -3,9 +3,9 @@
 /**
  * Public method declarations
  */
-void LRP_ReceiveApplicationLayer_controller(LRPReceiveSessionProvider *const sessionProvider,
-                                            LRPReceiveFrameController *const receiveFrameControllerList,
-                                            const unsigned char receiveFrameControllerListLength) {
+void LRP_ReceiveApplicationLayer_handler(LRPReceiveSessionProvider *const sessionProvider,
+                                         LRPReceiveFrameController *const receiveFrameControllerList,
+                                         const unsigned char receiveFrameControllerListLength) {
     if (sessionProvider->applicationCurrentFrame->status != RECEIVE_FRAME_READY_TO_READ) {
         return;
     }
