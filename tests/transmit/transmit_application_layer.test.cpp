@@ -24,8 +24,8 @@ protected:
         ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
         ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
 
-        ASSERT_EQ(transmitSessionProvider.linkCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(transmitSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
+        ASSERT_EQ(transmitSessionProvider.linkCurrentFrame, &frameBuffer[0]);
     }
 };
 
