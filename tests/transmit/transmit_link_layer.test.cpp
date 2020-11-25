@@ -5,7 +5,7 @@ class TransmitLinkLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 20;
+    const unsigned char deviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     void SetUp() override {
