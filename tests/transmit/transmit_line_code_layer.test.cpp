@@ -5,14 +5,14 @@ class TransmitLineCodeLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     LRPLineCode4B5B lineCode4B5B{};
     unsigned char buffer[2]{};
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, frameBuffer, 3);
 
         frameBuffer[0].buffer[0] = 0b11001101;
         frameBuffer[0].buffer[1] = 0b10100011;
@@ -32,8 +32,8 @@ protected:
     }
 
     void TearDown() override {
-        ASSERT_EQ(transmitSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*transmitSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(transmitSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*transmitSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(transmitSessionProvider.frameBuffer, frameBuffer);
 

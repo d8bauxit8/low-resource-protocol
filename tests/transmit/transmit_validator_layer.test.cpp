@@ -5,7 +5,7 @@ class TransmitValidatorLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
     unsigned char data1 = 'R';
@@ -13,7 +13,7 @@ protected:
 
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, frameBuffer, 3);
 
         transmitSessionProvider.validatorCurrentFrame->length = 3;
 
@@ -22,13 +22,13 @@ protected:
         transmitSessionProvider.validatorCurrentFrame->data[2] = &data2;
 
         transmitSessionProvider.validatorCurrentFrame->command = 0b101;
-        transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = deviceId;
+        transmitSessionProvider.validatorCurrentFrame->sourceDeviceId = sourceDeviceId;
         transmitSessionProvider.validatorCurrentFrame->targetDeviceId = 0b11001;
     }
 
     void TearDown() override {
-        ASSERT_EQ(transmitSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*transmitSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(transmitSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*transmitSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
         ASSERT_EQ(transmitSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);

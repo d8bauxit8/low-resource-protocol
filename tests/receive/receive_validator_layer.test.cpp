@@ -5,14 +5,14 @@ class ReceiveValidatorLayerTest : public ::testing::Test {
 protected:
 
     LRPReceiveSessionProvider receiveSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
     unsigned char data1 = 'R';
     unsigned char data2 = 'P';
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, frameBuffer, 3);
 
         frameBuffer[0].buffer[0] = 0b11001101;
         frameBuffer[0].buffer[1] = 0b10100011;
@@ -22,8 +22,8 @@ protected:
     }
 
     void TearDown() override {
-        ASSERT_EQ(receiveSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*receiveSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(receiveSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*receiveSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
         ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
@@ -46,7 +46,7 @@ TEST_F(ReceiveValidatorLayerTest,
 
     ASSERT_EQ(frameBuffer[0].targetDeviceId, 0b11001);
     ASSERT_EQ(frameBuffer[0].command, 0b101);
-    ASSERT_EQ(frameBuffer[0].sourceDeviceId, deviceId);
+    ASSERT_EQ(frameBuffer[0].sourceDeviceId, sourceDeviceId);
     ASSERT_EQ(frameBuffer[0].length, 3);
     ASSERT_EQ(*frameBuffer[0].data[0], data0);
     ASSERT_EQ(*frameBuffer[0].data[1], data1);

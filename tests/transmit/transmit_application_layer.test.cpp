@@ -5,16 +5,16 @@ class TransmitApplicationLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, frameBuffer, 3);
     }
 
     void TearDown() override {
-        ASSERT_EQ(transmitSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*transmitSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(transmitSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*transmitSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
         ASSERT_EQ(transmitSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
@@ -56,7 +56,7 @@ TEST_F(TransmitApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
                                                        targetDeviceId, command);
 
     ASSERT_EQ(frameBuffer[0].targetDeviceId, targetDeviceId);
-    ASSERT_EQ(frameBuffer[0].sourceDeviceId, deviceId);
+    ASSERT_EQ(frameBuffer[0].sourceDeviceId, sourceDeviceId);
     ASSERT_EQ(frameBuffer[0].command, command);
 
     ASSERT_EQ(frameBuffer[0].status, TRANSMIT_FRAME_READY_TO_CHECK);

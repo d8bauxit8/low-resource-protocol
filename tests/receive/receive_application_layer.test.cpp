@@ -9,7 +9,7 @@ class ReceiveApplicationLayerTest : public ::testing::Test {
 protected:
 
     LRPReceiveSessionProvider receiveSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
 
@@ -17,14 +17,14 @@ protected:
     const unsigned char receiveFrameControllerListLength = 1;
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, frameBuffer, 3);
 
         receiveSessionProvider.applicationCurrentFrame->data[0] = &data0;
     }
 
     void TearDown() override {
-        ASSERT_EQ(receiveSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*receiveSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(receiveSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*receiveSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
         ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
