@@ -5,14 +5,14 @@ class TransmitLineCodeLayerTest : public ::testing::Test {
 protected:
 
     LRPTransmitSessionProvider transmitSessionProvider{};
-    const unsigned char deviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
 
     LRPLineCode4B5B lineCode4B5B{};
     unsigned char buffer[2]{};
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &deviceId, frameBuffer, 3);
+        LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, frameBuffer, 3);
 
         frameBuffer[0].buffer[0] = 0b11001101;
         frameBuffer[0].buffer[1] = 0b10100011;
@@ -32,16 +32,16 @@ protected:
     }
 
     void TearDown() override {
-        ASSERT_EQ(transmitSessionProvider.deviceId, &deviceId);
-        ASSERT_EQ(*transmitSessionProvider.deviceId, deviceId);
+        ASSERT_EQ(transmitSessionProvider.deviceId, &sourceDeviceId);
+        ASSERT_EQ(*transmitSessionProvider.deviceId, sourceDeviceId);
 
         ASSERT_EQ(transmitSessionProvider.frameBuffer, frameBuffer);
 
         ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
         ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
 
-        ASSERT_EQ(transmitSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(transmitSessionProvider.applicationCurrentFrame, &frameBuffer[0]);
+        ASSERT_EQ(transmitSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
     }
 };
 
@@ -90,7 +90,7 @@ TEST_F(TransmitLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
     ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
 
     LRP_TransmitLineCodeLayer_handler(&transmitSessionProvider, &lineCode4B5B, &data);
-    ASSERT_EQ(data, LINE_CODE_4B5B_END_DELIMITER_BYTE);
+    ASSERT_EQ(data, LINE_CODE_4B5B_STOP_DELIMITER_BYTE);
     ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
     ASSERT_EQ(transmitSessionProvider.linkCurrentFrame, &frameBuffer[1]);

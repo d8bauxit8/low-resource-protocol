@@ -1,23 +1,19 @@
 #include "receive_line_code_layer.h"
 
-unsigned char LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(
-        LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
-
 /**
  * Public method declarations
  */
 void LRP_ReceiveLineCodeLayer_handler(LRPReceiveSessionProvider *const sessionProvider,
                                       LRPLineCode4B5B *const lineCode4B5B,
                                       const unsigned char *const data) {
-    if (LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(sessionProvider, data)) {
-        LRP_ReceiveLinkLayer_startReceiving(sessionProvider);
+    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE && LRP_ReceiveLinkLayer_isStartReceiving(sessionProvider)) {
         LRP_4B5B_reset(lineCode4B5B);
         return;
     }
 
     if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
-        if (*data == LINE_CODE_4B5B_END_DELIMITER_BYTE) {
-            LRP_ReceiveLinkLayer_endReceiving(sessionProvider);
+        if (*data == LINE_CODE_4B5B_STOP_DELIMITER_BYTE) {
+            LRP_ReceiveLinkLayer_stopReceiving(sessionProvider);
             return;
         }
 
@@ -40,15 +36,4 @@ void LRP_ReceiveLineCodeLayer_handler(LRPReceiveSessionProvider *const sessionPr
             LRP_ReceiveLinkLayer_handler(sessionProvider, &decodedData);
         }
     }
-}
-
-unsigned char LRP_ReceiveLineCodeLayer_isReadyToStartReceiving(
-        LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data) {
-    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE) {
-        if (!LRP_LinkLayer_isStatusError(
-                (LRPSessionProvider *) sessionProvider)) {
-            return 1;
-        }
-    }
-    return 0;
 }

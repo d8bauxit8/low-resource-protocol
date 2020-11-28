@@ -177,7 +177,7 @@ const unsigned char receiveFrameControllerListLength = 2;
 
 void receiveTimerInterrupt(void) {
     LRP_ReceiveValidatorLayer_handler((LRPSessionProvider *) &receiveSessionProvider);
-    LRP_ReceiveApplicationLayer_controller((LRPSessionProvider *) &receiveSessionProvider, controllers,
+    LRP_ReceiveApplicationLayer_handler((LRPSessionProvider *) &receiveSessionProvider, controllers,
                                            receiveFrameControllerListLength);
 
 }
