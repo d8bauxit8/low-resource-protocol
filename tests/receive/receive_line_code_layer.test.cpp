@@ -173,7 +173,7 @@ TEST_F(ReceiveLineCodeLayerTest,
     receiveSessionProvider.linkCurrentFrame->status = RECEIVE_FRAME_IN_RECEIVING;
 
     // Header, Data - LRP
-    const unsigned char data[] = {0xEE, 0xEA, 0xBD, 0x17, 0x75, 0xDE, 0x1};
+    const unsigned char data[] = {0xCB, 0x5E, 0xAD, 0x15, 0x5D, 0x7E, 0x1};
 
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[0]);
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[1]);
@@ -204,7 +204,7 @@ TEST_F(ReceiveLineCodeLayerTest,
 
     // Header, Wrong byte (01101 is an invalid 4B5B code)
     // 0. bit is the previous byte last bit, 1-5 bits are an invalid code, 6-7 bits dummy
-    const unsigned char data[] = {0xEE, 0xEA, 0xBD, 0b01011010};
+    const unsigned char data[] = {0xCB, 0x5E, 0xAD, 0b01011010};
 
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[0]);
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[1]);
@@ -256,7 +256,7 @@ TEST_F(ReceiveLineCodeLayerTest,
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &startDelimiter);
 
     // Header, Data - LRP
-    const unsigned char data[] = {0xEE, 0xEA, 0xBD, 0x17, 0x75, 0xDE, 0x1};
+    const unsigned char data[] = {0xCB, 0x5E, 0xAD, 0x15, 0x5D, 0x7E, 0x1};
 
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[0]);
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[1]);
