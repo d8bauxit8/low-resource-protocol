@@ -18,9 +18,9 @@ extern "C" {
 void
 LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *sessionProvider, const unsigned char *data);
 
-void LRP_ReceiveLinkLayer_startReceiving(LRPReceiveSessionProvider *sessionProvider);
+unsigned char LRP_ReceiveLinkLayer_isStartReceiving(LRPReceiveSessionProvider *sessionProvider);
 
-void LRP_ReceiveLinkLayer_endReceiving(LRPReceiveSessionProvider *sessionProvider);
+void LRP_ReceiveLinkLayer_stopReceiving(LRPReceiveSessionProvider *sessionProvider);
 
 void LRP_ReceiveLinkLayer_errorStatusHandler(LRPReceiveSessionProvider *sessionProvider);
 
