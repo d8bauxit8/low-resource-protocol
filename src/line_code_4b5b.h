@@ -15,7 +15,7 @@ extern "C" {
 // Recommend control codes
 // https://en.wikipedia.org/wiki/4B5B
 #define LINE_CODE_4B5B_START_DELIMITER_BYTE 0b11000000
-#define LINE_CODE_4B5B_END_DELIMITER_BYTE 0b01101000
+#define LINE_CODE_4B5B_STOP_DELIMITER_BYTE 0b01101000
 
 typedef struct LRPLineCode4B5B {
     unsigned char index;
