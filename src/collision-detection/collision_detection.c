@@ -3,7 +3,7 @@
 // Recommend control codes
 // https://en.wikipedia.org/wiki/4B5B
 // It's a Halt code
-#define COLLISION_DETECTION_NOISE_STROKE 0b00100000
+#define COLLISION_DETECTION_NOISE_STROKE 0b00100000u
 #define COLLISION_DETECTION_DELAY_MASK 0b00000001u
 
 void LRP_CollisionDetection_setNoiseStrokeError(LRPCollisionDetection *collisionDetection);

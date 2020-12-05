@@ -18,7 +18,7 @@ typedef unsigned char (*LRPReceiveFrameController)(FrameData *const frameData);
 
 void LRP_ReceiveApplicationLayer_handler(LRPReceiveSessionProvider *sessionProvider,
                                          LRPReceiveFrameController *receiveFrameControllerList,
-                                         unsigned char receiveFrameControllerListLength);
+                                         unsigned char numberOfReceiveFrameControllers);
 
 #ifdef    __cplusplus
 }

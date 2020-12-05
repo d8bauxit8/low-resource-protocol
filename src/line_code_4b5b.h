@@ -19,7 +19,7 @@ extern "C" {
 
 typedef struct LRPLineCode4B5B {
     unsigned char index;
-    unsigned char *buffer[2];
+    unsigned char buffer[2];
 } LRPLineCode4B5B;
 
 void LRP_4B5B_reset(LRPLineCode4B5B *lineCode4B5B);

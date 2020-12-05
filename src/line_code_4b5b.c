@@ -58,8 +58,8 @@ void LRP_4B5B_rotateBufferOfEncodedBitsPointer(LRPLineCode4B5B *lineCode4B5B);
  */
 void LRP_4B5B_reset(LRPLineCode4B5B *const lineCode4B5B) {
     lineCode4B5B->index = 0;
-    *lineCode4B5B->buffer[0] =
-    *lineCode4B5B->buffer[1] = 0;
+    lineCode4B5B->buffer[0] =
+    lineCode4B5B->buffer[1] = 0;
 }
 
 unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(LRPLineCode4B5B *const lineCode4B5B) {
@@ -69,7 +69,7 @@ unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(LRPLineCode4
 void
 LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B, const unsigned char *const data) {
     unsigned char mask = 0xFFu << lineCode4B5B->index;
-    *lineCode4B5B->buffer[FIRST_BUFFER_ITEM] =
+    lineCode4B5B->buffer[FIRST_BUFFER_ITEM] =
             // Kifejezés 2. fele:
             // Az adott bitek-et normalizálnom kell, hogy ha egy előző állípotból,
             // az indextől kezdődően felfelé maradt 0-ás bit, azt írjuk felül 1-re.
@@ -77,9 +77,9 @@ LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B
             // A vett adatokkal töltsük fel az aradék biteket
             (unsigned char) ((unsigned char) (*data << lineCode4B5B->index) |
                              (unsigned char) ~mask) &
-            (unsigned char) (mask | *lineCode4B5B->buffer[FIRST_BUFFER_ITEM]);
+            (unsigned char) (mask | lineCode4B5B->buffer[FIRST_BUFFER_ITEM]);
     // Az előző helyre fltöltött bitek számával toljuk el, s a maradékot írjuk bele a másooik bufferbe
-    *lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
+    lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
             (*data >> (unsigned char) (NUMBER_OF_BITS_IN_A_DECODED_BYTE - lineCode4B5B->index));
     // Növeljük a mentett bitek számával az indexet.
     lineCode4B5B->index = lineCode4B5B->index + NUMBER_OF_BITS_IN_A_DECODED_BYTE;
@@ -89,12 +89,12 @@ unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4
                                                                     unsigned char *decodingState) {
     const unsigned short encodedBits =
             // Magas bitek beállítása
-            (unsigned short) (*lineCode4B5B->buffer[SECOND_BUFFER_ITEM] << NUMBER_OF_BITS_IN_A_DECODED_BYTE) |
+            (unsigned short) (lineCode4B5B->buffer[SECOND_BUFFER_ITEM] << NUMBER_OF_BITS_IN_A_DECODED_BYTE) |
             // Alacsony bitek beállítása
-            *lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
+            lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
     // Maradék bitek shiftelése
-    *lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
-            *lineCode4B5B->buffer[SECOND_BUFFER_ITEM] >> NUMBER_OF_NON_READ_BITS_FROM_AN_ENCODED_BYTE;
+    lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
+            lineCode4B5B->buffer[SECOND_BUFFER_ITEM] >> NUMBER_OF_NON_READ_BITS_FROM_AN_ENCODED_BYTE;
     LRP_4B5B_rotateBufferOfEncodedBitsPointer(lineCode4B5B);
     // Csökkentsük az olvasott bitek számával az indexet
     lineCode4B5B->index = lineCode4B5B->index - NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
@@ -113,16 +113,16 @@ unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(LRPLin
 void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B,
                                                           const unsigned char *const data) {
     const unsigned short encodedData = LRP_4B5B_encode(data);
-    *lineCode4B5B->buffer[FIRST_BUFFER_ITEM] =
-            (unsigned char) (encodedData << lineCode4B5B->index) | *lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
-    *lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
+    lineCode4B5B->buffer[FIRST_BUFFER_ITEM] =
+            (unsigned char) (encodedData << lineCode4B5B->index) | lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
+    lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
             (unsigned char) (encodedData >> (NUMBER_OF_BITS_IN_A_DECODED_BYTE - lineCode4B5B->index)) |
-            *lineCode4B5B->buffer[SECOND_BUFFER_ITEM];
+            lineCode4B5B->buffer[SECOND_BUFFER_ITEM];
     lineCode4B5B->index = lineCode4B5B->index + NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
 }
 
 unsigned char LRP_4B5B_readAnEncodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
-    const unsigned char encodedByte = *lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
+    const unsigned char encodedByte = lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
 
     LRP_4B5B_rotateBufferOfEncodedBitsPointer(lineCode4B5B);
     lineCode4B5B->index = lineCode4B5B->index - NUMBER_OF_BITS_IN_A_DECODED_BYTE;
@@ -135,7 +135,7 @@ unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(LRPLineCode4B5B
 
 unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
     lineCode4B5B->index = 0;
-    return *lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
+    return lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
 }
 
 /**
@@ -176,8 +176,6 @@ unsigned short LRP_4B5B_encode(const unsigned char *const data) {
 }
 
 void LRP_4B5B_rotateBufferOfEncodedBitsPointer(LRPLineCode4B5B *const lineCode4B5B) {
-    unsigned char *tmp = lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
-    *tmp = 0;
     lineCode4B5B->buffer[FIRST_BUFFER_ITEM] = lineCode4B5B->buffer[SECOND_BUFFER_ITEM];
-    lineCode4B5B->buffer[SECOND_BUFFER_ITEM] = tmp;
+    lineCode4B5B->buffer[SECOND_BUFFER_ITEM] = 0u;
 }

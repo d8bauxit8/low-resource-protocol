@@ -25,10 +25,8 @@ protected:
         transmitSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
 
         lineCode4B5B.index = 0;
-        buffer[0] = 0;
-        buffer[0] = 0;
-        lineCode4B5B.buffer[0] = &buffer[0];
-        lineCode4B5B.buffer[1] = &buffer[1];
+        lineCode4B5B.buffer[0] = 0;
+        lineCode4B5B.buffer[1] = 0;
     }
 
     void TearDown() override {
@@ -98,16 +96,16 @@ TEST_F(TransmitLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
 
 TEST_F(TransmitLineCodeLayerTest, Should_Be_Started_Transmitting) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     unsigned char data;
     LRP_TransmitLineCodeLayer_startTransmitting(&transmitSessionProvider, &lineCode4B5B, &data);
 
     ASSERT_EQ(transmitSessionProvider.linkCurrentFrame->status, TRANSMIT_FRAME_TRANSMITTING);
     ASSERT_EQ(lineCode4B5B.index, 0);
-    ASSERT_EQ(*lineCode4B5B.buffer[0], 0);
-    ASSERT_EQ(*lineCode4B5B.buffer[1], 0);
+    ASSERT_EQ(lineCode4B5B.buffer[0], 0);
+    ASSERT_EQ(lineCode4B5B.buffer[1], 0);
     ASSERT_EQ(data, LINE_CODE_4B5B_START_DELIMITER_BYTE);
 }
 

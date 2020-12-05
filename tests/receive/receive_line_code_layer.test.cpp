@@ -26,10 +26,8 @@ protected:
         receiveSessionProvider.indexOfReadBytes = 0;
 
         lineCode4B5B.index = 0;
-        buffer[0] = 0;
-        buffer[0] = 0;
-        lineCode4B5B.buffer[0] = &buffer[0];
-        lineCode4B5B.buffer[1] = &buffer[1];
+        lineCode4B5B.buffer[0] = 0;
+        lineCode4B5B.buffer[1] = 0;
     }
 
     void TearDown() override {
@@ -49,8 +47,8 @@ protected:
 TEST_F(ReceiveLineCodeLayerTest,
        Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Ready_To_Start_Receiving) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
     receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_NO_ERROR;
@@ -68,8 +66,8 @@ TEST_F(ReceiveLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
 
     ASSERT_EQ(lineCode4B5B.index, 0);
-    ASSERT_EQ(*lineCode4B5B.buffer[0], 0);
-    ASSERT_EQ(*lineCode4B5B.buffer[1], 0);
+    ASSERT_EQ(lineCode4B5B.buffer[0], 0);
+    ASSERT_EQ(lineCode4B5B.buffer[1], 0);
 
     ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
@@ -79,8 +77,8 @@ TEST_F(ReceiveLineCodeLayerTest,
 TEST_F(ReceiveLineCodeLayerTest,
        Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Not_Ready_To_Start_Receiving_Because_Of_Error) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_ERROR;
     receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_DECODE_ERROR;
@@ -98,8 +96,8 @@ TEST_F(ReceiveLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
-    ASSERT_EQ(*lineCode4B5B.buffer[0], 0xFF);
-    ASSERT_EQ(*lineCode4B5B.buffer[1], 0xFE);
+    ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
+    ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
     ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_ERROR);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_DECODE_ERROR);
@@ -109,8 +107,8 @@ TEST_F(ReceiveLineCodeLayerTest,
 TEST_F(ReceiveLineCodeLayerTest,
        Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Not_Ready_To_Start_Receiving_Because_The_State_Of_Frame_Is_Not_Ready_To_Redefine) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
     receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_NO_ERROR;
@@ -128,8 +126,8 @@ TEST_F(ReceiveLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
-    ASSERT_EQ(*lineCode4B5B.buffer[0], 0xFF);
-    ASSERT_EQ(*lineCode4B5B.buffer[1], 0xFE);
+    ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
+    ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
     ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
@@ -139,8 +137,8 @@ TEST_F(ReceiveLineCodeLayerTest,
 TEST_F(ReceiveLineCodeLayerTest,
        Should_Be_Handled_When_The_Data_Is_Not_A_Start_Delimiter_But_The_Link_Layer_Is_Ready_To_Start_Receiving) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
     receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_NO_ERROR;
@@ -158,8 +156,8 @@ TEST_F(ReceiveLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
-    ASSERT_EQ(*lineCode4B5B.buffer[0], 0xFF);
-    ASSERT_EQ(*lineCode4B5B.buffer[1], 0xFE);
+    ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
+    ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
     ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
@@ -245,8 +243,8 @@ TEST_F(ReceiveLineCodeLayerTest,
 TEST_F(ReceiveLineCodeLayerTest,
        Should_Be_Handled_A_Whole_Right_Flow) {
     lineCode4B5B.index = 4;
-    *lineCode4B5B.buffer[0] = 0xFF;
-    *lineCode4B5B.buffer[1] = 0xFE;
+    lineCode4B5B.buffer[0] = 0xFF;
+    lineCode4B5B.buffer[1] = 0xFE;
 
     receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
     receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_NO_ERROR;

@@ -1,17 +1,13 @@
 # Low Resource Protocol
 This protocol is mainly created for the 8 and 16 bits MCU (for example PIC12/16/18 series) 
 in which there is (E)USART module with which the device can connect to another via RS-485 standard.
-(Usually you will need a peripheral IC for communication, for example MAX485.) 
-With this protocol you are able to transmit and receive data between embedded devices safe and sound.
-The protocol needs one master device which control the communication between the connected devices. 
+(Usually you will need a Full-Duplex peripheral IC for communication, for example MAX485.) 
+With this protocol you are able to transmit and receive data between embedded devices safe and sound. 
 
-Primarily I recommend this protocol to communicate between the smart home devices. 
-(for instance between smart switch and smart brightness controller)
+Primarily I recommend this protocol to communicate between the low resource devices. 
+(for instance between switch and brightness controller)
 
 ![LowResourceProtocol CI](https://github.com/d8bauxit8/LowResourceProtocolLibrary/workflows/LowResourceProtocol%20CI/badge.svg?branch=master)
-
-I'm working on the test cases :pushpin:
-Be patient :wink:
 
 ## Overview
 * [About the protocol](#about-the-protocol)
@@ -67,7 +63,8 @@ The length of data can only be between 0 and 7. I think this is plenty enough fo
 You can transmit your information through it between the devices. 
 
 ## About the implementation
-The protocol provides for your devices a receiving and a transmitting module. 
+The protocol provides for your devices a receiving and a transmitting module.
+Besides that it includes an optional collision detection module which you can use if you need it. 
 The data reading needs the first, and the data sending needs the second.
 Both modules have 4 layers which are the next ones:
 * [Application layer](#application-layer)
