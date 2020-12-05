@@ -234,7 +234,7 @@ TEST_F(ReceiveLineCodeLayerTest,
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_READY_TO_CHECK);
 
-    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
+    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiveSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
@@ -275,7 +275,7 @@ TEST_F(ReceiveLineCodeLayerTest,
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_READY_TO_CHECK);
 
-    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
+    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiveSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }

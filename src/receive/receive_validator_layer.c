@@ -13,7 +13,6 @@ void LRP_ReceiveValidatorLayer_handler(LRPReceiveSessionProvider *const sessionP
     LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(sessionProvider->validatorCurrentFrame);
     LRP_Frame_addDataToFrameDataFromFrameBuffer(sessionProvider->validatorCurrentFrame);
 
-    LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
     LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, RECEIVE_FRAME_READY_TO_READ);
     sessionProvider->validatorCurrentFrame = sessionProvider->validatorCurrentFrame->next;
 }

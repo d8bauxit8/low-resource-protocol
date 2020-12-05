@@ -34,6 +34,7 @@ unsigned char LRP_ReceiveLinkLayer_isStartReceiving(LRPReceiveSessionProvider *c
 
 void LRP_ReceiveLinkLayer_stopReceiving(LRPReceiveSessionProvider *const sessionProvider) {
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_READY_TO_CHECK);
+    LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
 }
 

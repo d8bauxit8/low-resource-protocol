@@ -242,7 +242,7 @@ TEST_F(ReceiveLinkLayerTest,
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_READY_TO_CHECK);
     ASSERT_EQ(receiveSessionProvider.indexOfReadBytes, 5);
-    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
+    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiveSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
