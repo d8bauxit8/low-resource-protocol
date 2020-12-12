@@ -17,18 +17,18 @@ extern "C" {
 #define FRAME_NUMBER_OF_FRAME_BYTES (FRAME_NUMBER_OF_HEADER_BYTES + FRAME_NUMBER_OF_MAX_DATA_BYTES)
 
 typedef struct FrameData {
-    unsigned char sourceDeviceId;
-    unsigned char targetDeviceId;
-    unsigned char command;
-    unsigned char length;
+    unsigned char sourceDeviceId: 5;
+    unsigned char targetDeviceId: 5;
+    unsigned char command: 3;
+    unsigned char length: 3;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
 } FrameData;
 
 typedef struct LRPFrame {
-    unsigned char sourceDeviceId;
-    unsigned char targetDeviceId;
-    unsigned char command;
-    unsigned char length;
+    unsigned char sourceDeviceId: 5;
+    unsigned char targetDeviceId: 5;
+    unsigned char command: 3;
+    unsigned char length: 3;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
     unsigned char status;
     unsigned char buffer[FRAME_NUMBER_OF_FRAME_BYTES];

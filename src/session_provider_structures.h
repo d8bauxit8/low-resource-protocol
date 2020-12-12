@@ -16,7 +16,7 @@ extern "C" {
 
 typedef struct LRPSessionProvider {
     LRPFrame *frameBuffer;
-    unsigned char linkLayerStatus;
+    unsigned char linkLayerStatus: 2;
     unsigned char linkLayerErrorCode;
     unsigned char *deviceId;
 
