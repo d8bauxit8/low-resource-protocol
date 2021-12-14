@@ -20,9 +20,19 @@ Primarily I recommend this protocol to communicate between the low resource devi
     - [Line code layer](#line-code-layer)
 * [Receive module](#receive-module)
     - [What do you need for the receive module?](#what-do-you-need-for-the-receive-module)
+        + [Receive module initialization](#receive-module-initialization)
+        + [Receive module interrupt](#receive-module-interrupt)
+        + [Receive module timer interrupt](#receive-module-timer-interrupt)
 * [Transmit module](#transmit-module)
     - [What do you need for the transmit module?](#what-do-you-need-for-the-transmit-module)
+        + [Transmit module initialization](#transmit-module-initialization)
+        + [Transmit module interrupt](#transmit-module-interrupt)
+        + [Transmit module timer interrupt](#transmit-module-timer-interrupt)
 * [Collision detection module](#collision-detection-module)
+    - [What do you need for the collision detection module?](#what-do-you-need-for-the-collision-detection-module)
+        + [Collision detection module initialization](#collision-detection-module-initialization)
+        + [Collision detection module interrupts](#collision-detection-module-interrupts)
+        + [Integrate receive and transmit interrupts](#integrate-receive-and-transmit-interrupts)
 * [Calculations](#calculations)
     - [How can I check if the collision detection works right?](#how-can-i-check-if-the-collision-detection-works-right)
 * [Demo](#demo)
@@ -98,6 +108,7 @@ which you are able to read data from the RS-485 bus
 which another device has sent to yours during the LRP protocol.
  
 ### What do you need for the receive module?
+#### Receive module initialization
 You have to create the source device ID, the session provider and the receive frame buffer. 
 Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
 ```c
@@ -117,6 +128,7 @@ unsigned char receiveBuffer[2] = {0, 0};
 receiveLineCode4B5B.buffer[0] = &receiveBuffer[0];
 receiveLineCode4B5B.buffer[1] = &receiveBuffer[1];
 ```
+#### Receive module interrupt
 You need an interrupt handler in which you have to call the line code layer handler.
 You have to call this handler if the hardware buffer filled, 
 so physical communication of one byte ended. 
@@ -127,6 +139,7 @@ void receiveInterrupt(void) {
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &receiveLineCode4B5B, &rData);
 }
 ```
+#### Receive module timer interrupt
 Besides that you will need a timer interrupt, in which you can process the decoded data. 
 In this you have to call the validation layer, and the application layer. 
 For the application layer, you need a receiver frame controller list 
@@ -176,7 +189,6 @@ void receiveTimerInterrupt(void) {
     LRP_ReceiveValidatorLayer_handler((LRPSessionProvider *) &receiveSessionProvider);
     LRP_ReceiveApplicationLayer_handler((LRPSessionProvider *) &receiveSessionProvider, controllers,
                                            receiveFrameControllerListLength);
-
 }
 ```
 I suggest that the timer cycle will be less than one frame's transmitting time 
@@ -193,6 +205,7 @@ with which you are able to send data from the RS-485 bus
 which another device will read from yours during the LRP protocol.
 
 ### What do you need for the transmit module?
+#### Transmit module initialization
 You have to create the source device ID, the session provider and the transmit frame buffer. 
 Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
 ```c
@@ -211,6 +224,7 @@ unsigned char transmitBuffer[2] = {0, 0};
 transmitLineCode4B5B.buffer[0] = &transmitBuffer[0];
 transmitLineCode4B5B.buffer[1] = &transmitBuffer[1];
 ```
+#### Transmit module interrupt
 You need an interrupt handler in which you have to call the line code layer handler.
 But before you call that function, you need a type of `unsigned char` variable into which the line code layer will write the encoded data.
 If its value is zero, there is no data to be transmitted otherwise there is data to be sent.  
@@ -229,6 +243,7 @@ void transmitInterrupt(void) {
     TXREG = tData;
 }
 ```
+#### Transmit module timer interrupt
 Besides that you will need a timer interrupt, in which you can process the data which you want to send.
 In this you have to call the validation layer. Then you will need a type of `unsigned char` variable 
 into which the line code layer will put the starting delimiter byte. The line code layer's function have a return value
@@ -285,11 +300,115 @@ For this, you can find the right calculation in the [Calculations](#calculations
 If you did everything well, your transmit module will work.
 
 ## Collision detection module
-In progress ... :pushpin:
+This function is provide you an opportunity to detect collision during communication 
+and control the given frame resending OR throw the last frame because of error(s).
+
+### What do you need for the collision detection module?
+#### Collision detection module initialization
+Before anything you do, the initialized transmit and receive providers had to be created.
+After that, you have to create a collision detection variable, and have to initialize this with the `LRP_CollisionDetection_init` function.
+```c
+LRPCollisionDetection collisionDetection;
+
+LRP_CollisionDetection_init(&collisionDetection, &transmitSessionProvider, &receiveSessionProvider);
+```
+#### Collision detection module interrupts
+You need a transmit error timer, and its handler. This handler responsible for the transmit module restarting and its status checking.
+The stopped timer will only start when the receive or transmit interrupts are called.
+I recommend you that the timer's time will be lower than on frame transmit time.
+For example: If you use 9600 bit/s baudrate, one frame's transmit time is ~16.1 ms, thus you have to choose lower value than this, for instance 16 ms.
+```c
+// This method will be you error timer handler
+void transmitErrorTimer(void) {
+    // If transmit module needs restarting
+    if(LRP_CollisionDetection_isRestartTransmitModule(&collisionDetection)) {
+        // Check transmit status
+        LRP_TransmitLinkLayer_errorStatusHandler(&transmitSessionProvider);
+        // STOP timer
+        TMR6_StopTimer();
+    }
+}
+```
+Besides that you need a start transmit error timer method which check the receive link layer status.
+```c
+void startTransmitErrorTimer(void) {
+    // Check receive status
+    LRP_ReceiveLinkLayer_errorStatusHandler(&receiveSessionProvider);
+    // START timer
+    TMR6_WriteTimer(0);
+    TMR6_StartTimer();
+}
+```
+The PIC MCUs give us some bit from which we can find have receive errors or not.
+For these you have to create a new method in which you handle them. (It will call in the receive interrupt.)
+```c
+void EUSARTErrorHandler(void) {
+    if(RCSTA2bits.FERR){
+        LRP_LinkLayer_setSkip((LRPSessionProvider *) &receiveSessionProvider);
+    }
+
+    if(RCSTA2bits.OERR){
+        LRP_LinkLayer_setSkip((LRPSessionProvider *) &receiveSessionProvider);
+        RCSTA2bits.CREN = 0;
+        RCSTA2bits.CREN = 1;
+    }
+}
+```
+#### Integrate receive and transmit interrupts
+The last steps is integrate these functions to the receive and transmit interrupts.
+```c
+void receiveInterrupt(void) {
+    // It is the given register from which you have to read the received data
+    const unsigned char rData = RCREG;
+    
+    // In this will be the noise stroke data
+    unsigned char tData = 0;
+    // Call the error handler
+    EUSARTErrorHandler();
+    // Handle noise stroke if it has
+    if(LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection, &rData)){
+        startTransmitErrorTimer();
+        return;
+    }
+    
+    LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &receiveLineCode4B5B, &rData);
+    
+    // If it has receive error handle it and send noise stroke
+    if(!PIE3bits.TX2IE) {
+        LRP_CollisionDetection_decodeErrorHandler(&collisionDetection, &tData);
+        if(tData) {
+            startTransmitErrorTimer();
+            TXREG2 = tData;
+            PIE3bits.TX2IE = 1;
+        }
+    }
+}
+
+void transmitInterrupt(void) {
+    // It is the given register in which you have to write the data to be transmitted.
+    unsigned char tData = 0;
+
+    // If it has receive error handle it
+    if(LRP_CollisionDetection_decodeErrorHandler(&collisionDetection, &tData)){
+        startTransmitErrorTimer();
+    }
+    
+    LRP_TransmitLineCodeLayer_handler(&transmitSessionProvider, &transmitLineCode4B5B, &tData);
+    if (!tData) {
+        // Stop transmitting
+        // For example, disable the transmit interrupt
+        PIE.TXIE = 0;
+        return;
+    }
+    // It is the given register in which you have to write that data which you want to send.
+    TXREG = tData;
+}
+```
+If you did everything well, your collision detection module will work.
 
 ## Calculations
 In the calculation example, I will use those values and physical items which I recommend for the appropriate working.
-First of all, lets see the physical cable type with which I will calculate.
+First of all, let's see the physical cable type with which I will calculate.
 I chose the CAT 5 about which I know the propagation delay which is `4.8–5.3 ns/m` (nanosecond/meter)
 
 Next I should know the cable's maximum length. 
@@ -363,4 +482,4 @@ The demo software will be run on the PIC 18F45K22 microcontroller.
 In progress ... :pushpin:
 
 ## Version
-##### 0.5.0
+##### 0.6.0
