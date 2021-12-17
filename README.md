@@ -362,11 +362,11 @@ void receiveInterrupt(void) {
     const unsigned char rData = RCREG;
     
     // In this will be the noise stroke data
-    unsigned char tData = 0;
+    unsigned char noiseStroke = 0;
     // Call the error handler
     EUSARTErrorHandler();
     // Handle noise stroke if it has
-    if(LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection, &rData)){
+    if(LRP_CollisionDetection_isNoiseStrokeErrorHandler(&collisionDetection, &rData)){
         startTransmitErrorTimer();
         return;
     }
@@ -375,10 +375,9 @@ void receiveInterrupt(void) {
     
     // If it has receive error handle it and send noise stroke
     if(!PIE3bits.TX2IE) {
-        LRP_CollisionDetection_decodeErrorHandler(&collisionDetection, &tData);
-        if(tData) {
+        if(LRP_CollisionDetection_isDecodeErrorHandler(&collisionDetection, &noiseStroke)) {
             startTransmitErrorTimer();
-            TXREG2 = tData;
+            TXREG2 = noiseStroke;
             PIE3bits.TX2IE = 1;
         }
     }
@@ -389,7 +388,7 @@ void transmitInterrupt(void) {
     unsigned char tData = 0;
 
     // If it has receive error handle it
-    if(LRP_CollisionDetection_decodeErrorHandler(&collisionDetection, &tData)){
+    if(LRP_CollisionDetection_isDecodeErrorHandler(&collisionDetection, &tData)){
         startTransmitErrorTimer();
     }
     

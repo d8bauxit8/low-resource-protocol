@@ -26,8 +26,8 @@ unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetecti
 }
 
 unsigned char
-LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *const collisionDetection,
-                                          unsigned char *const data) {
+LRP_CollisionDetection_isDecodeErrorHandler(LRPCollisionDetection *const collisionDetection,
+                                            unsigned char *const data) {
     if (LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection->receiveSessionProvider,
                               LINK_LAYER_DECODE_ERROR)) {
         LRP_CollisionDetection_setNoiseStrokeError(collisionDetection);
@@ -39,8 +39,8 @@ LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *const collision
 }
 
 unsigned char
-LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection,
-                                               const unsigned char *const data) {
+LRP_CollisionDetection_isNoiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection,
+                                                 const unsigned char *const data) {
     if (*data == COLLISION_DETECTION_NOISE_STROKE) {
         LRP_CollisionDetection_setNoiseStrokeError(collisionDetection);
         return 1;
