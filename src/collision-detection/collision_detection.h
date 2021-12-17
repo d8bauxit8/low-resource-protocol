@@ -29,11 +29,11 @@ void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
 unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection);
 
 unsigned char
-LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *collisionDetection, unsigned char *data);
+LRP_CollisionDetection_isDecodeErrorHandler(LRPCollisionDetection *const collisionDetection, unsigned char *const data);
 
 unsigned char
-LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *collisionDetection,
-                                               const unsigned char *data);
+LRP_CollisionDetection_isNoiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection,
+                                                 const unsigned char *const data);
 
 
 #ifdef    __cplusplus
