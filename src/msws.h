@@ -1,9 +1,12 @@
-//
-// Created by Mark Jehoda on 11/17/2020.
-//
+/*
+ * File:   link-layer.h
+ * Author: D8bauxit8
+ *
+ * Created on November 17, 2020, 8:06 PM
+ */
 
-#ifndef LRP_MSWS_H
-#define LRP_MSWS_H
+#ifndef LOW_RESOURCE_PROTOCOL_MSWS_H
+#define LOW_RESOURCE_PROTOCOL_MSWS_H
 
 #ifdef    __cplusplus
 extern "C" {
@@ -15,4 +18,4 @@ unsigned char LRP_MSVS_rand(void);
 }
 #endif
 
-#endif // LRP_MSWS_H
+#endif /* LOW_RESOURCE_PROTOCOL_MSWS_H */

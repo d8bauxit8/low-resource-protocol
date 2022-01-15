@@ -54,7 +54,7 @@ As these MCUs usually use (E)USART module at the transmission
 which can only send 8 bits in one stroke, the protocol only supports this. 
 Thus, if you have an extra 9th bit in your devices' register, use the parity bit checking.
 If there is no hardware support in your MCU, there is a parity bit checker in this library 
-which is available in the [`parity_bit.c`](src/parity_bit.c) file.
+which is available in the [`parity-bit.c`](src/parity-bit.c) file.
 
 ### Headers
 The headers also consist of 2 parts.
