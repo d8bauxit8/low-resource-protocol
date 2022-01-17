@@ -33,13 +33,13 @@ void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
 
 unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection);
 
-unsigned char LRP_CollisionDetection_isDecodeError(LRPSessionProvider *const sessionProvider);
+unsigned char LRP_CollisionDetection_isDecodeError(LRPSessionProvider *sessionProvider);
 
-void LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *const collisionDetection);
+void LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *collisionDetection);
 
-unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *const data);
+unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *data);
 
-void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection);
+void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *collisionDetection);
 
 #ifdef    __cplusplus
 }

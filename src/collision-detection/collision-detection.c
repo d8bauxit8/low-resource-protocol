@@ -3,13 +3,12 @@
 // Recommend control codes
 // https://en.wikipedia.org/wiki/Exponential_backoff
 #define MULTIPLICATIVE_FACTOR 2u
-#define NUMBER_OF_REMAINING_FRAME 2u
 #define MAX_NUMBER_OF_COLLISION_DETECTION 8u
 
 /**
  * Private method definitions
  */
-void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *const collisionDetection);
+void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *collisionDetection);
 
 /**
  * Public method declarations
@@ -23,7 +22,7 @@ void LRP_CollisionDetection_init(LRPCollisionDetection *const collisionDetection
     collisionDetection->numberOfCollisions = 0;
 }
 
-unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection) {
+unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *const collisionDetection) {
     if (collisionDetection->backoffTime == 0) {
         return 1;
     }

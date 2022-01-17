@@ -28,7 +28,7 @@ Primarily I recommend this protocol to communicate between the low resource devi
         + [Transmit module initialization](#transmit-module-initialization)
         + [Transmit module interrupt](#transmit-module-interrupt)
         + [Transmit module timer interrupt](#transmit-module-timer-interrupt)
-* [Collision detection module](#collision-detection-module)
+* [Collision detection module](#collision-detection-module) [`Optional`]
     - [What do you need for the collision detection module?](#what-do-you-need-for-the-collision-detection-module)
         + [Collision detection module initialization](#collision-detection-module-initialization)
         + [Collision detection module interrupts](#collision-detection-module-interrupts)
@@ -150,7 +150,7 @@ so physical communication of one byte ended.
 ```c
 void receiveInterrupt(void) {
     // It is the given register from which you have to read the received data
-    const unsigned char rData = RCREG;
+    const unsigned char rData = RCREG2;
 
     // Call the error handler
     EUSARTErrorHandler();
@@ -256,11 +256,11 @@ void transmitInterrupt(void) {
     if (!tData) {
         // Stop transmitting
         // For example, disable the transmit interrupt
-        PIE.TX2IE = 0;
+        PIE3bits.TX2IE = 0;
         return;
     }
     // It is the given register in which you have to write that data which you want to send.
-    TXREG = tData;
+    TXREG2 = tData;
 }
 ```
 #### Transmit module timer interrupt
