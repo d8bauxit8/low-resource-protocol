@@ -39,16 +39,16 @@ TEST_F(TransmitLinkLayerTest, Should_Be_Handled_Buffer) {
     const unsigned char data = LRP_TransmitLinkLayer_handler(&transmitSessionProvider);
 
     ASSERT_EQ(data, frameBuffer[0].buffer[0]);
-    ASSERT_EQ(transmitSessionProvider.indexOfWroteBytes, 1);
+    ASSERT_EQ(transmitSessionProvider.indexOfWrittenBytes, 1);
 }
 
 TEST_F(TransmitLinkLayerTest, Should_Be_Checked_The_Unwritten_Data_In_Buffer) {
     ASSERT_TRUE(LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(&transmitSessionProvider));
 
-    transmitSessionProvider.indexOfWroteBytes = 4;
+    transmitSessionProvider.indexOfWrittenBytes = 4;
     ASSERT_TRUE(LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(&transmitSessionProvider));
 
-    transmitSessionProvider.indexOfWroteBytes = 5;
+    transmitSessionProvider.indexOfWrittenBytes = 5;
     ASSERT_FALSE(LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(&transmitSessionProvider));
 }
 
@@ -60,11 +60,11 @@ TEST_F(TransmitLinkLayerTest, Should_Be_Checked_The_Frame_Is_Ready_To_Transmit) 
 }
 
 TEST_F(TransmitLinkLayerTest, Should_Be_Started_Transmitting) {
-    transmitSessionProvider.indexOfWroteBytes = 4;
+    transmitSessionProvider.indexOfWrittenBytes = 4;
 
     LRP_TransmitLinkLayer_startTransmitting(&transmitSessionProvider);
 
-    ASSERT_EQ(transmitSessionProvider.indexOfWroteBytes, 0);
+    ASSERT_EQ(transmitSessionProvider.indexOfWrittenBytes, 0);
     ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
     ASSERT_EQ(transmitSessionProvider.linkCurrentFrame->status, TRANSMIT_FRAME_TRANSMITTING);
 }

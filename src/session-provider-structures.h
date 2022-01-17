@@ -1,5 +1,5 @@
 /*
- * File:   session_provider_structures.h
+ * File:   session-provider-structures.h
  * Author: D8bauxit8
  *
  * Created on April 6, 2020, 4:30 PM
@@ -16,8 +16,8 @@ extern "C" {
 
 typedef struct LRPSessionProvider {
     LRPFrame *frameBuffer;
-    unsigned char linkLayerStatus: 2;
-    unsigned char linkLayerErrorCode;
+    unsigned char linkLayerStatus: 3;
+    unsigned char linkLayerErrorCode: 3;
     unsigned char *deviceId;
 
     LRPFrame *linkCurrentFrame;

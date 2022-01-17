@@ -27,14 +27,14 @@ extern "C" {
 
 typedef struct LRPTransmitSessionProvider {
     LRPFrame *frameBuffer;
-    unsigned char linkLayerStatus: 2;
-    unsigned char linkLayerErrorCode;
+    unsigned char linkLayerStatus: 3;
+    unsigned char linkLayerErrorCode :3;
     unsigned char *deviceId;
 
     LRPFrame *linkCurrentFrame;
     LRPFrame *validatorCurrentFrame;
     LRPFrame *applicationCurrentFrame;
-    unsigned char indexOfWroteBytes;
+    unsigned char indexOfWrittenBytes;
 } LRPTransmitSessionProvider;
 
 #ifdef    __cplusplus

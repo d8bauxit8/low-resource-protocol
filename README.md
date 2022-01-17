@@ -129,6 +129,21 @@ receiveLineCode4B5B.buffer[0] = &receiveBuffer[0];
 receiveLineCode4B5B.buffer[1] = &receiveBuffer[1];
 ```
 #### Receive module interrupt
+The PIC MCUs give us some bit from which we can find have receive errors or not.
+For these you have to create a new method in which you handle them. (It will call in the receive interrupt.)
+```c
+void EUSARTErrorHandler(void) {
+    if(RCSTA2bits.FERR){
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiveSessionProvider, LINK_LAYER_INTERNAL_ERROR);
+    }
+
+    if(RCSTA2bits.OERR){
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiveSessionProvider, LINK_LAYER_INTERNAL_ERROR);
+        RCSTA2bits.CREN = 0;
+        RCSTA2bits.CREN = 1;
+    }
+}
+```
 You need an interrupt handler in which you have to call the line code layer handler.
 You have to call this handler if the hardware buffer filled, 
 so physical communication of one byte ended. 
@@ -136,7 +151,13 @@ so physical communication of one byte ended.
 void receiveInterrupt(void) {
     // It is the given register from which you have to read the received data
     const unsigned char rData = RCREG;
+
+    // Call the error handler
+    EUSARTErrorHandler();
+    
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &receiveLineCode4B5B, &rData);
+
+    LRP_ReceiveLinkLayer_errorStatusHandler(&receiveSessionProvider);
 }
 ```
 #### Receive module timer interrupt
@@ -186,9 +207,8 @@ LRPReceiveFrameController controllers[] = {oneOfReceiveFrameControllers, another
 const unsigned char receiveFrameControllerListLength = 2;
 
 void receiveTimerInterrupt(void) {
-    LRP_ReceiveValidatorLayer_handler((LRPSessionProvider *) &receiveSessionProvider);
-    LRP_ReceiveApplicationLayer_handler((LRPSessionProvider *) &receiveSessionProvider, controllers,
-                                           receiveFrameControllerListLength);
+    LRP_ReceiveValidatorLayer_handler(&receiveSessionProvider);
+    LRP_ReceiveApplicationLayer_handler(&receiveSessionProvider, controllers, receiveFrameControllerListLength);
 }
 ```
 I suggest that the timer cycle will be less than one frame's transmitting time 
@@ -236,7 +256,7 @@ void transmitInterrupt(void) {
     if (!tData) {
         // Stop transmitting
         // For example, disable the transmit interrupt
-        PIE.TXIE = 0;
+        PIE.TX2IE = 0;
         return;
     }
     // It is the given register in which you have to write that data which you want to send.
@@ -250,13 +270,13 @@ into which the line code layer will put the starting delimiter byte. The line co
 which is 1 if there is data to be transmitted. If this is met, you can write the variable's value into transmit register. 
 ```c
 void transmitTimerInterrupt(void) {
-    LRP_TransmitValidatorLayer_handler((LRPSessionProvider *) &transmitSessionProvider);
+    LRP_TransmitValidatorLayer_handler(&transmitSessionProvider);
     unsigned char data;
     if (LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(&transmitSessionProvider)) {
         LRP_TransmitLineCodeLayer_startTransmitting(&transmitSessionProvider, &transmitLineCode4B5B, &data);
-        TXREG = data;
+        TXREG2 = data;
         // And if your transmit interrupt was disabled, set to enabled
-        PIE.TXIE = 1;
+        PIE3bits.TX2IE = 1;
     }
 }
 ```
@@ -277,18 +297,15 @@ For example:
 void touched(void) {
     // If somebody touched the sensor, we just try to reserve a frame.
     // If it is successful
-    if (LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(
-            (LRPSessionProvider *) &transmitSessionProvider)) {
+    if (LRP_TransmitApplicationLayer_setReadyToRedefineFrameToReserved(&transmitSessionProvider)) {
         // We can write the data into the reserved frame
         const unsigned char touched[] = "touched";
         const unsigned char lengthOfData = 7;
-        LRP_TransmitApplicationLayer_setDataIntoReservedFrame((LRPSessionProvider *) &transmitSessionProvider, touched,
-                                                              lengthOfData);
+        LRP_TransmitApplicationLayer_setDataIntoReservedFrame(&transmitSessionProvider, touched, lengthOfData);
         // Then send it
         const unsigned char command = 0b000;
         const unsigned char targetDeviceId = 0b00010;
-        LRP_TransmitApplicationLayer_transmitReservedFrame((LRPSessionProvider *) &transmitSessionProvider,
-                                                           targetDeviceId, command);
+        LRP_TransmitApplicationLayer_transmitReservedFrame(&transmitSessionProvider, targetDeviceId, command);
     }
 }
 ```
@@ -315,8 +332,8 @@ LRP_CollisionDetection_init(&collisionDetection, &transmitSessionProvider, &rece
 #### Collision detection module interrupts
 You need a transmit error timer, and its handler. This handler responsible for the transmit module restarting and its status checking.
 The stopped timer will only start when the receive or transmit interrupts are called.
-I recommend you that the timer's time will be lower than on frame transmit time.
-For example: If you use 9600 bit/s baudrate, one frame's transmit time is ~16.1 ms, thus you have to choose lower value than this, for instance 16 ms.
+I recommend you that the timer's time will be higher than on frame transmit time.
+For example: If you use 9600 bit/s baudrate, one frame's transmit time is ~16.1 ms, thus you have to choose lower value than this, for instance 17 ms.
 ```c
 // This method will be you error timer handler
 void transmitErrorTimer(void) {
@@ -326,32 +343,18 @@ void transmitErrorTimer(void) {
         LRP_TransmitLinkLayer_errorStatusHandler(&transmitSessionProvider);
         // STOP timer
         TMR6_StopTimer();
+        return;
     }
+    
+    TMR6_WriteTimer(0);
 }
 ```
 Besides that you need a start transmit error timer method which check the receive link layer status.
 ```c
 void startTransmitErrorTimer(void) {
-    // Check receive status
-    LRP_ReceiveLinkLayer_errorStatusHandler(&receiveSessionProvider);
     // START timer
     TMR6_WriteTimer(0);
     TMR6_StartTimer();
-}
-```
-The PIC MCUs give us some bit from which we can find have receive errors or not.
-For these you have to create a new method in which you handle them. (It will call in the receive interrupt.)
-```c
-void EUSARTErrorHandler(void) {
-    if(RCSTA2bits.FERR){
-        LRP_LinkLayer_setSkip((LRPSessionProvider *) &receiveSessionProvider);
-    }
-
-    if(RCSTA2bits.OERR){
-        LRP_LinkLayer_setSkip((LRPSessionProvider *) &receiveSessionProvider);
-        RCSTA2bits.CREN = 0;
-        RCSTA2bits.CREN = 1;
-    }
 }
 ```
 #### Integrate receive and transmit interrupts
@@ -359,28 +362,32 @@ The last steps is integrate these functions to the receive and transmit interrup
 ```c
 void receiveInterrupt(void) {
     // It is the given register from which you have to read the received data
-    const unsigned char rData = RCREG;
+    const unsigned char rData = RCREG2;
     
-    // In this will be the noise stroke data
-    unsigned char noiseStroke = 0;
-    // Call the error handler
+    // Call the EUSART error handler
     EUSARTErrorHandler();
+    
     // Handle noise stroke if it has
-    if(LRP_CollisionDetection_isNoiseStrokeErrorHandler(&collisionDetection, &rData)){
+    if(LRP_CollisionDetection_isNoiseStrokeError(&rData)){
+        LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
         startTransmitErrorTimer();
-        return;
     }
     
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &receiveLineCode4B5B, &rData);
-    
-    // If it has receive error handle it and send noise stroke
-    if(!PIE3bits.TX2IE) {
-        if(LRP_CollisionDetection_isDecodeErrorHandler(&collisionDetection, &noiseStroke)) {
-            startTransmitErrorTimer();
-            TXREG2 = noiseStroke;
+
+    // If the transmit interrupt is disabled, handle decode error, otherwise the transmit interrupt will be handle.
+    if (LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) &receiveSessionProvider)) {
+        // If it has decode error, handle this and send a noise stroke
+        LRP_CollisionDetection_decodeErrorHandler(&collisionDetection);
+        if(!PIE3bits.TX2IE) {
+            LRP_TransmitLinkLayer_errorStatusHandler(&transmitSessionProvider);
+            TXREG2 = COLLISION_DETECTION_NOISE_STROKE;
             PIE3bits.TX2IE = 1;
         }
     }
+    
+    // Handle the receive error status
+    LRP_ReceiveLinkLayer_errorStatusHandler(&receiveSessionProvider);
 }
 
 void transmitInterrupt(void) {
@@ -388,19 +395,23 @@ void transmitInterrupt(void) {
     unsigned char tData = 0;
 
     // If it has receive error handle it
-    if(LRP_CollisionDetection_isDecodeErrorHandler(&collisionDetection, &tData)){
-        startTransmitErrorTimer();
+    if (LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) &transmitSessionProvider)) {
+        // If it has decode error, handle this and send a noise stroke
+        LRP_TransmitLinkLayer_errorStatusHandler(&transmitSessionProvider);
+        TXREG2 = COLLISION_DETECTION_NOISE_STROKE;
+        return;
     }
     
     LRP_TransmitLineCodeLayer_handler(&transmitSessionProvider, &transmitLineCode4B5B, &tData);
+    
     if (!tData) {
         // Stop transmitting
         // For example, disable the transmit interrupt
-        PIE.TXIE = 0;
+        PIE3bits.TX2IE = 0;
         return;
     }
     // It is the given register in which you have to write that data which you want to send.
-    TXREG = tData;
+    TXREG2 = tData;
 }
 ```
 If you did everything well, your collision detection module will work.

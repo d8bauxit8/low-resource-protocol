@@ -48,7 +48,7 @@ TEST_F(TransmitLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
 
     LRP_TransmitLineCodeLayer_handler(&transmitSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, LINE_CODE_4B5B_START_DELIMITER_BYTE);
-    ASSERT_EQ(transmitSessionProvider.indexOfWroteBytes, 0);
+    ASSERT_EQ(transmitSessionProvider.indexOfWrittenBytes, 0);
     ASSERT_EQ(transmitSessionProvider.linkCurrentFrame->status, TRANSMIT_FRAME_TRANSMITTING);
     ASSERT_EQ(transmitSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);
 
