@@ -1,4 +1,4 @@
-name: LowResourceProtocol CI
+name: Low Resource Protocol CI
 
 on:
   push:

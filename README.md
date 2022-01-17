@@ -7,7 +7,7 @@ With this protocol you are able to transmit and receive data between embedded de
 Primarily I recommend this protocol to communicate between the low resource devices. 
 (for instance between switch and brightness controller)
 
-![LowResourceProtocol CI](https://github.com/d8bauxit8/LowResourceProtocolLibrary/workflows/LowResourceProtocol%20CI/badge.svg?branch=master)
+![Low Resource Protocol CI](https://github.com/d8bauxit8/low-resource-protocol/workflows/Low%20Resource%20Protocol%20CI/badge.svg?branch=master)
 
 ## Overview
 * [About the protocol](#about-the-protocol)
