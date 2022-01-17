@@ -9,8 +9,8 @@ LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *const sessionProvider, c
         const unsigned char targetDeviceId = LRP_Frame_getTargetDeviceIdFromReceivedByte(data);
         if (targetDeviceId != *sessionProvider->deviceId &&
             targetDeviceId != FRAME_BROADCAST_ID) {
-            LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
             LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
+            LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
             return;
         }
     }

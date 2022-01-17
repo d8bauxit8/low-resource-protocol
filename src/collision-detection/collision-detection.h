@@ -16,10 +16,15 @@
 extern "C" {
 #endif
 
+// https://en.wikipedia.org/wiki/4B5B
+// It's a Halt code
+#define COLLISION_DETECTION_NOISE_STROKE 0b00100000u
+
 typedef struct LRPCollisionDetection {
     LRPTransmitSessionProvider *transmitSessionProvider;
     LRPReceiveSessionProvider *receiveSessionProvider;
-    unsigned char delay;
+    unsigned char backoffTime;
+    unsigned char numberOfCollisions;
 } LRPCollisionDetection;
 
 void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
@@ -28,13 +33,13 @@ void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
 
 unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection);
 
-unsigned char
-LRP_CollisionDetection_isDecodeErrorHandler(LRPCollisionDetection *const collisionDetection, unsigned char *const data);
+unsigned char LRP_CollisionDetection_isDecodeError(LRPSessionProvider *const sessionProvider);
 
-unsigned char
-LRP_CollisionDetection_isNoiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection,
-                                                 const unsigned char *const data);
+void LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *const collisionDetection);
 
+unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *const data);
+
+void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection);
 
 #ifdef    __cplusplus
 }

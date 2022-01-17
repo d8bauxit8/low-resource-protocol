@@ -70,35 +70,30 @@ void
 LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B, const unsigned char *const data) {
     unsigned char mask = 0xFFu << lineCode4B5B->index;
     lineCode4B5B->buffer[FIRST_BUFFER_ITEM] =
-            // Kifejezés 2. fele:
-            // Az adott bitek-et normalizálnom kell, hogy ha egy előző állípotból,
-            // az indextől kezdődően felfelé maradt 0-ás bit, azt írjuk felül 1-re.
-            // Kifejezés 1. fele:
-            // A vett adatokkal töltsük fel az aradék biteket
             (unsigned char) ((unsigned char) (*data << lineCode4B5B->index) |
                              (unsigned char) ~mask) &
             (unsigned char) (mask | lineCode4B5B->buffer[FIRST_BUFFER_ITEM]);
-    // Az előző helyre fltöltött bitek számával toljuk el, s a maradékot írjuk bele a másooik bufferbe
+
     lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
             (*data >> (unsigned char) (NUMBER_OF_BITS_IN_A_DECODED_BYTE - lineCode4B5B->index));
-    // Növeljük a mentett bitek számával az indexet.
+    // Increase the index by the number of saved bits
     lineCode4B5B->index = lineCode4B5B->index + NUMBER_OF_BITS_IN_A_DECODED_BYTE;
 }
 
 unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B,
                                                                     unsigned char *decodingState) {
     const unsigned short encodedBits =
-            // Magas bitek beállítása
+            // Set high bits
             (unsigned short) (lineCode4B5B->buffer[SECOND_BUFFER_ITEM] << NUMBER_OF_BITS_IN_A_DECODED_BYTE) |
-            // Alacsony bitek beállítása
+            // Set low bits
             lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
-    // Maradék bitek shiftelése
+    // Shift remaining bits
     lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
             lineCode4B5B->buffer[SECOND_BUFFER_ITEM] >> NUMBER_OF_NON_READ_BITS_FROM_AN_ENCODED_BYTE;
     LRP_4B5B_rotateBufferOfEncodedBitsPointer(lineCode4B5B);
-    // Csökkentsük az olvasott bitek számával az indexet
+    // Decrease the index by the number of read bits
     lineCode4B5B->index = lineCode4B5B->index - NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
-    // Dekódoljuk a kódolt bitcsoportot
+    // Decode the encoded bits
     return LRP_4B5B_decode(&encodedBits, decodingState);
 }
 
