@@ -93,7 +93,7 @@ TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
 
     LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(&frame);
 
-    FrameData *frameData = ((FrameData *) &frame);
+    LRPFrameData *frameData = ((LRPFrameData *) &frame);
 
     ASSERT_EQ(frameData->targetDeviceId, targetDeviceId);
     ASSERT_EQ(frameData->command, command);
@@ -107,7 +107,7 @@ TEST_F(FrameTest, Should_Be_Added_Data_To_Frame_Data_From_Frame_Buffer) {
 
     LRP_Frame_addDataToFrameDataFromFrameBuffer(&frame);
 
-    FrameData *frameData = ((FrameData *) &frame);
+    LRPFrameData *frameData = ((LRPFrameData *) &frame);
 
     ASSERT_EQ(*frameData->data[0], buffer2);
     ASSERT_EQ(*frameData->data[1], buffer3);

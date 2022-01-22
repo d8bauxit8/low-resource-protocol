@@ -13,7 +13,7 @@ void LRP_ReceiveApplicationLayer_handler(LRPReceiveSessionProvider *const sessio
     unsigned char i = 0;
     for (; i < numberOfReceiveFrameControllers; i++) {
         LRPReceiveFrameController controller = *receiveFrameControllerList[i];
-        if (controller((FrameData *const) sessionProvider->applicationCurrentFrame)) {
+        if (controller((LRPFrameData *const) sessionProvider->applicationCurrentFrame)) {
             break;
         }
     }

@@ -47,8 +47,10 @@ TEST_F(CollisionDetectionTest, When_Receive_And_Transmit_Layer_Have_Not_Error_Sh
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitSessionProvider,
                            LINK_LAYER_DECODE_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider), 1);
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider), 1);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider),
+              1);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider),
+              1);
 }
 
 TEST_F(CollisionDetectionTest, When_Receive_Layer_Has_Decode_Error_Should_Handle_Decode_Error) {
@@ -70,8 +72,10 @@ TEST_F(CollisionDetectionTest, When_Receive_And_Transmit_Layer_Have_Not_Error_Sh
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitSessionProvider,
                            LINK_LAYER_NO_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider), 0);
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider), 0);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider),
+              0);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider),
+              0);
 }
 
 TEST_F(CollisionDetectionTest, When_Receive_And_Transmit_Layer_Have_Noise_Stroke_Error_Should_Not_Handle_Decode_Error) {
@@ -80,8 +84,10 @@ TEST_F(CollisionDetectionTest, When_Receive_And_Transmit_Layer_Have_Noise_Stroke
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitSessionProvider,
                            LINK_LAYER_NOISE_STROKE_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider), 0);
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider), 0);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiveSessionProvider),
+              0);
+    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitSessionProvider),
+              0);
 }
 
 TEST_F(CollisionDetectionTest, When_Data_Is_A_Noise_Stroke_Should_IsNoiseStrokeError_Return_True) {

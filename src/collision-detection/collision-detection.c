@@ -55,10 +55,11 @@ void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const
  * Private method declarations
  */
 void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *const collisionDetection) {
-    if(collisionDetection->numberOfCollisions != MAX_NUMBER_OF_COLLISION_DETECTION){
+    if (collisionDetection->numberOfCollisions != MAX_NUMBER_OF_COLLISION_DETECTION) {
         collisionDetection->numberOfCollisions++;
     }
 
-    const unsigned char backoffTimeMask = (unsigned char) ((unsigned short) (MULTIPLICATIVE_FACTOR ^ collisionDetection->numberOfCollisions) - 1u);
+    const unsigned char backoffTimeMask = (unsigned char) (
+            (unsigned short) (MULTIPLICATIVE_FACTOR ^ collisionDetection->numberOfCollisions) - 1u);
     collisionDetection->backoffTime = LRP_MSVS_rand() & backoffTimeMask;
 }

@@ -16,13 +16,13 @@ extern "C" {
 #define FRAME_NUMBER_OF_HEADER_BYTES 2u
 #define FRAME_NUMBER_OF_FRAME_BYTES (FRAME_NUMBER_OF_HEADER_BYTES + FRAME_NUMBER_OF_MAX_DATA_BYTES)
 
-typedef struct FrameData {
+typedef struct LRPFrameData {
     unsigned char sourceDeviceId: 5;
     unsigned char targetDeviceId: 5;
     unsigned char command: 3;
     unsigned char length: 3;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
-} FrameData;
+} LRPFrameData;
 
 typedef struct LRPFrame {
     unsigned char sourceDeviceId: 5;
