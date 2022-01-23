@@ -18,9 +18,9 @@ extern "C" {
 unsigned char
 LRP_TransmitLinkLayer_handler(LRPTransmitSessionProvider *sessionProvider);
 
-unsigned char LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(LRPTransmitSessionProvider *sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(const LRPTransmitSessionProvider *sessionProvider);
 
-unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(LRPTransmitSessionProvider *sessionProvider);
+unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(const LRPTransmitSessionProvider *sessionProvider);
 
 void LRP_TransmitLinkLayer_startTransmitting(LRPTransmitSessionProvider *sessionProvider);
 

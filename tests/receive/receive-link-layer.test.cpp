@@ -187,11 +187,6 @@ TEST_F(ReceiveLinkLayerTest,
     const unsigned char status = LRP_ReceiveLinkLayer_isStartReceiving(&receiveSessionProvider);
 
     ASSERT_FALSE(status);
-    ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
-    ASSERT_EQ(receiveSessionProvider.indexOfReadBytes, 5);
-    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
-    ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
-    ASSERT_EQ(receiveSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiveLinkLayerTest,
@@ -205,11 +200,6 @@ TEST_F(ReceiveLinkLayerTest,
     const unsigned char status = LRP_ReceiveLinkLayer_isStartReceiving(&receiveSessionProvider);
 
     ASSERT_FALSE(status);
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(receiveSessionProvider.indexOfReadBytes, 5);
-    ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_ERROR);
-    ASSERT_EQ(receiveSessionProvider.linkLayerErrorCode, LINK_LAYER_DECODE_ERROR);
-    ASSERT_EQ(receiveSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiveLinkLayerTest,
@@ -223,6 +213,18 @@ TEST_F(ReceiveLinkLayerTest,
     const unsigned char status = LRP_ReceiveLinkLayer_isStartReceiving(&receiveSessionProvider);
 
     ASSERT_TRUE(status);
+}
+
+TEST_F(ReceiveLinkLayerTest,
+       Should_Start_Receving_When_There_Is_No_Frame_Error_And_The_Status_Is_Ready_To_Redefine) {
+
+    receiveSessionProvider.indexOfReadBytes = 5;
+    receiveSessionProvider.linkLayerStatus = LINK_LAYER_STATUS_SKIP;
+    receiveSessionProvider.linkLayerErrorCode = LINK_LAYER_NO_ERROR;
+    receiveSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
+
+    LRP_ReceiveLinkLayer_startReceiving(&receiveSessionProvider);
+
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
     ASSERT_EQ(receiveSessionProvider.indexOfReadBytes, 0);
     ASSERT_EQ(receiveSessionProvider.linkLayerStatus, LINK_LAYER_STATUS_OK);

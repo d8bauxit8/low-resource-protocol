@@ -15,14 +15,14 @@ void LRP_LinkLayer_setOk(LRPSessionProvider *const sessionProvider) {
     sessionProvider->linkLayerErrorCode = LINK_LAYER_NO_ERROR;
 }
 
-unsigned char LRP_LinkLayer_isStatusOK(LRPSessionProvider *const sessionProvider) {
+unsigned char LRP_LinkLayer_isStatusOK(const LRPSessionProvider *const sessionProvider) {
     return sessionProvider->linkLayerStatus == LINK_LAYER_STATUS_OK;
 }
 
-unsigned char LRP_LinkLayer_isStatusError(LRPSessionProvider *const sessionProvider) {
+unsigned char LRP_LinkLayer_isStatusError(const LRPSessionProvider *const sessionProvider) {
     return sessionProvider->linkLayerStatus == LINK_LAYER_STATUS_ERROR;
 }
 
-unsigned char LRP_LinkLayer_isError(LRPSessionProvider *const sessionProvider, const unsigned char errorCode) {
+unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *const sessionProvider, const unsigned char errorCode) {
     return sessionProvider->linkLayerErrorCode == errorCode;
 }

@@ -30,7 +30,7 @@ unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetecti
     return 0;
 }
 
-unsigned char LRP_CollisionDetection_isDecodeError(LRPSessionProvider *const sessionProvider) {
+unsigned char LRP_CollisionDetection_isDecodeError(const LRPSessionProvider *const sessionProvider) {
     return LRP_LinkLayer_isError(sessionProvider, LINK_LAYER_DECODE_ERROR);
 }
 

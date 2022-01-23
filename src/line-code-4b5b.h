@@ -24,7 +24,7 @@ typedef struct LRPLineCode4B5B {
 
 void LRP_4B5B_reset(LRPLineCode4B5B *lineCode4B5B);
 
-unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(LRPLineCode4B5B *lineCode4B5B);
+unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(const LRPLineCode4B5B *lineCode4B5B);
 
 void
 LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B, const unsigned char *data);
@@ -34,14 +34,14 @@ unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4
 
 unsigned char LRP_4B5B_isDecodingFailed(const unsigned char *decodingState);
 
-unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(LRPLineCode4B5B *lineCode4B5B);
+unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(const LRPLineCode4B5B *lineCode4B5B);
 
 void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B,
                                                           const unsigned char *data);
 
 unsigned char LRP_4B5B_readAnEncodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B);
 
-unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B);
+unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(const LRPLineCode4B5B *lineCode4B5B);
 
 unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B);
 

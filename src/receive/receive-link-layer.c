@@ -20,16 +20,18 @@ LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *const sessionProvider, c
     sessionProvider->indexOfReadBytes++;
 }
 
-unsigned char LRP_ReceiveLinkLayer_isStartReceiving(LRPReceiveSessionProvider *const sessionProvider) {
+unsigned char LRP_ReceiveLinkLayer_isStartReceiving(const LRPReceiveSessionProvider *const sessionProvider) {
     if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE ||
         LRP_LinkLayer_isStatusError((LRPSessionProvider *) sessionProvider)) {
         return 0;
     }
+    return 1;
+}
 
+void LRP_ReceiveLinkLayer_startReceiving(LRPReceiveSessionProvider *const sessionProvider) {
     sessionProvider->indexOfReadBytes = 0;
     LRP_LinkLayer_setOk((LRPSessionProvider *) sessionProvider);
     LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVE_FRAME_IN_RECEIVING);
-    return 1;
 }
 
 void LRP_ReceiveLinkLayer_stopReceiving(LRPReceiveSessionProvider *const sessionProvider) {

@@ -33,7 +33,7 @@ void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
 
 unsigned char LRP_CollisionDetection_isRestartTransmitModule(LRPCollisionDetection *collisionDetection);
 
-unsigned char LRP_CollisionDetection_isDecodeError(LRPSessionProvider *sessionProvider);
+unsigned char LRP_CollisionDetection_isDecodeError(const LRPSessionProvider *sessionProvider);
 
 void LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *collisionDetection);
 

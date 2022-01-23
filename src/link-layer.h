@@ -25,15 +25,15 @@ extern "C" {
 
 void LRP_LinkLayer_setSkip(LRPSessionProvider *sessionProvider);
 
-void LRP_LinkLayer_setError(LRPSessionProvider *sessionProvider, const unsigned char errorCode);
+void LRP_LinkLayer_setError(LRPSessionProvider *sessionProvider, unsigned char errorCode);
 
 void LRP_LinkLayer_setOk(LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isStatusOK(LRPSessionProvider *sessionProvider);
+unsigned char LRP_LinkLayer_isStatusOK(const LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isStatusError(LRPSessionProvider *sessionProvider);
+unsigned char LRP_LinkLayer_isStatusError(const LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isError(LRPSessionProvider *sessionProvider, const unsigned char errorCode);
+unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *sessionProvider, unsigned char errorCode);
 
 #ifdef    __cplusplus
 }

@@ -8,12 +8,12 @@ LRP_TransmitLinkLayer_handler(LRPTransmitSessionProvider *const sessionProvider)
     return sessionProvider->linkCurrentFrame->buffer[sessionProvider->indexOfWrittenBytes++];
 }
 
-unsigned char LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(LRPTransmitSessionProvider *const sessionProvider) {
+unsigned char LRP_TransmitLinkLayer_isUnwrittenDataInBuffer(const LRPTransmitSessionProvider *const sessionProvider) {
     return sessionProvider->indexOfWrittenBytes <
            (FRAME_NUMBER_OF_HEADER_BYTES + sessionProvider->linkCurrentFrame->length);
 }
 
-unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(LRPTransmitSessionProvider *const sessionProvider) {
+unsigned char LRP_TransmitLinkLayer_isReadyToTransmit(const LRPTransmitSessionProvider *const sessionProvider) {
     return sessionProvider->linkCurrentFrame->status == TRANSMIT_FRAME_READY_TO_TRANSMIT;
 }
 

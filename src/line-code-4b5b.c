@@ -62,7 +62,7 @@ void LRP_4B5B_reset(LRPLineCode4B5B *const lineCode4B5B) {
     lineCode4B5B->buffer[1] = 0;
 }
 
-unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(LRPLineCode4B5B *const lineCode4B5B) {
+unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(const LRPLineCode4B5B *const lineCode4B5B) {
     return lineCode4B5B->index >= NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
 }
 
@@ -101,7 +101,7 @@ unsigned char LRP_4B5B_isDecodingFailed(const unsigned char *const decodingState
     return *decodingState == FAILED_TO_DECODED;
 }
 
-unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(LRPLineCode4B5B *const lineCode4B5B) {
+unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(const LRPLineCode4B5B *const lineCode4B5B) {
     return lineCode4B5B->index <= NUMBER_OF_BITS_WHICH_SHOULD_BE_FREE_IF_I_ADD_ENCODED_BYTE_TO_BUFFER;
 }
 
@@ -124,7 +124,7 @@ unsigned char LRP_4B5B_readAnEncodedByteFromBufferOfEncodedBits(LRPLineCode4B5B 
     return encodedByte;
 }
 
-unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
+unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(const LRPLineCode4B5B *const lineCode4B5B) {
     return lineCode4B5B->index != 0;
 }
 

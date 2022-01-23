@@ -25,7 +25,7 @@ void LRP_TransmitLineCodeLayer_startTransmitting(
         LRPLineCode4B5B *lineCode4B5B, unsigned char *data);
 
 unsigned char LRP_TransmitLineCodeLayer_isReadyToStartTransmitting(
-        LRPTransmitSessionProvider *sessionProvider);
+        const LRPTransmitSessionProvider *sessionProvider);
 
 #ifdef    __cplusplus
 }
