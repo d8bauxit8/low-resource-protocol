@@ -1,13 +1,12 @@
 #include "collision-detection.h"
 
-// Recommend control codes
-// https://en.wikipedia.org/wiki/Exponential_backoff
-#define MULTIPLICATIVE_FACTOR 2u
 #define MAX_NUMBER_OF_COLLISION_DETECTION 8u
 
 /**
  * Private method definitions
  */
+unsigned char LRP_CollisionDetection_getBackoffTimeMask(const LRPCollisionDetection *collisionDetection);
+
 void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *collisionDetection);
 
 /**
@@ -54,12 +53,15 @@ void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const
 /**
  * Private method declarations
  */
+unsigned char LRP_CollisionDetection_getBackoffTimeMask(const LRPCollisionDetection *const collisionDetection) {
+    // https://en.wikipedia.org/wiki/Exponential_backoff
+    return ~(0xFF << collisionDetection->numberOfCollisions);
+}
+
 void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *const collisionDetection) {
     if (collisionDetection->numberOfCollisions != MAX_NUMBER_OF_COLLISION_DETECTION) {
         collisionDetection->numberOfCollisions++;
     }
 
-    const unsigned char backoffTimeMask = (unsigned char) (
-            (unsigned short) (MULTIPLICATIVE_FACTOR ^ collisionDetection->numberOfCollisions) - 1u);
-    collisionDetection->backoffTime = LRP_MSVS_rand() & backoffTimeMask;
+    collisionDetection->backoffTime = LRP_MSVS_rand() & LRP_CollisionDetection_getBackoffTimeMask(collisionDetection);
 }
