@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../../src/receive/receive-application-layer.h"
+#include "../../src/receive/receive-session-provider.h"
 
 unsigned char ReceiveApplicationLayerTest_testControlsCalls;
 unsigned char ReceiveApplicationLayerTest_testValue1;
@@ -27,6 +28,7 @@ class ReceiveApplicationLayerTest : public ::testing::Test {
 protected:
 
     LRPReceiveSessionProvider receiveSessionProvider{};
+    const unsigned char groupId = 0b11100u;
     const unsigned char sourceDeviceId = 0b10100;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
@@ -36,7 +38,7 @@ protected:
     const unsigned char numberOfReceiveFrameControllers = 2;
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, frameBuffer, 3);
+        LRP_ReceiveSessionProvider_init(&receiveSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
 
         receiveSessionProvider.applicationCurrentFrame->data[0] = &data0;
 

@@ -18,7 +18,7 @@ extern "C" {
 
 typedef struct LRPFrameData {
     unsigned char sourceDeviceId: 5;
-    unsigned char targetDeviceId: 5;
+    unsigned char targetId: 5;
     unsigned char command: 3;
     unsigned char length: 3;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
@@ -26,7 +26,7 @@ typedef struct LRPFrameData {
 
 typedef struct LRPFrame {
     unsigned char sourceDeviceId: 5;
-    unsigned char targetDeviceId: 5;
+    unsigned char targetId: 5;
     unsigned char command: 3;
     unsigned char length: 3;
     unsigned char *data[FRAME_NUMBER_OF_MAX_DATA_BYTES];
@@ -40,13 +40,18 @@ typedef struct LRPFrame {
 
 #define FRAME_BROADCAST_ID 0b00011111u
 
+#define FRAME_NO_COMMAND 0b000u
+#define FRAME_GROUP_ID_COMMAND 0b111u
+
 void LRP_Frame_initBuffer(LRPFrame *frameBuffer, const unsigned char *frameBufferLength);
 
 void LRP_Frame_setStatus(LRPFrame *frame, unsigned char status);
 
 void LRP_Frame_resetStatus(LRPFrame *frame);
 
-unsigned char LRP_Frame_getTargetDeviceIdFromReceivedByte(const unsigned char *data);
+unsigned char LRP_Frame_getTargetIdFromReceivedByte(const unsigned char *data);
+
+unsigned char LRP_Frame_isGroupIdCommandFromReceivedByte(const unsigned char *data);
 
 void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *frame);
 

@@ -1,21 +1,26 @@
 #include <gtest/gtest.h>
 #include "../../src/receive/receive-validator-layer.h"
+#include "../../src/receive/receive-session-provider.h"
 
 class ReceiveValidatorLayerTest : public ::testing::Test {
 protected:
 
     LRPReceiveSessionProvider receiveSessionProvider{};
-    const unsigned char sourceDeviceId = 0b10100;
+    const unsigned char sourceDeviceId = 0b10100u;
+    const unsigned char groupId = 0b11100u;
+    const unsigned char targetId = 0b11001u;
+    const unsigned char command = 0b101u;
+    const unsigned char length = 0b011u;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
     unsigned char data1 = 'R';
     unsigned char data2 = 'P';
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, frameBuffer, 3);
+        LRP_ReceiveSessionProvider_init(&receiveSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
 
-        frameBuffer[0].buffer[0] = 0b11001101;
-        frameBuffer[0].buffer[1] = 0b10100011;
+        frameBuffer[0].buffer[0] = (unsigned char) (targetId << 3u) | command;
+        frameBuffer[0].buffer[1] = (unsigned char) (sourceDeviceId << 3u) | length;
         frameBuffer[0].buffer[2] = data0;
         frameBuffer[0].buffer[3] = data1;
         frameBuffer[0].buffer[4] = data2;
@@ -44,7 +49,7 @@ TEST_F(ReceiveValidatorLayerTest,
 
     LRP_ReceiveValidatorLayer_handler(&receiveSessionProvider);
 
-    ASSERT_EQ(frameBuffer[0].targetDeviceId, 0b11001);
+    ASSERT_EQ(frameBuffer[0].targetId, 0b11001);
     ASSERT_EQ(frameBuffer[0].command, 0b101);
     ASSERT_EQ(frameBuffer[0].sourceDeviceId, sourceDeviceId);
     ASSERT_EQ(frameBuffer[0].length, 3);
@@ -61,7 +66,7 @@ TEST_F(ReceiveValidatorLayerTest,
 
     LRP_ReceiveValidatorLayer_handler(&receiveSessionProvider);
 
-    ASSERT_EQ(receiveSessionProvider.validatorCurrentFrame->targetDeviceId, 0);
+    ASSERT_EQ(receiveSessionProvider.validatorCurrentFrame->targetId, 0);
     ASSERT_EQ(receiveSessionProvider.validatorCurrentFrame->command, 0);
     ASSERT_EQ(receiveSessionProvider.validatorCurrentFrame->sourceDeviceId, 0);
     ASSERT_EQ(receiveSessionProvider.validatorCurrentFrame->length, 0);
