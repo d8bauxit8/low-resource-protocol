@@ -1,17 +1,27 @@
 #include "receive-link-layer.h"
 
 /**
+ * Private methods
+ */
+void LRP_ReceiveLinkLayer_throwFrame(LRPReceiveSessionProvider * sessionProvider);
+
+/**
  * Public method declarations
  */
 void
 LRP_ReceiveLinkLayer_handler(LRPReceiveSessionProvider *const sessionProvider, const unsigned char *const data) {
     if (sessionProvider->indexOfReadBytes == 0) {
-        const unsigned char targetDeviceId = LRP_Frame_getTargetDeviceIdFromReceivedByte(data);
-        if (targetDeviceId != *sessionProvider->deviceId &&
-            targetDeviceId != FRAME_BROADCAST_ID) {
-            LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
-            LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
-            return;
+        const unsigned char id = LRP_Frame_getTargetIdFromReceivedByte(data);
+        if (LRP_Frame_isGroupIdCommandFromReceivedByte(data)) {
+            if (*sessionProvider->groupId != id) {
+                LRP_ReceiveLinkLayer_throwFrame(sessionProvider);
+                return;
+            }
+        } else {
+            if (id != FRAME_BROADCAST_ID && id != *sessionProvider->deviceId) {
+                LRP_ReceiveLinkLayer_throwFrame(sessionProvider);
+                return;
+            }
         }
     }
 
@@ -45,4 +55,9 @@ void LRP_ReceiveLinkLayer_errorStatusHandler(LRPReceiveSessionProvider *sessionP
         LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
         LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
     }
+}
+
+void LRP_ReceiveLinkLayer_throwFrame(LRPReceiveSessionProvider *const sessionProvider) {
+    LRP_Frame_resetStatus(sessionProvider->linkCurrentFrame);
+    LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
 }

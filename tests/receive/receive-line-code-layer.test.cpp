@@ -1,27 +1,28 @@
 #include <gtest/gtest.h>
 #include "../../src/receive/receive-line-code-layer.h"
+#include "../../src/receive/receive-session-provider.h"
 
 class ReceiveLineCodeLayerTest : public ::testing::Test {
 protected:
 
     LRPReceiveSessionProvider receiveSessionProvider{};
-    const unsigned char sourceDeviceId = 0b10100;
-    const unsigned char targetDeviceId = 0b11001;
-    const unsigned char command = 0b101;
-    const unsigned char length = 0b011;
+    const unsigned char sourceDeviceId = 0b10100u;
+    const unsigned char groupId = 0b11100u;
+    const unsigned char targetId = 0b11001u;
+    const unsigned char command = 0b101u;
+    const unsigned char length = 0b011u;
 
     LRPLineCode4B5B lineCode4B5B{};
-    unsigned char buffer[2]{};
 
     LRPFrame frameBuffer[3]{};
-    unsigned char header0 = 0b10100101;
-    unsigned char header1 = 0b11001011;
-    unsigned char data0 = 'L';
-    unsigned char data1 = 'R';
-    unsigned char data2 = 'P';
+    unsigned char receivedHeader0 = (unsigned char) (sourceDeviceId << 3u) | command;
+    unsigned char receivedHeader1 = (unsigned char) (targetId << 3u) | length;
+    unsigned char receivedData0 = 'L';
+    unsigned char receivedData1 = 'R';
+    unsigned char receivedData2 = 'P';
 
     void SetUp() override {
-        LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, frameBuffer, 3);
+        LRP_ReceiveSessionProvider_init(&receiveSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
 
         receiveSessionProvider.indexOfReadBytes = 0;
 
@@ -181,11 +182,11 @@ TEST_F(ReceiveLineCodeLayerTest,
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[5]);
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[6]);
 
-    ASSERT_EQ(frameBuffer[0].buffer[0], header0);
-    ASSERT_EQ(frameBuffer[0].buffer[1], header1);
-    ASSERT_EQ(frameBuffer[0].buffer[2], data0);
-    ASSERT_EQ(frameBuffer[0].buffer[3], data1);
-    ASSERT_EQ(frameBuffer[0].buffer[4], data2);
+    ASSERT_EQ(frameBuffer[0].buffer[0], receivedHeader0);
+    ASSERT_EQ(frameBuffer[0].buffer[1], receivedHeader1);
+    ASSERT_EQ(frameBuffer[0].buffer[2], receivedData0);
+    ASSERT_EQ(frameBuffer[0].buffer[3], receivedData1);
+    ASSERT_EQ(frameBuffer[0].buffer[4], receivedData2);
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
 
@@ -209,8 +210,8 @@ TEST_F(ReceiveLineCodeLayerTest,
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[2]);
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &data[3]);
 
-    ASSERT_EQ(frameBuffer[0].buffer[0], header0);
-    ASSERT_EQ(frameBuffer[0].buffer[1], header1);
+    ASSERT_EQ(frameBuffer[0].buffer[0], receivedHeader0);
+    ASSERT_EQ(frameBuffer[0].buffer[1], receivedHeader1);
     ASSERT_EQ(frameBuffer[0].buffer[2], 0);
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_IN_RECEIVING);
@@ -267,11 +268,11 @@ TEST_F(ReceiveLineCodeLayerTest,
     const unsigned char stopDelimiter = LINE_CODE_4B5B_STOP_DELIMITER_BYTE;
     LRP_ReceiveLineCodeLayer_handler(&receiveSessionProvider, &lineCode4B5B, &stopDelimiter);
 
-    ASSERT_EQ(frameBuffer[0].buffer[0], header0);
-    ASSERT_EQ(frameBuffer[0].buffer[1], header1);
-    ASSERT_EQ(frameBuffer[0].buffer[2], data0);
-    ASSERT_EQ(frameBuffer[0].buffer[3], data1);
-    ASSERT_EQ(frameBuffer[0].buffer[4], data2);
+    ASSERT_EQ(frameBuffer[0].buffer[0], receivedHeader0);
+    ASSERT_EQ(frameBuffer[0].buffer[1], receivedHeader1);
+    ASSERT_EQ(frameBuffer[0].buffer[2], receivedData0);
+    ASSERT_EQ(frameBuffer[0].buffer[3], receivedData1);
+    ASSERT_EQ(frameBuffer[0].buffer[4], receivedData2);
 
     ASSERT_EQ(frameBuffer[0].status, RECEIVE_FRAME_READY_TO_CHECK);
 

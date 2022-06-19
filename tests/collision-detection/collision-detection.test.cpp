@@ -12,7 +12,7 @@ protected:
     LRPTransmitSessionProvider transmitSessionProvider{};
     LRPFrame transmitFrameBuffer[3]{};
 
-    LRPCollisionDetection collisionDetection;
+    LRPCollisionDetection collisionDetection{};
 
     void SetUp() override {
         LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, receiveFrameBuffer,

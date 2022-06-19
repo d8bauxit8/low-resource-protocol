@@ -33,6 +33,7 @@ typedef struct LRPReceiveSessionProvider {
     LRPFrame *validatorCurrentFrame;
     LRPFrame *applicationCurrentFrame;
     unsigned char indexOfReadBytes;
+    unsigned char *groupId;
 } LRPReceiveSessionProvider;
 
 #ifdef    __cplusplus

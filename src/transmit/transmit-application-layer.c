@@ -14,9 +14,9 @@ void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPTransmitSessionPro
 }
 
 void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPTransmitSessionProvider *const sessionProvider,
-                                                        const unsigned char targetDeviceId,
+                                                        const unsigned char targetId,
                                                         const unsigned char command) {
-    sessionProvider->applicationCurrentFrame->targetDeviceId = targetDeviceId;
+    sessionProvider->applicationCurrentFrame->targetId = targetId;
     sessionProvider->applicationCurrentFrame->sourceDeviceId = *sessionProvider->deviceId;
     sessionProvider->applicationCurrentFrame->command = command;
 

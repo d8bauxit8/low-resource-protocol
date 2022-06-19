@@ -19,7 +19,7 @@ void LRP_TransmitApplicationLayer_setDataIntoReservedFrame(LRPTransmitSessionPro
                                                            unsigned char dataLength);
 
 void LRP_TransmitApplicationLayer_transmitReservedFrame(LRPTransmitSessionProvider *sessionProvider,
-                                                        unsigned char targetDeviceId,
+                                                        unsigned char targetId,
                                                         unsigned char command);
 
 unsigned char

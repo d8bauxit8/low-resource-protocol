@@ -58,7 +58,11 @@ which is available in the [`parity-bit.c`](src/parity-bit.c) file.
 
 ### Headers
 The headers also consist of 2 parts.
-Tthe first includes the target device ID (in 5 bits) and some control bits (in 3 bits). 
+The first includes the target device ID (in 5 bits) and some control bits (in 3 bits).
+Allowed commands:
+- `FRAME_NO_COMMAND` - Use this when don't need any command
+- `FRAME_GROUP_ID_COMMAND` - This macro help the target device to identify the type of received ID is group ID. 
+ 
 The second also contains a device ID (in 5 bits), which is the sender ID, and 
 besides that it includes the length of data (in 3 bits) 
 which the device will receive or transmit during the communication.
@@ -70,7 +74,7 @@ the `0b11111` ID is also reserved for the broadcast address.
 The length of data can only be between 0 and 7. I think this is plenty enough for these devices. 
 
 ### Data
-You can transmit your information through it between the devices. 
+You can transmit your information through it between the devices and device groups. 
 
 ## About the implementation
 The protocol provides for your devices a receiving and a transmitting module.
@@ -112,21 +116,19 @@ which another device has sent to yours during the LRP protocol.
 You have to create the source device ID, the session provider and the receive frame buffer. 
 Then you have to initialize the session provider with the `LRP_SessionProvider_init` function.
 ```c
-// It will be the device ID during the receiving.
-// Thus your device will just get those frames at which the target device ID equals with this.  
+// It will be a device and group ID during the receiving.
+// Thus your device will just get those frames at which the target ID equals with this.
+// If you dont want to add your device to any group, set this variable to FRAME_BROADCAST_ID
 const unsigned char const sourceDeviceId = 0b00000001;
-LRPReceiveSessionProvider receiveSessionProvider;
-LRPFrame receiveFrameBuffer[3];
+const unsigned char const groupId = 0b00000010;
+LRPReceiveSessionProvider receiveSessionProvider{};
+LRPFrame receiveFrameBuffer[3]{};
 
-LRP_SessionProvider_init((LRPSessionProvider *) &receiveSessionProvider, &sourceDeviceId, receiveFrameBuffer, 3);
+LRP_ReceiveSessionProvider_init(&receiveSessionProvider, &sourceDeviceId, receiveFrameBuffer, 3, &groupId);
 ```
 For the receive interrupt, you will need a `LRPLineCode4B5B` of type variable. 
 ```c
-// Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
-LRPLineCode4B5B receiveLineCode4B5B;
-unsigned char receiveBuffer[2] = {0, 0};
-receiveLineCode4B5B.buffer[0] = &receiveBuffer[0];
-receiveLineCode4B5B.buffer[1] = &receiveBuffer[1];
+LRPLineCode4B5B receiveLineCode4B5B{};
 ```
 #### Receive module interrupt
 The PIC MCUs give us some bit from which we can find have receive errors or not.
@@ -231,18 +233,14 @@ Then you have to initialize the session provider with the `LRP_SessionProvider_i
 ```c
 // It will be the device ID during the transmitting.  
 const unsigned char const sourceDeviceId = 0b00000001;
-LRPTransmitSessionProvider transmitSessionProvider;
-LRPFrame transmitFrameBuffer[3];
+LRPTransmitSessionProvider transmitSessionProvider{};
+LRPFrame transmitFrameBuffer[3]{};
 
-LRP_SessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, transmitFrameBuffer, 3);
+LRP_TransmitSessionProvider_init((LRPSessionProvider *) &transmitSessionProvider, &sourceDeviceId, transmitFrameBuffer, 3);
 ```
 For the transmit interrupt, you will need a `LRPLineCode4B5B` of type variable. 
 ```c
-// Parameters: .index: 0, .buffer[0]: 0, .buffer[1]: 0
-LRPLineCode4B5B transmitLineCode4B5B;
-unsigned char transmitBuffer[2] = {0, 0};
-transmitLineCode4B5B.buffer[0] = &transmitBuffer[0];
-transmitLineCode4B5B.buffer[1] = &transmitBuffer[1];
+LRPLineCode4B5B transmitLineCode4B5B{};
 ```
 #### Transmit module interrupt
 You need an interrupt handler in which you have to call the line code layer handler.
@@ -303,9 +301,8 @@ void touched(void) {
         const unsigned char lengthOfData = 7;
         LRP_TransmitApplicationLayer_setDataIntoReservedFrame(&transmitSessionProvider, touched, lengthOfData);
         // Then send it
-        const unsigned char command = 0b000;
         const unsigned char targetDeviceId = 0b00010;
-        LRP_TransmitApplicationLayer_transmitReservedFrame(&transmitSessionProvider, targetDeviceId, command);
+        LRP_TransmitApplicationLayer_transmitReservedFrame(&transmitSessionProvider, targetDeviceId, FRAME_NO_COMMAND);
     }
 }
 ```
@@ -325,7 +322,7 @@ and control the given frame resending OR throw the last frame because of error(s
 Before anything you do, the initialized transmit and receive providers had to be created.
 After that, you have to create a collision detection variable, and have to initialize this with the `LRP_CollisionDetection_init` function.
 ```c
-LRPCollisionDetection collisionDetection;
+LRPCollisionDetection collisionDetection{};
 
 LRP_CollisionDetection_init(&collisionDetection, &transmitSessionProvider, &receiveSessionProvider);
 ```

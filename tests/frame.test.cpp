@@ -5,17 +5,17 @@ class FrameTest : public ::testing::Test {
 protected:
     LRPFrame frame{};
 
-    const unsigned char targetDeviceId = 0b11001;
-    const unsigned char command = 0b101;
-    const unsigned char sourceDeviceId = 0b10100;
-    const unsigned char length = 3;
-    const unsigned char status = 0xFF;
+    const unsigned char targetId = 0b11001u;
+    const unsigned char command = 0b101u;
+    const unsigned char sourceDeviceId = 0b10100u;
+    const unsigned char length = 3u;
+    const unsigned char status = 0xFFu;
     unsigned char data0 = 'L';
     unsigned char data1 = 'R';
     unsigned char data2 = 'P';
 
 
-    const unsigned char buffer0 = (unsigned char) (targetDeviceId << 3u) | command;
+    const unsigned char buffer0 = (unsigned char) (targetId << 3u) | command;
     const unsigned char buffer1 = (unsigned char) (sourceDeviceId << 3u) | length;
     const unsigned char buffer2 = data0;
     const unsigned char buffer3 = data1;
@@ -26,7 +26,7 @@ protected:
     }
 
     void initDataPart() {
-        frame.targetDeviceId = targetDeviceId;
+        frame.targetId = targetId;
         frame.command = command;
         frame.sourceDeviceId = sourceDeviceId;
         frame.length = length;
@@ -37,7 +37,7 @@ protected:
     }
 
     void initBufferPart() {
-        frame.buffer[0] = (unsigned char) (targetDeviceId << 3u) | command;
+        frame.buffer[0] = (unsigned char) (targetId << 3u) | command;
         frame.buffer[1] = (unsigned char) (sourceDeviceId << 3u) | length;
         frame.buffer[2] = buffer2;
         frame.buffer[3] = buffer3;
@@ -55,7 +55,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item
 }
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_Items) {
-    const unsigned char frameBufferLength = 3;
+    const unsigned char frameBufferLength = 3u;
     LRPFrame frameBuffer[3]{};
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
@@ -71,7 +71,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_It
 }
 
 TEST_F(FrameTest, Should_Be_Set_Status) {
-    const unsigned char uniqueStatus = 0b00011100;
+    const unsigned char uniqueStatus = 0b00011100u;
     LRP_Frame_setStatus(&frame, uniqueStatus);
     ASSERT_EQ(frame.status, uniqueStatus);
 }
@@ -84,8 +84,20 @@ TEST_F(FrameTest, Should_Be_Reseted_Status) {
 TEST_F(FrameTest, Should_Be_Got_Target_Device_Id) {
     initBufferPart();
 
-    const unsigned char targetDeviceIdToBeRead = LRP_Frame_getTargetDeviceIdFromReceivedByte(&frame.buffer[0]);
-    ASSERT_EQ(targetDeviceIdToBeRead, targetDeviceId);
+    const unsigned char targetIdToBeRead = LRP_Frame_getTargetIdFromReceivedByte(&frame.buffer[0]);
+    ASSERT_EQ(targetIdToBeRead, targetId);
+}
+
+TEST_F(FrameTest, Is_Group_ID_Command_Should_Be_1) {
+    const unsigned char data = 0b00000111u;
+    const unsigned char isGroupId = LRP_Frame_isGroupIdCommandFromReceivedByte(&data);
+    ASSERT_EQ(isGroupId, 1u);
+}
+
+TEST_F(FrameTest, Is_Group_ID_Command_Should_Be_0) {
+    const unsigned char data = 0b00000000u;
+    const unsigned char isGroupId = LRP_Frame_isGroupIdCommandFromReceivedByte(&data);
+    ASSERT_EQ(isGroupId, 0u);
 }
 
 TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
@@ -95,7 +107,7 @@ TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
 
     LRPFrameData *frameData = ((LRPFrameData *) &frame);
 
-    ASSERT_EQ(frameData->targetDeviceId, targetDeviceId);
+    ASSERT_EQ(frameData->targetId, targetId);
     ASSERT_EQ(frameData->command, command);
     ASSERT_EQ(frameData->sourceDeviceId, sourceDeviceId);
     ASSERT_EQ(frameData->length, length);
