@@ -14,7 +14,7 @@ extern "C" {
 
 #include "receive-structures.h"
 
-typedef unsigned char (*LRPReceiveFrameController)(LRPFrameData *const frameData);
+typedef unsigned char (*LRPReceiveFrameController)(const LRPFrameData *const frameData);
 
 void LRP_ReceiveApplicationLayer_handler(LRPReceiveSessionProvider *sessionProvider,
                                          LRPReceiveFrameController *receiveFrameControllerList,
