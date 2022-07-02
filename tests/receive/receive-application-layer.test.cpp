@@ -6,7 +6,7 @@ unsigned char ReceiveApplicationLayerTest_testControlsCalls;
 unsigned char ReceiveApplicationLayerTest_testValue1;
 unsigned char ReceiveApplicationLayerTest_testValue2;
 
-unsigned char ReceiveApplicationLayerTest_testControl1(LRPFrameData *const frameData) {
+unsigned char ReceiveApplicationLayerTest_testControl1(const LRPFrameData *const frameData) {
     ReceiveApplicationLayerTest_testControlsCalls++;
     if (*frameData->data[0] == 'L') {
         ReceiveApplicationLayerTest_testValue1++;
@@ -15,7 +15,7 @@ unsigned char ReceiveApplicationLayerTest_testControl1(LRPFrameData *const frame
     return 0;
 }
 
-unsigned char ReceiveApplicationLayerTest_testControl2(LRPFrameData *const frameData) {
+unsigned char ReceiveApplicationLayerTest_testControl2(const LRPFrameData *const frameData) {
     ReceiveApplicationLayerTest_testControlsCalls++;
     if (*frameData->data[0] == 'R') {
         ReceiveApplicationLayerTest_testValue2++;
