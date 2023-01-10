@@ -17,7 +17,7 @@ extern "C" {
 typedef unsigned char (*LRPReceiveFrameController)(const LRPFrameData *const frameData);
 
 void LRP_ReceiveApplicationLayer_handler(LRPReceiveSessionProvider *sessionProvider,
-                                         LRPReceiveFrameController *receiveFrameControllerList,
+                                         const LRPReceiveFrameController receiveFrameControllerList[],
                                          unsigned char numberOfReceiveFrameControllers);
 
 #ifdef    __cplusplus
