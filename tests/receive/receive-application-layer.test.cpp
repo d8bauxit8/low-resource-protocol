@@ -33,7 +33,7 @@ protected:
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
 
-    LRPReceiveFrameController controllers[2]{ReceiveApplicationLayerTest_testControl1,
+    const LRPReceiveFrameController controllers[2]{ReceiveApplicationLayerTest_testControl1,
                                              ReceiveApplicationLayerTest_testControl2};
     const unsigned char numberOfReceiveFrameControllers = 2;
 
