@@ -50,6 +50,10 @@ void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const
                            LINK_LAYER_NOISE_STROKE_ERROR);
 }
 
+unsigned char LRP_CollisionDetection_isReachedMaxNumberOfCollisions(const LRPCollisionDetection *const collisionDetection) {
+    return collisionDetection->numberOfCollisions >= MAX_NUMBER_OF_COLLISION_DETECTION;
+}
+
 /**
  * Private method declarations
  */
@@ -59,7 +63,7 @@ unsigned char LRP_CollisionDetection_getBackoffTimeMask(const LRPCollisionDetect
 }
 
 void LRP_CollisionDetection_setBackoffTime(LRPCollisionDetection *const collisionDetection) {
-    if (collisionDetection->numberOfCollisions != MAX_NUMBER_OF_COLLISION_DETECTION) {
+    if (!LRP_CollisionDetection_isReachedMaxNumberOfCollisions(collisionDetection)) {
         collisionDetection->numberOfCollisions++;
     }
 
