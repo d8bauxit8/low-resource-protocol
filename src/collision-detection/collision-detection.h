@@ -41,6 +41,8 @@ unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *dat
 
 void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *collisionDetection);
 
+unsigned char LRP_CollisionDetection_isReachedMaxNumberOfCollisions(const LRPCollisionDetection * collisionDetection);
+
 #ifdef    __cplusplus
 }
 #endif

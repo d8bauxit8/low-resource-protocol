@@ -5,6 +5,7 @@ class CollisionDetectionTest : public ::testing::Test {
 protected:
 
     const unsigned char sourceDeviceId = 0b10100;
+    const unsigned char maxNumberOfCollisions = 8;
 
     LRPReceiveSessionProvider receiveSessionProvider{};
     LRPFrame receiveFrameBuffer[3]{};
@@ -110,4 +111,33 @@ TEST_F(CollisionDetectionTest, When_NoiseStrokeErrorHandler_Is_Called_Set_Noise_
                                     LINK_LAYER_NOISE_STROKE_ERROR), 1);
     ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitSessionProvider,
                                     LINK_LAYER_NOISE_STROKE_ERROR), 1);
+}
+
+TEST_F(CollisionDetectionTest, When_NumberOfCollisions_Is_Reached_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_True) {
+    for (int i = 0; i < maxNumberOfCollisions; ++i) {
+        LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
+    }
+
+    ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisions);
+    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 1);
+}
+
+TEST_F(CollisionDetectionTest, When_NumberOfCollisions_Is_Bigger_Than_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_True) {
+    unsigned char maxNumberOfCollisionsPlusOne = maxNumberOfCollisions + 1;
+    for (int i = 0; i < maxNumberOfCollisionsPlusOne; ++i) {
+        LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
+    }
+
+    ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisions);
+    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 1);
+}
+
+TEST_F(CollisionDetectionTest, When_NumberOfCollisions_Is_Not_Reached_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_False) {
+    unsigned char maxNumberOfCollisionsMinusOne = maxNumberOfCollisions - 1;
+    for (int i = 0; i < maxNumberOfCollisionsMinusOne; ++i) {
+        LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
+    }
+
+    ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisionsMinusOne);
+    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 0);
 }
