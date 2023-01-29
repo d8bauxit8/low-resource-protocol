@@ -28,7 +28,7 @@ Primarily I recommend this protocol to communicate between the low resource devi
         + [Transmit module initialization](#transmit-module-initialization)
         + [Transmit module interrupt](#transmit-module-interrupt)
         + [Transmit module timer interrupt](#transmit-module-timer-interrupt)
-* [Collision detection module](#collision-detection-module) [`Optional`]
+* [Collision detection module](#collision-detection-module) `Optional`
     - [What do you need for the collision detection module?](#what-do-you-need-for-the-collision-detection-module)
         + [Collision detection module initialization](#collision-detection-module-initialization)
         + [Collision detection module interrupts](#collision-detection-module-interrupts)
