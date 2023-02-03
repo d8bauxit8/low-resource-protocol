@@ -72,7 +72,7 @@ TEST_F(LineCode4b5bTest,
     lineCode4B5B.buffer[0] = 0b10101101u;
     lineCode4B5B.buffer[1] = 0b10101001u;
 
-    unsigned char decodingState;
+    LRPLineCode4B5BDecodingState decodingState;
     const unsigned char decodedByte = LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(&lineCode4B5B,
                                                                                             &decodingState);
 
@@ -90,7 +90,7 @@ TEST_F(LineCode4b5bTest,
     lineCode4B5B.buffer[0] = 0b10111101u;
     lineCode4B5B.buffer[1] = 0b10101011u;
 
-    unsigned char decodingState;
+    LRPLineCode4B5BDecodingState decodingState;
     const unsigned char decodedByte = LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(&lineCode4B5B,
                                                                                             &decodingState);
 
@@ -104,9 +104,9 @@ TEST_F(LineCode4b5bTest,
 
 TEST_F(LineCode4b5bTest, Should_Be_Tested_Status_Of_Decoding_Failed) {
     // FAILED_TO_DECODED macro in line_code_4b5b.c
-    const unsigned char failedDecodingState = 1u;
+    const LRPLineCode4B5BDecodingState failedDecodingState = FailedDecoding;
     // SUCCEED_TO_DECODED macro in line_code_4b5b.c
-    const unsigned char succeededDecodingState = 0u;
+    const LRPLineCode4B5BDecodingState succeededDecodingState = SuccessfulDecoding;
 
     ASSERT_TRUE(LRP_4B5B_isDecodingFailed(&failedDecodingState));
 
@@ -164,10 +164,10 @@ TEST_F(LineCode4b5bTest, Should_Be_Read_An_Encoded_Byte_From_Buffer_Of_Encoded_B
 }
 
 TEST_F(LineCode4b5bTest, Should_Be_Checked_Remaining_Bits_In_Buffer_Of_Encoded_Bits) {
-    ASSERT_FALSE(LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
+    ASSERT_FALSE(LRP_4B5B_haveRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
 
     lineCode4B5B.index = 1u;
-    ASSERT_TRUE(LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
+    ASSERT_TRUE(LRP_4B5B_haveRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
 }
 
 TEST_F(LineCode4b5bTest, Should_Be_Read_Remaining_Bits_From_Buffer_Of_Encoded_Bits) {
@@ -175,7 +175,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Read_Remaining_Bits_From_Buffer_Of_Encoded_Bi
     lineCode4B5B.buffer[0] = 0xFFu;
     lineCode4B5B.buffer[1] = 0xFEu;
 
-    const unsigned char remainingBits = LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(&lineCode4B5B);
+    const unsigned char remainingBits = LRP_4B5B_readARemainingBitsFromBufferOfEncodedBits(&lineCode4B5B);
 
     ASSERT_EQ(remainingBits, 0xFFu);
     ASSERT_EQ(lineCode4B5B.index, 0u);

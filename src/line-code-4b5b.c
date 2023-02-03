@@ -1,10 +1,7 @@
 #include "line-code-4b5b.h"
 
-#define SUCCEED_TO_DECODED 0
-#define FAILED_TO_DECODED 1
-
 #define ENCODED_HIGH_BITS_SHIFT 5u
-#define DECODED_HIGH_BIT_SHIFT 4u
+#define DECODED_HIGH_BITS_SHIFT 4u
 #define HIGH_CODE_INDEX_SHIFT 4u
 
 #define DECODED_HIGH_BITS_MASK 0b11110000u
@@ -14,14 +11,14 @@
 #define ENCODED_TEN_BITS_MASK 0b0000001111111111u
 
 #define NUMBER_OF_BITS_IN_A_DECODED_BYTE 8u
-#define NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE 10
-#define NUMBER_OF_NON_READ_BITS_FROM_AN_ENCODED_BYTE (NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE - NUMBER_OF_BITS_IN_A_DECODED_BYTE)
-#define NUMBER_OF_BITS_WHICH_SHOULD_BE_FREE_IF_I_ADD_ENCODED_BYTE_TO_BUFFER (16 - NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE)
+#define NUMBER_OF_BITS_IN_AN_ENCODED_BYTE 10u
+#define NUMBER_OF_NON_READ_BITS_IN_AN_ENCODED_BYTE (NUMBER_OF_BITS_IN_AN_ENCODED_BYTE - NUMBER_OF_BITS_IN_A_DECODED_BYTE)
+#define NUMBER_OF_REMAINDER_BITS_FROM_16_BITS_AFTER_ENCODE_A_BYTE (16u - NUMBER_OF_BITS_IN_AN_ENCODED_BYTE)
 
-#define FIRST_BUFFER_ITEM 0
-#define SECOND_BUFFER_ITEM 1
+#define FIRST_BUFFER_ITEM 0u
+#define SECOND_BUFFER_ITEM 1u
 
-#define NUMBER_OF_4B5B_CODES 16
+#define NUMBER_OF_4B5B_CODES 16u
 
 // 4B5B codes
 // https://en.wikipedia.org/wiki/4B5B
@@ -47,7 +44,7 @@ const unsigned char codesOf4B5B[] = {
 /**
  * Private method definitions
  */
-unsigned char LRP_4B5B_decode(const unsigned short *data, unsigned char *decodingState);
+unsigned char LRP_4B5B_decode(const unsigned short *data, LRPLineCode4B5BDecodingState *decodingState);
 
 unsigned short LRP_4B5B_encode(const unsigned char *data);
 
@@ -63,7 +60,7 @@ void LRP_4B5B_reset(LRPLineCode4B5B *const lineCode4B5B) {
 }
 
 unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(const LRPLineCode4B5B *const lineCode4B5B) {
-    return lineCode4B5B->index >= NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
+    return lineCode4B5B->index >= NUMBER_OF_BITS_IN_AN_ENCODED_BYTE;
 }
 
 void
@@ -81,7 +78,7 @@ LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B
 }
 
 unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B,
-                                                                    unsigned char *decodingState) {
+                                                                    LRPLineCode4B5BDecodingState *const decodingState) {
     const unsigned short encodedBits =
             // Set high bits
             (unsigned short) (lineCode4B5B->buffer[SECOND_BUFFER_ITEM] << NUMBER_OF_BITS_IN_A_DECODED_BYTE) |
@@ -89,20 +86,20 @@ unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4
             lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
     // Shift remaining bits
     lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
-            lineCode4B5B->buffer[SECOND_BUFFER_ITEM] >> NUMBER_OF_NON_READ_BITS_FROM_AN_ENCODED_BYTE;
+            lineCode4B5B->buffer[SECOND_BUFFER_ITEM] >> NUMBER_OF_NON_READ_BITS_IN_AN_ENCODED_BYTE;
     LRP_4B5B_rotateBufferOfEncodedBitsPointer(lineCode4B5B);
     // Decrease the index by the number of read bits
-    lineCode4B5B->index = lineCode4B5B->index - NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
+    lineCode4B5B->index = lineCode4B5B->index - NUMBER_OF_BITS_IN_AN_ENCODED_BYTE;
     // Decode the encoded bits
     return LRP_4B5B_decode(&encodedBits, decodingState);
 }
 
-unsigned char LRP_4B5B_isDecodingFailed(const unsigned char *const decodingState) {
-    return *decodingState == FAILED_TO_DECODED;
+unsigned char LRP_4B5B_isDecodingFailed(const LRPLineCode4B5BDecodingState *const decodingState) {
+    return *decodingState == FailedDecoding;
 }
 
 unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(const LRPLineCode4B5B *const lineCode4B5B) {
-    return lineCode4B5B->index <= NUMBER_OF_BITS_WHICH_SHOULD_BE_FREE_IF_I_ADD_ENCODED_BYTE_TO_BUFFER;
+    return lineCode4B5B->index <= NUMBER_OF_REMAINDER_BITS_FROM_16_BITS_AFTER_ENCODE_A_BYTE;
 }
 
 void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B,
@@ -113,7 +110,7 @@ void LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(LRPLineCode4B5B *const
     lineCode4B5B->buffer[SECOND_BUFFER_ITEM] =
             (unsigned char) (encodedData >> (NUMBER_OF_BITS_IN_A_DECODED_BYTE - lineCode4B5B->index)) |
             lineCode4B5B->buffer[SECOND_BUFFER_ITEM];
-    lineCode4B5B->index = lineCode4B5B->index + NUMBER_OF_BITS_FROM_AN_ENCODED_BYTE;
+    lineCode4B5B->index = lineCode4B5B->index + NUMBER_OF_BITS_IN_AN_ENCODED_BYTE;
 }
 
 unsigned char LRP_4B5B_readAnEncodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
@@ -124,11 +121,11 @@ unsigned char LRP_4B5B_readAnEncodedByteFromBufferOfEncodedBits(LRPLineCode4B5B 
     return encodedByte;
 }
 
-unsigned char LRP_4B5B_isThereRemainingBitsInBufferOfEncodedBits(const LRPLineCode4B5B *const lineCode4B5B) {
+unsigned char LRP_4B5B_haveRemainingBitsInBufferOfEncodedBits(const LRPLineCode4B5B *const lineCode4B5B) {
     return lineCode4B5B->index != 0;
 }
 
-unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
+unsigned char LRP_4B5B_readARemainingBitsFromBufferOfEncodedBits(LRPLineCode4B5B *const lineCode4B5B) {
     lineCode4B5B->index = 0;
     return lineCode4B5B->buffer[FIRST_BUFFER_ITEM];
 }
@@ -136,11 +133,12 @@ unsigned char LRP_4B5B_readAnRemainingBitsFromBufferOfEncodedBits(LRPLineCode4B5
 /**
  * Private method declarations
  */
-unsigned char LRP_4B5B_decode(const unsigned short *const data, unsigned char *decodingState) {
+unsigned char LRP_4B5B_decode(const unsigned short *const data, LRPLineCode4B5BDecodingState *const decodingState) {
     unsigned char decodedByte = 0;
-    *decodingState = FAILED_TO_DECODED;
     unsigned char encodedLowBits = *data & ENCODED_BITS_MASK;
     unsigned char encodedHighBits = (unsigned char) (*data >> ENCODED_HIGH_BITS_SHIFT) & ENCODED_BITS_MASK;
+    *decodingState = FailedDecoding;
+
     unsigned char i = 0;
     for (; i < NUMBER_OF_4B5B_CODES; i++) {
         if (codesOf4B5B[i] == encodedLowBits) {
@@ -149,12 +147,12 @@ unsigned char LRP_4B5B_decode(const unsigned short *const data, unsigned char *d
         }
 
         if (codesOf4B5B[i] == encodedHighBits) {
-            decodedByte = (unsigned char) (i << DECODED_HIGH_BIT_SHIFT) | decodedByte;
+            decodedByte = (unsigned char) (i << DECODED_HIGH_BITS_SHIFT) | decodedByte;
             encodedHighBits = 0;
         }
 
         if (!encodedLowBits && !encodedHighBits) {
-            *decodingState = SUCCEED_TO_DECODED;
+            *decodingState = SuccessfulDecoding;
             break;
         }
     }

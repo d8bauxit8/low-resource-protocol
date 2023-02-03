@@ -6,26 +6,17 @@
  */
 
 #ifndef LOW_RESOURCE_PROTOCOL_LINK_LAYER_H
-#define    LOW_RESOURCE_PROTOCOL_LINK_LAYER_H
+#define LOW_RESOURCE_PROTOCOL_LINK_LAYER_H
 
 #ifdef    __cplusplus
 extern "C" {
 #endif
 
-#include "session-provider-structures.h"
-
-#define LINK_LAYER_STATUS_OK 0
-#define LINK_LAYER_STATUS_SKIP 1
-#define LINK_LAYER_STATUS_ERROR 2
-
-#define LINK_LAYER_NO_ERROR 0
-#define LINK_LAYER_NOISE_STROKE_ERROR 1
-#define LINK_LAYER_DECODE_ERROR 2
-#define LINK_LAYER_INTERNAL_ERROR 3
+#include "data/session-provider.data.h"
 
 void LRP_LinkLayer_setSkip(LRPSessionProvider *sessionProvider);
 
-void LRP_LinkLayer_setError(LRPSessionProvider *sessionProvider, unsigned char errorCode);
+void LRP_LinkLayer_setError(LRPSessionProvider *sessionProvider, LRPLinkLayerErrorCode errorCode);
 
 void LRP_LinkLayer_setOk(LRPSessionProvider *sessionProvider);
 
@@ -33,7 +24,7 @@ unsigned char LRP_LinkLayer_isStatusOK(const LRPSessionProvider *sessionProvider
 
 unsigned char LRP_LinkLayer_isStatusError(const LRPSessionProvider *sessionProvider);
 
-unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *sessionProvider, unsigned char errorCode);
+unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *sessionProvider, LRPLinkLayerErrorCode errorCode);
 
 #ifdef    __cplusplus
 }
