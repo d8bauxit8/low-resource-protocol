@@ -8,7 +8,7 @@
 /**
  * Public method declarations
  */
-void LRP_Frame_initBuffer(LRPFrame *const frameBuffer, const unsigned char *const frameBufferLength) {
+void LRP_Frame_initBuffer(LRPFrame frameBuffer[], const unsigned char *const frameBufferLength) {
     unsigned char i = 0;
     LRP_Frame_resetStatus(&frameBuffer[i++]);
     for (; i < *frameBufferLength; i++) {
@@ -31,7 +31,7 @@ unsigned char LRP_Frame_getTargetIdFromReceivedByte(const unsigned char *const d
 }
 
 unsigned char LRP_Frame_isGroupIdCommandFromReceivedByte(const unsigned char *const data) {
-    return (*data & FRAME_COMMAND_MASK) == FRAME_GROUP_ID_COMMAND;
+    return (*data & FRAME_COMMAND_MASK) == GroupIdCommand;
 }
 
 void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {

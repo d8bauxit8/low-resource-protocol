@@ -6,16 +6,16 @@
  */
 
 #ifndef LOW_RESOURCE_PROTOCOL_SESSION_PROVIDER_H
-#define    LOW_RESOURCE_PROTOCOL_SESSION_PROVIDER_H
+#define LOW_RESOURCE_PROTOCOL_SESSION_PROVIDER_H
 
 #ifdef    __cplusplus
 extern "C" {
 #endif
 
-#include "session-provider-structures.h"
+#include "data/session-provider.data.h"
 #include "link-layer.h"
 
-void LRP_SessionProvider_init(LRPSessionProvider *sessionProvider, const unsigned char *deviceId,
+void LRP_SessionProvider_init(LRPSessionProvider *sessionProvider, unsigned char *deviceId,
                               LRPFrame *frameBuffer,
                               unsigned char frameBufferLength);
 

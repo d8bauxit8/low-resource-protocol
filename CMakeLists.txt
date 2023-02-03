@@ -30,6 +30,8 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
         EXCLUDE_FROM_ALL)
 
 file(GLOB SOURCE_FILES
+        src/**/**/*.h
+        src/**/**/*.c
         src/**/*.h
         src/**/*.c
         src/*.h
@@ -37,6 +39,7 @@ file(GLOB SOURCE_FILES
         )
 
 file(GLOB TESTS_FILES
+        tests/**/**/*.test.cpp
         tests/**/*.test.cpp
         tests/*.test.cpp
         )

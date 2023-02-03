@@ -1,28 +1,28 @@
 #include "link-layer.h"
 
 void LRP_LinkLayer_setSkip(LRPSessionProvider *const sessionProvider) {
-    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_SKIP;
-    sessionProvider->linkLayerErrorCode = LINK_LAYER_NO_ERROR;
+    sessionProvider->linkLayerStatus = Skip;
+    sessionProvider->linkLayerErrorCode = NoError;
 }
 
-void LRP_LinkLayer_setError(LRPSessionProvider *const sessionProvider, const unsigned char errorCode) {
-    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_ERROR;
+void LRP_LinkLayer_setError(LRPSessionProvider *const sessionProvider, LRPLinkLayerErrorCode errorCode) {
+    sessionProvider->linkLayerStatus = Error;
     sessionProvider->linkLayerErrorCode = errorCode;
 }
 
 void LRP_LinkLayer_setOk(LRPSessionProvider *const sessionProvider) {
-    sessionProvider->linkLayerStatus = LINK_LAYER_STATUS_OK;
-    sessionProvider->linkLayerErrorCode = LINK_LAYER_NO_ERROR;
+    sessionProvider->linkLayerStatus = OK;
+    sessionProvider->linkLayerErrorCode = NoError;
 }
 
 unsigned char LRP_LinkLayer_isStatusOK(const LRPSessionProvider *const sessionProvider) {
-    return sessionProvider->linkLayerStatus == LINK_LAYER_STATUS_OK;
+    return sessionProvider->linkLayerStatus == OK;
 }
 
 unsigned char LRP_LinkLayer_isStatusError(const LRPSessionProvider *const sessionProvider) {
-    return sessionProvider->linkLayerStatus == LINK_LAYER_STATUS_ERROR;
+    return sessionProvider->linkLayerStatus == Error;
 }
 
-unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *const sessionProvider, const unsigned char errorCode) {
+unsigned char LRP_LinkLayer_isError(const LRPSessionProvider *const sessionProvider, LRPLinkLayerErrorCode errorCode) {
     return sessionProvider->linkLayerErrorCode == errorCode;
 }

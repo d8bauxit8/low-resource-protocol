@@ -4,7 +4,7 @@
 class SessionProviderTest : public ::testing::Test {
 protected:
     LRPSessionProvider sessionProvider{};
-    const unsigned char sourceDeviceId = 0b10100u;
+    unsigned char sourceDeviceId = 0b10100u;
     LRPFrame frameBuffer[3]{};
 };
 
@@ -14,8 +14,8 @@ TEST_F(SessionProviderTest, Should_Be_Initialized) {
     ASSERT_EQ(sessionProvider.deviceId, &sourceDeviceId);
     ASSERT_EQ(*sessionProvider.deviceId, sourceDeviceId);
 
-    ASSERT_EQ(sessionProvider.linkLayerStatus, LINK_LAYER_STATUS_SKIP);
-    ASSERT_EQ(sessionProvider.linkLayerErrorCode, LINK_LAYER_NO_ERROR);
+    ASSERT_EQ(sessionProvider.linkLayerStatus, Skip);
+    ASSERT_EQ(sessionProvider.linkLayerErrorCode, NoError);
 
     ASSERT_EQ(sessionProvider.frameBuffer, frameBuffer);
 
