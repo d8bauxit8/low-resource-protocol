@@ -8,24 +8,12 @@
 #ifndef LOW_RESOURCE_PROTOCOL_COLLISION_DETECTION_MODULE_H
 #define LOW_RESOURCE_PROTOCOL_COLLISION_DETECTION_MODULE_H
 
-#include "../transmitter/data/session-provider.data.h"
-#include "../receiver/data/session-provider.data.h"
-#include "../utilities/msws.utility.h"
-
 #ifdef    __cplusplus
 extern "C" {
 #endif
 
-// https://en.wikipedia.org/wiki/4B5B
-// It's a Halt code
-#define LRP_COLLISION_DETECTION_NOISE_STROKE 0b00100000u
-
-typedef struct LRPCollisionDetection {
-    LRPTransmitterSessionProvider *transmitterSessionProvider;
-    LRPReceiverSessionProvider *receiverSessionProvider;
-    unsigned char backoffTime;
-    unsigned char numberOfCollisions;
-} LRPCollisionDetection;
+#include "./data/collision-detection.data.h"
+#include "../utilities/msws.utility.h"
 
 void LRP_CollisionDetection_init(LRPCollisionDetection *collisionDetection,
                                  LRPTransmitterSessionProvider *transmitterSessionProvider,
