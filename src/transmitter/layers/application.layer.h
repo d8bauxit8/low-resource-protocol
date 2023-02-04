@@ -18,8 +18,8 @@ void LRP_TransmitterApplicationLayer_setDataIntoReservedFrame(LRPTransmitterSess
                                                               unsigned char *data,
                                                               unsigned char dataLength);
 
-void LRP_TransmitterApplicationLayer_transmitReservedFrame(LRPTransmitterSessionProvider *const sessionProvider,
-                                                           const unsigned char targetId,
+void LRP_TransmitterApplicationLayer_transmitReservedFrame(LRPTransmitterSessionProvider *sessionProvider,
+                                                           unsigned char targetId,
                                                            LRPFrameCommand command);
 
 unsigned char

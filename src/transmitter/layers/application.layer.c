@@ -20,7 +20,7 @@ void LRP_TransmitterApplicationLayer_transmitReservedFrame(LRPTransmitterSession
     sessionProvider->applicationCurrentFrame->sourceDeviceId = *sessionProvider->deviceId;
     sessionProvider->applicationCurrentFrame->command = command;
 
-    LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, TRANSMITTER_FRAME_READY_TO_CHECK);
+    LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, LRP_TRANSMITTER_FRAME_READY_TO_CHECK);
 
     sessionProvider->applicationCurrentFrame = sessionProvider->applicationCurrentFrame->next;
 }
@@ -28,8 +28,8 @@ void LRP_TransmitterApplicationLayer_transmitReservedFrame(LRPTransmitterSession
 unsigned char
 LRP_TransmitterApplicationLayer_setReadyToRedefineFrameToReserved(
         LRPTransmitterSessionProvider *const sessionProvider) {
-    if (sessionProvider->applicationCurrentFrame->status == FRAME_READY_TO_REDEFINE) {
-        LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, TRANSMITTER_FRAME_RESERVED);
+    if (sessionProvider->applicationCurrentFrame->status == LRP_FRAME_READY_TO_REDEFINE) {
+        LRP_Frame_setStatus(sessionProvider->applicationCurrentFrame, LRP_TRANSMITTER_FRAME_RESERVED);
         return 1;
     }
     return 0;

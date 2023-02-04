@@ -6,7 +6,7 @@
 void LRP_ReceiverApplicationLayer_handler(LRPReceiverSessionProvider *const sessionProvider,
                                           const LRPReceiverFrameController *const receiverFrameControllerList,
                                           const unsigned char numberOfReceiverFrameControllers) {
-    if (sessionProvider->applicationCurrentFrame->status != RECEIVER_FRAME_READY_TO_READ) {
+    if (sessionProvider->applicationCurrentFrame->status != LRP_RECEIVER_FRAME_READY_TO_READ) {
         return;
     }
 

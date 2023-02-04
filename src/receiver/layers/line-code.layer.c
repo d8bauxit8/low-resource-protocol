@@ -6,14 +6,14 @@
 void LRP_ReceiverLineCodeLayer_handler(LRPReceiverSessionProvider *const sessionProvider,
                                        LRPLineCode4B5B *const lineCode4B5B,
                                        const unsigned char *const data) {
-    if (*data == LINE_CODE_4B5B_START_DELIMITER_BYTE && LRP_ReceiverLinkLayer_isStartReceiving(sessionProvider)) {
+    if (*data == LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE && LRP_ReceiverLinkLayer_isStartReceiving(sessionProvider)) {
         LRP_ReceiverLinkLayer_startReceiving(sessionProvider);
         LRP_4B5B_reset(lineCode4B5B);
         return;
     }
 
     if (LRP_LinkLayer_isStatusOK((LRPSessionProvider *) sessionProvider)) {
-        if (*data == LINE_CODE_4B5B_STOP_DELIMITER_BYTE) {
+        if (*data == LRP_LINE_CODE_4B5B_STOP_DELIMITER_BYTE) {
             LRP_ReceiverLinkLayer_stopReceiving(sessionProvider);
             return;
         }
@@ -29,7 +29,7 @@ void LRP_ReceiverLineCodeLayer_handler(LRPReceiverSessionProvider *const session
             // If the received byte could not be decoded,
             // the frame should be thrown because it would be invalid.
             if (LRP_4B5B_isDecodingFailed(&decodingState)) {
-                LRP_LinkLayer_setError((LRPSessionProvider *) sessionProvider, DecodeError);
+                LRP_LinkLayer_setError((LRPSessionProvider *) sessionProvider, LRPLinkLayerErrorCode_DecodeError);
                 return;
             }
 

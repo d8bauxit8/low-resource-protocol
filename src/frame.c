@@ -23,7 +23,7 @@ void LRP_Frame_setStatus(LRPFrame *const frame, const unsigned char status) {
 }
 
 void LRP_Frame_resetStatus(LRPFrame *const frame) {
-    frame->status = FRAME_READY_TO_REDEFINE;
+    frame->status = LRP_FRAME_READY_TO_REDEFINE;
 }
 
 unsigned char LRP_Frame_getTargetIdFromReceivedByte(const unsigned char *const data) {
@@ -31,7 +31,7 @@ unsigned char LRP_Frame_getTargetIdFromReceivedByte(const unsigned char *const d
 }
 
 unsigned char LRP_Frame_isGroupIdCommandFromReceivedByte(const unsigned char *const data) {
-    return (*data & FRAME_COMMAND_MASK) == GroupIdCommand;
+    return (*data & FRAME_COMMAND_MASK) == LRPFrameCommand_GroupIdCommand;
 }
 
 void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {
@@ -44,7 +44,7 @@ void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {
 void LRP_Frame_addDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {
     unsigned char i = 0;
     for (; i < frame->length; i++) {
-        frame->data[i] = &frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES];
+        frame->data[i] = &frame->buffer[i + LRP_FRAME_NUMBER_OF_HEADER_BYTES];
     }
 }
 
@@ -56,6 +56,6 @@ void LRP_Frame_addHeaderDataToFrameBufferFromFrameData(LRPFrame *const frame) {
 void LRP_Frame_addDataToFrameBufferFromFrameData(LRPFrame *const frame) {
     unsigned char i = 0;
     for (; i < frame->length; i++) {
-        frame->buffer[i + FRAME_NUMBER_OF_HEADER_BYTES] = *frame->data[i];
+        frame->buffer[i + LRP_FRAME_NUMBER_OF_HEADER_BYTES] = *frame->data[i];
     }
 }

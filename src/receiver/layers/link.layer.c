@@ -18,7 +18,7 @@ LRP_ReceiverLinkLayer_handler(LRPReceiverSessionProvider *const sessionProvider,
                 return;
             }
         } else {
-            if (id != FRAME_BROADCAST_ID && id != *sessionProvider->deviceId) {
+            if (id != LRP_FRAME_BROADCAST_ID && id != *sessionProvider->deviceId) {
                 LRP_ReceiverLinkLayer_throwFrame(sessionProvider);
                 return;
             }
@@ -31,7 +31,7 @@ LRP_ReceiverLinkLayer_handler(LRPReceiverSessionProvider *const sessionProvider,
 }
 
 unsigned char LRP_ReceiverLinkLayer_isStartReceiving(const LRPReceiverSessionProvider *const sessionProvider) {
-    if (sessionProvider->linkCurrentFrame->status != FRAME_READY_TO_REDEFINE ||
+    if (sessionProvider->linkCurrentFrame->status != LRP_FRAME_READY_TO_REDEFINE ||
         LRP_LinkLayer_isStatusError((LRPSessionProvider *) sessionProvider)) {
         return 0;
     }
@@ -41,11 +41,11 @@ unsigned char LRP_ReceiverLinkLayer_isStartReceiving(const LRPReceiverSessionPro
 void LRP_ReceiverLinkLayer_startReceiving(LRPReceiverSessionProvider *const sessionProvider) {
     sessionProvider->indexOfReadBytes = 0;
     LRP_LinkLayer_setOk((LRPSessionProvider *) sessionProvider);
-    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVER_FRAME_IN_RECEIVING);
+    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, LRP_RECEIVER_FRAME_IN_RECEIVING);
 }
 
 void LRP_ReceiverLinkLayer_stopReceiving(LRPReceiverSessionProvider *const sessionProvider) {
-    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, RECEIVER_FRAME_READY_TO_CHECK);
+    LRP_Frame_setStatus(sessionProvider->linkCurrentFrame, LRP_RECEIVER_FRAME_READY_TO_CHECK);
     LRP_LinkLayer_setSkip((LRPSessionProvider *) sessionProvider);
     sessionProvider->linkCurrentFrame = sessionProvider->linkCurrentFrame->next;
 }

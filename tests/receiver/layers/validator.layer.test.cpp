@@ -30,13 +30,13 @@ protected:
         ASSERT_EQ(receiverSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*receiverSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Skip);
-        ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+        ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+        ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
 
         ASSERT_EQ(receiverSessionProvider.frameBuffer, frameBuffer);
 
-        ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-        ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
         ASSERT_EQ(receiverSessionProvider.applicationCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
@@ -45,7 +45,7 @@ protected:
 
 TEST_F(ReceiverValidatorLayerTest,
        Should_Be_Handled_When_The_Status_Is_Ready_To_Check) {
-    receiverSessionProvider.validatorCurrentFrame->status = RECEIVER_FRAME_READY_TO_CHECK;
+    receiverSessionProvider.validatorCurrentFrame->status = LRP_RECEIVER_FRAME_READY_TO_CHECK;
 
     LRP_ReceiverValidatorLayer_handler(&receiverSessionProvider);
 
@@ -56,13 +56,13 @@ TEST_F(ReceiverValidatorLayerTest,
     ASSERT_EQ(*frameBuffer[0].data[0], data0);
     ASSERT_EQ(*frameBuffer[0].data[1], data1);
     ASSERT_EQ(*frameBuffer[0].data[2], data2);
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_READY_TO_READ);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_READY_TO_READ);
     ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame, &frameBuffer[1]);
 }
 
 TEST_F(ReceiverValidatorLayerTest,
        Should_Be_Handled_When_The_Status_Is_Not_Ready_To_Check) {
-    receiverSessionProvider.validatorCurrentFrame->status = RECEIVER_FRAME_IN_RECEIVING;
+    receiverSessionProvider.validatorCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverValidatorLayer_handler(&receiverSessionProvider);
 
@@ -73,6 +73,6 @@ TEST_F(ReceiverValidatorLayerTest,
     ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame->data[0], nullptr);
     ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame->data[1], nullptr);
     ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame->data[2], nullptr);
-    ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame->status, RECEIVER_FRAME_IN_RECEIVING);
+    ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame->status, LRP_RECEIVER_FRAME_IN_RECEIVING);
     ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
 }

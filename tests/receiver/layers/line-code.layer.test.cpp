@@ -37,8 +37,8 @@ protected:
 
         ASSERT_EQ(receiverSessionProvider.frameBuffer, frameBuffer);
 
-        ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-        ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
         ASSERT_EQ(receiverSessionProvider.applicationCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(receiverSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
@@ -51,11 +51,11 @@ TEST_F(ReceiverLineCodeLayerTest,
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
 
-    receiverSessionProvider.linkLayerStatus = Skip;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
-    const unsigned char startDelimiter = LINE_CODE_4B5B_START_DELIMITER_BYTE;
+    const unsigned char startDelimiter = LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE;
 
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &startDelimiter);
     ASSERT_EQ(frameBuffer[0].buffer[0], 0);
@@ -64,14 +64,14 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], 0);
     ASSERT_EQ(frameBuffer[0].buffer[4], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_IN_RECEIVING);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
 
     ASSERT_EQ(lineCode4B5B.index, 0);
     ASSERT_EQ(lineCode4B5B.buffer[0], 0);
     ASSERT_EQ(lineCode4B5B.buffer[1], 0);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, OK);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -81,11 +81,11 @@ TEST_F(ReceiverLineCodeLayerTest,
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
 
-    receiverSessionProvider.linkLayerStatus = Error;
-    receiverSessionProvider.linkLayerErrorCode = DecodeError;
-    receiverSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_DecodeError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
-    const unsigned char startDelimiter = LINE_CODE_4B5B_START_DELIMITER_BYTE;
+    const unsigned char startDelimiter = LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE;
 
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &startDelimiter);
     ASSERT_EQ(frameBuffer[0].buffer[0], 0);
@@ -94,14 +94,14 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], 0);
     ASSERT_EQ(frameBuffer[0].buffer[4], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
     ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
     ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Error);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, DecodeError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Error);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_DecodeError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -111,11 +111,11 @@ TEST_F(ReceiverLineCodeLayerTest,
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
 
-    receiverSessionProvider.linkLayerStatus = Skip;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = RECEIVER_FRAME_IN_RECEIVING;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
-    const unsigned char startDelimiter = LINE_CODE_4B5B_START_DELIMITER_BYTE;
+    const unsigned char startDelimiter = LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE;
 
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &startDelimiter);
     ASSERT_EQ(frameBuffer[0].buffer[0], 0);
@@ -124,14 +124,14 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], 0);
     ASSERT_EQ(frameBuffer[0].buffer[4], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_IN_RECEIVING);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
     ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
     ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -141,9 +141,9 @@ TEST_F(ReceiverLineCodeLayerTest,
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
 
-    receiverSessionProvider.linkLayerStatus = Skip;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
     const unsigned char someData = 0b10101010;
 
@@ -154,22 +154,22 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], 0);
     ASSERT_EQ(frameBuffer[0].buffer[4], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(lineCode4B5B.index, 4);
     ASSERT_EQ(lineCode4B5B.buffer[0], 0xFF);
     ASSERT_EQ(lineCode4B5B.buffer[1], 0xFE);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
        Should_Be_Handled_When_The_Receiving_Was_Already_Started) {
-    receiverSessionProvider.linkLayerStatus = OK;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = RECEIVER_FRAME_IN_RECEIVING;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     // Header, Data - LRP
     const unsigned char data[] = {0xCB, 0x5E, 0xAD, 0x15, 0x5D, 0x7E, 0x1};
@@ -188,18 +188,18 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], receivedData1);
     ASSERT_EQ(frameBuffer[0].buffer[4], receivedData2);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_IN_RECEIVING);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, OK);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
        Should_Be_Handled_When_The_Receiving_Was_Already_Started_And_Get_A_Wrong_Byte) {
-    receiverSessionProvider.linkLayerStatus = OK;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = RECEIVER_FRAME_IN_RECEIVING;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     // Header, Wrong byte (01101 is an invalid 4B5B code)
     // 0. bit is the previous byte last bit, 1-5 bits are an invalid code, 6-7 bits dummy
@@ -214,29 +214,29 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[1], receivedHeader1);
     ASSERT_EQ(frameBuffer[0].buffer[2], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_IN_RECEIVING);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Error);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, DecodeError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Error);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_DecodeError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
        Should_Be_Handled_When_The_Receiving_Was_Already_Started_And_Get_A_Stop_Delimiter_Byte) {
-    receiverSessionProvider.linkLayerStatus = OK;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = RECEIVER_FRAME_IN_RECEIVING;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
-    const unsigned char stopDelimiter = LINE_CODE_4B5B_STOP_DELIMITER_BYTE;
+    const unsigned char stopDelimiter = LRP_LINE_CODE_4B5B_STOP_DELIMITER_BYTE;
 
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &stopDelimiter);
 
     ASSERT_EQ(frameBuffer[0].buffer[0], 0);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_READY_TO_CHECK);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_READY_TO_CHECK);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
@@ -247,11 +247,11 @@ TEST_F(ReceiverLineCodeLayerTest,
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
 
-    receiverSessionProvider.linkLayerStatus = Skip;
-    receiverSessionProvider.linkLayerErrorCode = NoError;
-    receiverSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
+    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
+    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
-    const unsigned char startDelimiter = LINE_CODE_4B5B_START_DELIMITER_BYTE;
+    const unsigned char startDelimiter = LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE;
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &startDelimiter);
 
     // Header, Data - LRP
@@ -265,7 +265,7 @@ TEST_F(ReceiverLineCodeLayerTest,
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &data[5]);
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &data[6]);
 
-    const unsigned char stopDelimiter = LINE_CODE_4B5B_STOP_DELIMITER_BYTE;
+    const unsigned char stopDelimiter = LRP_LINE_CODE_4B5B_STOP_DELIMITER_BYTE;
     LRP_ReceiverLineCodeLayer_handler(&receiverSessionProvider, &lineCode4B5B, &stopDelimiter);
 
     ASSERT_EQ(frameBuffer[0].buffer[0], receivedHeader0);
@@ -274,9 +274,9 @@ TEST_F(ReceiverLineCodeLayerTest,
     ASSERT_EQ(frameBuffer[0].buffer[3], receivedData1);
     ASSERT_EQ(frameBuffer[0].buffer[4], receivedData2);
 
-    ASSERT_EQ(frameBuffer[0].status, RECEIVER_FRAME_READY_TO_CHECK);
+    ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_READY_TO_CHECK);
 
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }

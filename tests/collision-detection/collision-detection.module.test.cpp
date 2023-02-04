@@ -48,9 +48,9 @@ TEST_F(CollisionDetectionTest, Should_Restart_Transmitter_Module) {
 
 TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Error_Should_IsDecodeError_Return_True) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                           DecodeError);
+                           LRPLinkLayerErrorCode_DecodeError);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                           DecodeError);
+                           LRPLinkLayerErrorCode_DecodeError);
 
     ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
               1);
@@ -61,22 +61,22 @@ TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Erro
 
 TEST_F(CollisionDetectionTest, When_Receiver_Layer_Has_Decode_Error_Should_Handle_Decode_Error) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                           DecodeError);
+                           LRPLinkLayerErrorCode_DecodeError);
     LRP_LinkLayer_setSkip((LRPSessionProvider *) collisionDetection.transmitterSessionProvider);
 
     LRP_CollisionDetection_decodeErrorHandler(&collisionDetection);
 
     ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                                    DecodeError), 1);
+                                    LRPLinkLayerErrorCode_DecodeError), 1);
     ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                                    DecodeError), 1);
+                                    LRPLinkLayerErrorCode_DecodeError), 1);
 }
 
 TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Error_Should_Not_Handle_Decode_Error) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                           NoError);
+                           LRPLinkLayerErrorCode_NoError);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                           NoError);
+                           LRPLinkLayerErrorCode_NoError);
 
     ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
               0);
@@ -88,9 +88,9 @@ TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Erro
 TEST_F(CollisionDetectionTest,
        When_Receiver_And_Transmitter_Layer_Have_Noise_Stroke_Error_Should_Not_Handle_Decode_Error) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                           NoiseStrokeError);
+                           LRPLinkLayerErrorCode_NoiseStrokeError);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                           NoiseStrokeError);
+                           LRPLinkLayerErrorCode_NoiseStrokeError);
 
     ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
               0);
@@ -100,7 +100,7 @@ TEST_F(CollisionDetectionTest,
 }
 
 TEST_F(CollisionDetectionTest, When_Data_Is_A_Noise_Stroke_Should_IsNoiseStrokeError_Return_True) {
-    unsigned char data = COLLISION_DETECTION_NOISE_STROKE;
+    unsigned char data = LRP_COLLISION_DETECTION_NOISE_STROKE;
 
     ASSERT_EQ(LRP_CollisionDetection_isNoiseStrokeError(&data), 1);
 }
@@ -116,9 +116,9 @@ TEST_F(CollisionDetectionTest, When_NoiseStrokeErrorHandler_Is_Called_Set_Noise_
 
     ASSERT_EQ(collisionDetection.numberOfCollisions, 1);
     ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                                    NoiseStrokeError), 1);
+                                    LRPLinkLayerErrorCode_NoiseStrokeError), 1);
     ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                                    NoiseStrokeError), 1);
+                                    LRPLinkLayerErrorCode_NoiseStrokeError), 1);
 }
 
 TEST_F(CollisionDetectionTest,

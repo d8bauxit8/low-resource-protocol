@@ -104,9 +104,9 @@ TEST_F(LineCode4b5bTest,
 
 TEST_F(LineCode4b5bTest, Should_Be_Tested_Status_Of_Decoding_Failed) {
     // FAILED_TO_DECODED macro in line_code_4b5b.c
-    const LRPLineCode4B5BDecodingState failedDecodingState = FailedDecoding;
+    const LRPLineCode4B5BDecodingState failedDecodingState = LRPLineCode4B5BDecodingState_FailedDecoding;
     // SUCCEED_TO_DECODED macro in line_code_4b5b.c
-    const LRPLineCode4B5BDecodingState succeededDecodingState = SuccessfulDecoding;
+    const LRPLineCode4B5BDecodingState succeededDecodingState = LRPLineCode4B5BDecodingState_SuccessfulDecoding;
 
     ASSERT_TRUE(LRP_4B5B_isDecodingFailed(&failedDecodingState));
 
