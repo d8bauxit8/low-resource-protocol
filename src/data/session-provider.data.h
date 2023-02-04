@@ -16,14 +16,14 @@ extern "C" {
 #include "link-layer.data.h"
 
 typedef struct LRPSessionProvider {
-    LRPFrame *frameBuffer;
+    const LRPFrame *frameBuffer;
     unsigned char linkLayerStatus: 2;
     unsigned char linkLayerErrorCode: 2;
     unsigned char *deviceId;
 
-    LRPFrame *linkCurrentFrame;
-    LRPFrame *validatorCurrentFrame;
-    LRPFrame *applicationCurrentFrame;
+    const LRPFrame *linkCurrentFrame;
+    const LRPFrame *validatorCurrentFrame;
+    const LRPFrame *applicationCurrentFrame;
 } LRPSessionProvider;
 
 #ifdef    __cplusplus

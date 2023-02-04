@@ -20,8 +20,8 @@ extern "C" {
 #define LRP_COLLISION_DETECTION_NOISE_STROKE 0b00100000u
 
 typedef struct LRPCollisionDetection {
-    LRPTransmitterSessionProvider *transmitterSessionProvider;
-    LRPReceiverSessionProvider *receiverSessionProvider;
+    const LRPTransmitterSessionProvider *transmitterSessionProvider;
+    const LRPReceiverSessionProvider *receiverSessionProvider;
     unsigned char backoffTime;
     unsigned char numberOfCollisions;
 } LRPCollisionDetection;
