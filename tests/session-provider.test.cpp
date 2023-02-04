@@ -14,14 +14,14 @@ TEST_F(SessionProviderTest, Should_Be_Initialized) {
     ASSERT_EQ(sessionProvider.deviceId, &sourceDeviceId);
     ASSERT_EQ(*sessionProvider.deviceId, sourceDeviceId);
 
-    ASSERT_EQ(sessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(sessionProvider.linkLayerErrorCode, NoError);
+    ASSERT_EQ(sessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
 
     ASSERT_EQ(sessionProvider.frameBuffer, frameBuffer);
 
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(sessionProvider.linkCurrentFrame, &frameBuffer[0]);
     ASSERT_EQ(sessionProvider.validatorCurrentFrame, &frameBuffer[0]);

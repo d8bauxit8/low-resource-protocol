@@ -60,8 +60,8 @@ which is available in the [`parity-bit.utility.c`](src/utilities/parity-bit.util
 The headers also consist of 2 parts.
 The first includes the target device (or group) ID (in 5 bits) and some command bits (in 3 bits).
 [`LRPFrameCommand`](src/data/frame.data.h) enum is contained the allowed commands:
-- `NoCommand` - Use this when don't need any command
-- `GroupIdCommand` - This macro help the target device to identify the type of received ID is group ID.
+- `LRPFrameCommand_NoCommand` - Use this when don't need any command
+- `LRPFrameCommand_GroupIdCommand` - This macro help the target device to identify the type of received ID is group ID.
  
 The second also contains a device ID (in 5 bits), which is the sender ID, and 
 besides that it includes the length of data (in 3 bits) 
@@ -118,7 +118,7 @@ Then you have to initialize the session provider with the `LRP_Receiver_init` fu
 ```c
 // It will be a device and group ID during the receiving.
 // Thus, your device will just get those frames at which the target ID equals with this.
-// If you don't want to add your device to any group, set this variable to FRAME_BROADCAST_ID
+// If you don't want to add your device to any group, set this variable to LRP_FRAME_BROADCAST_ID
 const unsigned char const sourceDeviceId = 0b00000001;
 const unsigned char const groupId = 0b00000010;
 LRPReceiverSessionProvider receiverSessionProvider{};
@@ -136,12 +136,12 @@ For these you have to create a new method in which you handle them. (It will cal
 ```c
 void EUSARTErrorHandler(void) {
     if(RCSTA2bits.FERR){
-        // The InternalError is an enum key from src/data/link-layer.data.h
-        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, InternalError);
+        // The LRPLinkLayerErrorCode_InternalError is an enum key from src/data/link-layer.data.h
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRPLinkLayerErrorCode_InternalError);
     }
 
     if(RCSTA2bits.OERR){
-        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, InternalError);
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRPLinkLayerErrorCode_InternalError);
         RCSTA2bits.CREN = 0;
         RCSTA2bits.CREN = 1;
     }
@@ -303,7 +303,7 @@ void touched(void) {
         LRP_TransmitterApplicationLayer_setDataIntoReservedFrame(&transmitterSessionProvider, touched, lengthOfData);
         // Then send it
         const unsigned char targetDeviceId = 0b00010;
-        LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider, targetDeviceId, NoCommand);
+        LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider, targetDeviceId, LRPFrameCommand_NoCommand);
     }
 }
 ```
@@ -379,7 +379,7 @@ void receiverInterrupt(void) {
         LRP_CollisionDetection_decodeErrorHandler(&collisionDetection);
         if(!PIE3bits.TX2IE) {
             LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);
-            TXREG2 = COLLISION_DETECTION_NOISE_STROKE;
+            TXREG2 = LRP_COLLISION_DETECTION_NOISE_STROKE;
             PIE3bits.TX2IE = 1;
         }
     }
@@ -396,7 +396,7 @@ void transmitterInterrupt(void) {
     if (LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) &transmitterSessionProvider)) {
         // If it has decoding error, handle this and send a noise stroke
         LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);
-        TXREG2 = COLLISION_DETECTION_NOISE_STROKE;
+        TXREG2 = LRP_COLLISION_DETECTION_NOISE_STROKE;
         return;
     }
     

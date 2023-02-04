@@ -6,7 +6,7 @@ protected:
     LRPFrame frame{};
 
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = NoCommand;
+    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
     const unsigned char sourceDeviceId = 0b10100u;
     const unsigned char length = 3u;
     const unsigned char status = 0xFFu;
@@ -51,7 +51,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item
 
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
     ASSERT_EQ(&frameBuffer[0], frameBuffer[0].next);
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
 TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_Items) {
@@ -61,13 +61,13 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_It
     LRP_Frame_initBuffer(frameBuffer, &frameBufferLength);
 
     ASSERT_EQ(&frameBuffer[0], frameBuffer[2].next);
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(&frameBuffer[1], frameBuffer[0].next);
-    ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
 
     ASSERT_EQ(&frameBuffer[2], frameBuffer[1].next);
-    ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
 TEST_F(FrameTest, Should_Be_Set_Status) {
@@ -78,7 +78,7 @@ TEST_F(FrameTest, Should_Be_Set_Status) {
 
 TEST_F(FrameTest, Should_Be_Reseted_Status) {
     LRP_Frame_resetStatus(&frame);
-    ASSERT_EQ(frame.status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(frame.status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
 TEST_F(FrameTest, Should_Be_Got_Target_Device_Id) {

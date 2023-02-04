@@ -19,9 +19,9 @@ extern "C" {
 // 2. Ready to check
 // 3. Ready to read
 // 4. Ready to redefine
-#define RECEIVER_FRAME_IN_RECEIVING 1
-#define RECEIVER_FRAME_READY_TO_CHECK 2
-#define RECEIVER_FRAME_READY_TO_READ 3
+#define LRP_RECEIVER_FRAME_IN_RECEIVING 1
+#define LRP_RECEIVER_FRAME_READY_TO_CHECK 2
+#define LRP_RECEIVER_FRAME_READY_TO_READ 3
 
 typedef struct LRPReceiverSessionProvider {
     LRPFrame *frameBuffer;

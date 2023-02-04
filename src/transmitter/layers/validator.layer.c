@@ -4,7 +4,7 @@
  * Public method declarations
  */
 void LRP_TransmitterValidatorLayer_handler(LRPTransmitterSessionProvider *const sessionProvider) {
-    if (sessionProvider->validatorCurrentFrame->status != TRANSMITTER_FRAME_READY_TO_CHECK) {
+    if (sessionProvider->validatorCurrentFrame->status != LRP_TRANSMITTER_FRAME_READY_TO_CHECK) {
         return;
     }
 
@@ -13,6 +13,6 @@ void LRP_TransmitterValidatorLayer_handler(LRPTransmitterSessionProvider *const 
     LRP_Frame_addHeaderDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
     LRP_Frame_addDataToFrameBufferFromFrameData(sessionProvider->validatorCurrentFrame);
 
-    LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, TRANSMITTER_FRAME_READY_TO_TRANSMITTER);
+    LRP_Frame_setStatus(sessionProvider->validatorCurrentFrame, LRP_TRANSMITTER_FRAME_READY_TO_TRANSMITTER);
     sessionProvider->validatorCurrentFrame = sessionProvider->validatorCurrentFrame->next;
 }

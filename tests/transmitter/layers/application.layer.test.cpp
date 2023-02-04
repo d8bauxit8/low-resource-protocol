@@ -17,13 +17,13 @@ protected:
         ASSERT_EQ(transmitterSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*transmitterSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, Skip);
-        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, NoError);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
 
         ASSERT_EQ(transmitterSessionProvider.frameBuffer, frameBuffer);
 
-        ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-        ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
         ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[0]);
@@ -46,12 +46,12 @@ TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Data_Into_Reserved_Frame) 
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->command, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->sourceDeviceId, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->targetId, 0);
-    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
 TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = NoCommand;
+    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
 
     LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider,
                                                           targetId, command);
@@ -60,7 +60,7 @@ TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
     ASSERT_EQ(frameBuffer[0].sourceDeviceId, sourceDeviceId);
     ASSERT_EQ(frameBuffer[0].command, command);
 
-    ASSERT_EQ(frameBuffer[0].status, TRANSMITTER_FRAME_READY_TO_CHECK);
+    ASSERT_EQ(frameBuffer[0].status, LRP_TRANSMITTER_FRAME_READY_TO_CHECK);
     ASSERT_EQ(frameBuffer[0].length, 0);
     ASSERT_EQ(frameBuffer[0].data[0], nullptr);
 
@@ -68,7 +68,7 @@ TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->command, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->sourceDeviceId, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->targetId, 0);
-    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
 TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Ready_To_Redefine_Frame_To_Reserved) {
@@ -76,7 +76,7 @@ TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Ready_To_Redefine_Frame_To
             &transmitterSessionProvider);
 
     ASSERT_TRUE(status);
-    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, TRANSMITTER_FRAME_RESERVED);
+    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_TRANSMITTER_FRAME_RESERVED);
 
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->command, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->sourceDeviceId, 0);
@@ -87,7 +87,7 @@ TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Ready_To_Redefine_Frame_To
 
     status = LRP_TransmitterApplicationLayer_setReadyToRedefineFrameToReserved(&transmitterSessionProvider);
     ASSERT_FALSE(status);
-    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, TRANSMITTER_FRAME_RESERVED);
+    ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_TRANSMITTER_FRAME_RESERVED);
 
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->command, 0);
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->sourceDeviceId, 0);

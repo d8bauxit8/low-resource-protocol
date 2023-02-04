@@ -8,7 +8,7 @@ protected:
     LRPTransmitterSessionProvider transmitterSessionProvider{};
     unsigned char sourceDeviceId = 0b10100u;
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = NoCommand;
+    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
     const unsigned char length = 0b011u;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
@@ -34,13 +34,13 @@ protected:
         ASSERT_EQ(transmitterSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*transmitterSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, Skip);
-        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, NoError);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
 
         ASSERT_EQ(transmitterSessionProvider.frameBuffer, frameBuffer);
 
-        ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-        ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
         ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[0]);
@@ -61,12 +61,12 @@ TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_R
     // Data 3
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->buffer[4], 0u);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
     ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready_To_Check) {
-    transmitterSessionProvider.validatorCurrentFrame->status = TRANSMITTER_FRAME_READY_TO_CHECK;
+    transmitterSessionProvider.validatorCurrentFrame->status = LRP_TRANSMITTER_FRAME_READY_TO_CHECK;
 
     LRP_TransmitterValidatorLayer_handler(&transmitterSessionProvider);
 
@@ -81,6 +81,6 @@ TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready
     // Data 3
     ASSERT_EQ(frameBuffer[0].buffer[4], data2);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
     ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[1]);
 }

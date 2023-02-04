@@ -24,8 +24,8 @@ protected:
         frameBuffer[0].buffer[4] = 'P';
 
         transmitterSessionProvider.linkCurrentFrame->length = 3u;
-        transmitterSessionProvider.linkCurrentFrame->status = TRANSMITTER_FRAME_READY_TO_TRANSMITTER;
-        transmitterSessionProvider.linkLayerStatus = Skip;
+        transmitterSessionProvider.linkCurrentFrame->status = LRP_TRANSMITTER_FRAME_READY_TO_TRANSMITTER;
+        transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
 
         lineCode4B5B.index = 0u;
         lineCode4B5B.buffer[0] = 0u;
@@ -38,8 +38,8 @@ protected:
 
         ASSERT_EQ(transmitterSessionProvider.frameBuffer, frameBuffer);
 
-        ASSERT_EQ(frameBuffer[1].status, FRAME_READY_TO_REDEFINE);
-        ASSERT_EQ(frameBuffer[2].status, FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[1].status, LRP_FRAME_READY_TO_REDEFINE);
+        ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 
         ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame, &frameBuffer[0]);
         ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
@@ -50,50 +50,50 @@ TEST_F(TransmitterLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
     unsigned char data;
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
-    ASSERT_EQ(data, LINE_CODE_4B5B_START_DELIMITER_BYTE);
+    ASSERT_EQ(data, LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE);
     ASSERT_EQ(transmitterSessionProvider.indexOfWrittenBytes, 0u);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x5Bu);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x57u);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0xABu);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x15u);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x5Du);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x7Eu);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
     ASSERT_EQ(data, 0x1u);
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, OK);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
-    ASSERT_EQ(data, LINE_CODE_4B5B_STOP_DELIMITER_BYTE);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, Skip);
-    ASSERT_EQ(frameBuffer[0].status, FRAME_READY_TO_REDEFINE);
+    ASSERT_EQ(data, LRP_LINE_CODE_4B5B_STOP_DELIMITER_BYTE);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
@@ -105,21 +105,21 @@ TEST_F(TransmitterLineCodeLayerTest, Should_Be_Started_Transmitting) {
     unsigned char data;
     LRP_TransmitterLineCodeLayer_startTransmitting(&transmitterSessionProvider, &lineCode4B5B, &data);
 
-    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, TRANSMITTER_FRAME_TRANSMITTERTING);
+    ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
     ASSERT_EQ(lineCode4B5B.index, 0u);
     ASSERT_EQ(lineCode4B5B.buffer[0], 0u);
     ASSERT_EQ(lineCode4B5B.buffer[1], 0u);
-    ASSERT_EQ(data, LINE_CODE_4B5B_START_DELIMITER_BYTE);
+    ASSERT_EQ(data, LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE);
 }
 
 TEST_F(TransmitterLineCodeLayerTest, Should_Be_Checked_The_Frame_Is_Ready_To_Transmitting) {
     ASSERT_TRUE(LRP_TransmitterLineCodeLayer_isReadyToStartTransmitting(&transmitterSessionProvider));
 
-    transmitterSessionProvider.linkCurrentFrame->status = FRAME_READY_TO_REDEFINE;
-    transmitterSessionProvider.linkLayerStatus = Skip;
+    transmitterSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
+    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
     ASSERT_FALSE(LRP_TransmitterLineCodeLayer_isReadyToStartTransmitting(&transmitterSessionProvider));
 
-    transmitterSessionProvider.linkCurrentFrame->status = TRANSMITTER_FRAME_READY_TO_TRANSMITTER;
-    transmitterSessionProvider.linkLayerStatus = Error;
+    transmitterSessionProvider.linkCurrentFrame->status = LRP_TRANSMITTER_FRAME_READY_TO_TRANSMITTER;
+    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
     ASSERT_FALSE(LRP_TransmitterLineCodeLayer_isReadyToStartTransmitting(&transmitterSessionProvider));
 }

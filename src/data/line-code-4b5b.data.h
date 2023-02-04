@@ -9,17 +9,18 @@
 extern "C" {
 #endif
 
-#define LINE_CODE_4B5B_SUCCESSFUL_DECODING 0
-#define LINE_CODE_4B5B_FAILED_DECODING 1
+#define LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING 0
+#define LRP_LINE_CODE_4B5B_FAILED_DECODING 1
 
 typedef enum {
-    SuccessfulDecoding = LINE_CODE_4B5B_SUCCESSFUL_DECODING, FailedDecoding = LINE_CODE_4B5B_FAILED_DECODING
+    LRPLineCode4B5BDecodingState_SuccessfulDecoding = LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING,
+    LRPLineCode4B5BDecodingState_FailedDecoding = LRP_LINE_CODE_4B5B_FAILED_DECODING
 } LRPLineCode4B5BDecodingState;
 
 // Recommend control codes
 // https://en.wikipedia.org/wiki/4B5B
-#define LINE_CODE_4B5B_START_DELIMITER_BYTE 0b11000000
-#define LINE_CODE_4B5B_STOP_DELIMITER_BYTE 0b01101000
+#define LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE 0b11000000
+#define LRP_LINE_CODE_4B5B_STOP_DELIMITER_BYTE 0b01101000
 
 typedef struct LRPLineCode4B5B {
     unsigned char index;
