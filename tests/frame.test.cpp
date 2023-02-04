@@ -6,7 +6,7 @@ protected:
     LRPFrame frame{};
 
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
+    const unsigned char command = LRP_FRAME_NO_COMMAND;
     const unsigned char sourceDeviceId = 0b10100u;
     const unsigned char length = 3u;
     const unsigned char status = 0xFFu;

@@ -30,8 +30,8 @@ protected:
         ASSERT_EQ(receiverSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*receiverSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-        ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+        ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+        ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 
         ASSERT_EQ(receiverSessionProvider.frameBuffer, frameBuffer);
 

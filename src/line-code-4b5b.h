@@ -22,9 +22,9 @@ void
 LRP_4B5B_addEncodedByteToBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B, const unsigned char *data);
 
 unsigned char LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(LRPLineCode4B5B *lineCode4B5B,
-                                                                    LRPLineCode4B5BDecodingState *decodingState);
+                                                                    unsigned char *decodingState);
 
-unsigned char LRP_4B5B_isDecodingFailed(const LRPLineCode4B5BDecodingState *decodingState);
+unsigned char LRP_4B5B_isDecodingFailed(const unsigned char *decodingState);
 
 unsigned char LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(const LRPLineCode4B5B *lineCode4B5B);
 

@@ -8,7 +8,7 @@ protected:
     LRPTransmitterSessionProvider transmitterSessionProvider{};
     unsigned char sourceDeviceId = 0b10100u;
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
+    const unsigned char command = LRP_FRAME_NO_COMMAND;
     const unsigned char length = 0b011u;
     LRPFrame frameBuffer[3]{};
     unsigned char data0 = 'L';
@@ -34,8 +34,8 @@ protected:
         ASSERT_EQ(transmitterSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*transmitterSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 
         ASSERT_EQ(transmitterSessionProvider.frameBuffer, frameBuffer);
 
@@ -61,7 +61,7 @@ TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_R
     // Data 3
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->buffer[4], 0u);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
 }
 
@@ -81,6 +81,6 @@ TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready
     // Data 3
     ASSERT_EQ(frameBuffer[0].buffer[4], data2);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[1]);
 }

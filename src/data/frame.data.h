@@ -16,14 +16,10 @@ extern "C" {
 #define LRP_FRAME_NO_COMMAND 0b000u
 #define LRP_FRAME_GROUP_ID_COMMAND 0b111u
 
-typedef enum {
-    LRPFrameCommand_NoCommand = LRP_FRAME_NO_COMMAND, LRPFrameCommand_GroupIdCommand = LRP_FRAME_GROUP_ID_COMMAND
-} LRPFrameCommand;
-
 typedef struct LRPFrameData {
     unsigned char sourceDeviceId: 5;
     unsigned char targetId: 5;
-    LRPFrameCommand command: 3;
+    unsigned char command: 3;
     unsigned char length: 3;
     unsigned char *data[LRP_FRAME_NUMBER_OF_MAX_DATA_BYTES];
 } LRPFrameData;
@@ -31,7 +27,7 @@ typedef struct LRPFrameData {
 typedef struct LRPFrame {
     unsigned char sourceDeviceId: 5;
     unsigned char targetId: 5;
-    LRPFrameCommand command: 3;
+    unsigned char command: 3;
     unsigned char length: 3;
     unsigned char *data[LRP_FRAME_NUMBER_OF_MAX_DATA_BYTES];
     unsigned char status;

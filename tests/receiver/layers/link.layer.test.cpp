@@ -40,8 +40,8 @@ protected:
 TEST_F(ReceiverLinkLayerTest,
        Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_A_Given_Device) {
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &receivedHeader0);
@@ -97,8 +97,8 @@ TEST_F(ReceiverLinkLayerTest,
             (unsigned char) (broadcastId << 3u) | receivedHeader0;
 
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &header0WithBroadcastId);
@@ -150,11 +150,11 @@ TEST_F(ReceiverLinkLayerTest,
 TEST_F(ReceiverLinkLayerTest,
        Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Id_Is_The_Group_Id_With_Is_Group_Flag) {
     const unsigned char header0WithGroupId =
-            (unsigned char) (groupId << 3u) | LRPFrameCommand_GroupIdCommand;
+            (unsigned char) (groupId << 3u) | LRP_FRAME_GROUP_ID_COMMAND;
 
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &header0WithGroupId);
@@ -210,8 +210,8 @@ TEST_F(ReceiverLinkLayerTest,
             (unsigned char) (anotherTargetId << 3u) | receivedHeader0;
 
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &header0WithAnotherTargetId);
@@ -229,8 +229,8 @@ TEST_F(ReceiverLinkLayerTest,
     ASSERT_EQ(frameBuffer[0].data[1], nullptr);
     ASSERT_EQ(frameBuffer[0].data[2], nullptr);
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -240,8 +240,8 @@ TEST_F(ReceiverLinkLayerTest,
             (unsigned char) (groupId << 3u) | receivedHeader0;
 
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &header0WithGroupId);
@@ -259,8 +259,8 @@ TEST_F(ReceiverLinkLayerTest,
     ASSERT_EQ(frameBuffer[0].data[1], nullptr);
     ASSERT_EQ(frameBuffer[0].data[2], nullptr);
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -269,11 +269,11 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_Not_That_Device_With_Is_Group_Flag) {
     const unsigned char anotherTargetId = 0b10101u;
     const unsigned char header0WithGroupId =
-            (unsigned char) (anotherTargetId << 3u) | LRPFrameCommand_GroupIdCommand;
+            (unsigned char) (anotherTargetId << 3u) | LRP_FRAME_GROUP_ID_COMMAND;
 
     receiverSessionProvider.indexOfReadBytes = 0;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_handler(&receiverSessionProvider, &header0WithGroupId);
@@ -291,8 +291,8 @@ TEST_F(ReceiverLinkLayerTest,
     ASSERT_EQ(frameBuffer[0].data[1], nullptr);
     ASSERT_EQ(frameBuffer[0].data[2], nullptr);
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -300,8 +300,8 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Be_Tried_To_Start_Receving_When_The_Status_Is_Not_Ready_To_Redefine) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     const unsigned char status = LRP_ReceiverLinkLayer_isStartReceiving(&receiverSessionProvider);
@@ -313,8 +313,8 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Be_Tried_To_Start_Receving_When_There_Is_Frame_Error) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_DecodeError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_DECODE_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
     const unsigned char status = LRP_ReceiverLinkLayer_isStartReceiving(&receiverSessionProvider);
@@ -326,8 +326,8 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Be_Tried_To_Start_Receving_When_There_Is_No_Frame_Error_And_The_Status_Is_Ready_To_Redefine) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
     const unsigned char status = LRP_ReceiverLinkLayer_isStartReceiving(&receiverSessionProvider);
@@ -339,16 +339,16 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Start_Receving_When_There_Is_No_Frame_Error_And_The_Status_Is_Ready_To_Redefine) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Skip;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
 
     LRP_ReceiverLinkLayer_startReceiving(&receiverSessionProvider);
 
     ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
     ASSERT_EQ(receiverSessionProvider.indexOfReadBytes, 0);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_OK);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
@@ -356,45 +356,45 @@ TEST_F(ReceiverLinkLayerTest,
        Should_Be_Stoped_Receiving) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_stopReceiving(&receiverSessionProvider);
 
     ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_READY_TO_CHECK);
     ASSERT_EQ(receiverSessionProvider.indexOfReadBytes, 5);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
 TEST_F(ReceiverLinkLayerTest,
        Should_Be_Handled_Error_Status_When_There_Is_No_Error) {
 
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_NoError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_errorStatusHandler(&receiverSessionProvider);
 
     ASSERT_EQ(frameBuffer[0].status, LRP_RECEIVER_FRAME_IN_RECEIVING);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_OK);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }
 
 TEST_F(ReceiverLinkLayerTest,
        Should_Be_Handled_Error_Status_When_There_Is_Error) {
 
-    receiverSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
-    receiverSessionProvider.linkLayerErrorCode = LRPLinkLayerErrorCode_DecodeError;
+    receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
+    receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_DECODE_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverLinkLayer_errorStatusHandler(&receiverSessionProvider);
 
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
-    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(receiverSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(receiverSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
     ASSERT_EQ(receiverSessionProvider.linkCurrentFrame, &frameBuffer[0]);
 }

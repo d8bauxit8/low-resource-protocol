@@ -22,14 +22,14 @@ void LRP_ReceiverLineCodeLayer_handler(LRPReceiverSessionProvider *const session
 
         if (LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(lineCode4B5B)) {
             // Try to read a decoded byte
-            LRPLineCode4B5BDecodingState decodingState;
+            unsigned char decodingState;
             const unsigned char decodedData = LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(
                     lineCode4B5B, &decodingState);
 
             // If the received byte could not be decoded,
             // the frame should be thrown because it would be invalid.
             if (LRP_4B5B_isDecodingFailed(&decodingState)) {
-                LRP_LinkLayer_setError((LRPSessionProvider *) sessionProvider, LRPLinkLayerErrorCode_DecodeError);
+                LRP_LinkLayer_setError((LRPSessionProvider *) sessionProvider, LRP_LINK_LAYER_DECODE_ERROR);
                 return;
             }
 

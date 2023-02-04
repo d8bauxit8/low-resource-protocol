@@ -31,7 +31,7 @@ unsigned char LRP_Frame_getTargetIdFromReceivedByte(const unsigned char *const d
 }
 
 unsigned char LRP_Frame_isGroupIdCommandFromReceivedByte(const unsigned char *const data) {
-    return (*data & FRAME_COMMAND_MASK) == LRPFrameCommand_GroupIdCommand;
+    return (*data & FRAME_COMMAND_MASK) == LRP_FRAME_GROUP_ID_COMMAND;
 }
 
 void LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(LRPFrame *const frame) {

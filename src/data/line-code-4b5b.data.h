@@ -12,11 +12,6 @@ extern "C" {
 #define LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING 0
 #define LRP_LINE_CODE_4B5B_FAILED_DECODING 1
 
-typedef enum {
-    LRPLineCode4B5BDecodingState_SuccessfulDecoding = LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING,
-    LRPLineCode4B5BDecodingState_FailedDecoding = LRP_LINE_CODE_4B5B_FAILED_DECODING
-} LRPLineCode4B5BDecodingState;
-
 // Recommend control codes
 // https://en.wikipedia.org/wiki/4B5B
 #define LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE 0b11000000

@@ -20,7 +20,7 @@ void LRP_TransmitterApplicationLayer_setDataIntoReservedFrame(LRPTransmitterSess
 
 void LRP_TransmitterApplicationLayer_transmitReservedFrame(LRPTransmitterSessionProvider *sessionProvider,
                                                            unsigned char targetId,
-                                                           LRPFrameCommand command);
+                                                           unsigned char command);
 
 unsigned char
 LRP_TransmitterApplicationLayer_setReadyToRedefineFrameToReserved(LRPTransmitterSessionProvider *sessionProvider);

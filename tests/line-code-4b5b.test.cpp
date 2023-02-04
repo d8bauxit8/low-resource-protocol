@@ -72,7 +72,7 @@ TEST_F(LineCode4b5bTest,
     lineCode4B5B.buffer[0] = 0b10101101u;
     lineCode4B5B.buffer[1] = 0b10101001u;
 
-    LRPLineCode4B5BDecodingState decodingState;
+    unsigned char decodingState;
     const unsigned char decodedByte = LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(&lineCode4B5B,
                                                                                             &decodingState);
 
@@ -90,7 +90,7 @@ TEST_F(LineCode4b5bTest,
     lineCode4B5B.buffer[0] = 0b10111101u;
     lineCode4B5B.buffer[1] = 0b10101011u;
 
-    LRPLineCode4B5BDecodingState decodingState;
+    unsigned char decodingState;
     const unsigned char decodedByte = LRP_4B5B_tryToReadADecodedByteFromBufferOfEncodedBits(&lineCode4B5B,
                                                                                             &decodingState);
 
@@ -104,9 +104,9 @@ TEST_F(LineCode4b5bTest,
 
 TEST_F(LineCode4b5bTest, Should_Be_Tested_Status_Of_Decoding_Failed) {
     // FAILED_TO_DECODED macro in line_code_4b5b.c
-    const LRPLineCode4B5BDecodingState failedDecodingState = LRPLineCode4B5BDecodingState_FailedDecoding;
+    const unsigned char failedDecodingState = LRP_LINE_CODE_4B5B_FAILED_DECODING;
     // SUCCEED_TO_DECODED macro in line_code_4b5b.c
-    const LRPLineCode4B5BDecodingState succeededDecodingState = LRPLineCode4B5BDecodingState_SuccessfulDecoding;
+    const unsigned char succeededDecodingState = LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING;
 
     ASSERT_TRUE(LRP_4B5B_isDecodingFailed(&failedDecodingState));
 

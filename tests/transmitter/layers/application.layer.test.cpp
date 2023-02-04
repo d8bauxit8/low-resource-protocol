@@ -17,8 +17,8 @@ protected:
         ASSERT_EQ(transmitterSessionProvider.deviceId, &sourceDeviceId);
         ASSERT_EQ(*transmitterSessionProvider.deviceId, sourceDeviceId);
 
-        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+        ASSERT_EQ(transmitterSessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 
         ASSERT_EQ(transmitterSessionProvider.frameBuffer, frameBuffer);
 
@@ -51,7 +51,7 @@ TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Data_Into_Reserved_Frame) 
 
 TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
     const unsigned char targetId = 0b11001u;
-    const LRPFrameCommand command = LRPFrameCommand_NoCommand;
+    const unsigned char command = LRP_FRAME_NO_COMMAND;
 
     LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider,
                                                           targetId, command);

@@ -14,8 +14,8 @@ TEST_F(SessionProviderTest, Should_Be_Initialized) {
     ASSERT_EQ(sessionProvider.deviceId, &sourceDeviceId);
     ASSERT_EQ(*sessionProvider.deviceId, sourceDeviceId);
 
-    ASSERT_EQ(sessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
-    ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRPLinkLayerErrorCode_NoError);
+    ASSERT_EQ(sessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
+    ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 
     ASSERT_EQ(sessionProvider.frameBuffer, frameBuffer);
 

@@ -69,41 +69,41 @@ TEST_F(TransmitterLinkLayerTest, Should_Be_Started_Transmitting) {
     LRP_TransmitterLinkLayer_startTransmitting(&transmitterSessionProvider);
 
     ASSERT_EQ(transmitterSessionProvider.indexOfWrittenBytes, 0u);
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_OK);
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
 }
 
 TEST_F(TransmitterLinkLayerTest, Should_Be_Ended_Transmitting) {
     transmitterSessionProvider.linkCurrentFrame->status = LRP_TRANSMITTER_FRAME_TRANSMITTING;
-    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
+    transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
 
     LRP_TransmitterLinkLayer_endTransmitting(&transmitterSessionProvider);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
 TEST_F(TransmitterLinkLayerTest, Should_Be_Handled_The_Error_Status) {
     // There is no error
-    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_OK;
+    transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_OK);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_OK);
 
     // There is error but there is not transmitting
-    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
+    transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
     transmitterSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
     LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_FRAME_READY_TO_REDEFINE);
 
     // There is error and there is transmitting
-    transmitterSessionProvider.linkLayerStatus = LRPLinkLayerStatus_Error;
+    transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
     transmitterSessionProvider.linkCurrentFrame->status = LRP_TRANSMITTER_FRAME_TRANSMITTING;
     LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);
 
-    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRPLinkLayerStatus_Skip);
+    ASSERT_EQ(transmitterSessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_READY_TO_TRANSMITTER);
 }

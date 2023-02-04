@@ -30,12 +30,12 @@ unsigned char LRP_CollisionDetection_shouldRestartTransmitterModule(LRPCollision
 }
 
 unsigned char LRP_CollisionDetection_isDecodeError(const LRPSessionProvider *const sessionProvider) {
-    return LRP_LinkLayer_isError(sessionProvider, LRPLinkLayerErrorCode_DecodeError);
+    return LRP_LinkLayer_isError(sessionProvider, LRP_LINK_LAYER_DECODE_ERROR);
 }
 
 void LRP_CollisionDetection_decodeErrorHandler(LRPCollisionDetection *const collisionDetection) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection->transmitterSessionProvider,
-                           LRPLinkLayerErrorCode_DecodeError);
+                           LRP_LINK_LAYER_DECODE_ERROR);
 }
 
 unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *const data) {
@@ -45,9 +45,9 @@ unsigned char LRP_CollisionDetection_isNoiseStrokeError(const unsigned char *con
 void LRP_CollisionDetection_noiseStrokeErrorHandler(LRPCollisionDetection *const collisionDetection) {
     LRP_CollisionDetection_setBackoffTime(collisionDetection);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection->transmitterSessionProvider,
-                           LRPLinkLayerErrorCode_NoiseStrokeError);
+                           LRP_LINK_LAYER_NOISE_STROKE_ERROR);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection->receiverSessionProvider,
-                           LRPLinkLayerErrorCode_NoiseStrokeError);
+                           LRP_LINK_LAYER_NOISE_STROKE_ERROR);
 }
 
 unsigned char

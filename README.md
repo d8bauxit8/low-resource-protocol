@@ -59,9 +59,9 @@ which is available in the [`parity-bit.utility.c`](src/utilities/parity-bit.util
 ### Headers
 The headers also consist of 2 parts.
 The first includes the target device (or group) ID (in 5 bits) and some command bits (in 3 bits).
-[`LRPFrameCommand`](src/data/frame.data.h) enum is contained the allowed commands:
-- `LRPFrameCommand_NoCommand` - Use this when don't need any command
-- `LRPFrameCommand_GroupIdCommand` - This macro help the target device to identify the type of received ID is group ID.
+Allowed commands:
+- `LRP_FRAME_NO_COMMAND` - Use this when don't need any command
+- `LRP_FRAME_GROUP_ID_COMMAND` - This macro help the target device to identify the type of received ID is group ID.
  
 The second also contains a device ID (in 5 bits), which is the sender ID, and 
 besides that it includes the length of data (in 3 bits) 
@@ -136,12 +136,11 @@ For these you have to create a new method in which you handle them. (It will cal
 ```c
 void EUSARTErrorHandler(void) {
     if(RCSTA2bits.FERR){
-        // The LRPLinkLayerErrorCode_InternalError is an enum key from src/data/link-layer.data.h
-        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRPLinkLayerErrorCode_InternalError);
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRP_LINK_LAYER_INTERNAL_ERROR);
     }
 
     if(RCSTA2bits.OERR){
-        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRPLinkLayerErrorCode_InternalError);
+        LRP_LinkLayer_setError((LRPSessionProvider *) &receiverSessionProvider, LRP_LINK_LAYER_INTERNAL_ERROR);
         RCSTA2bits.CREN = 0;
         RCSTA2bits.CREN = 1;
     }
@@ -303,7 +302,7 @@ void touched(void) {
         LRP_TransmitterApplicationLayer_setDataIntoReservedFrame(&transmitterSessionProvider, touched, lengthOfData);
         // Then send it
         const unsigned char targetDeviceId = 0b00010;
-        LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider, targetDeviceId, LRPFrameCommand_NoCommand);
+        LRP_TransmitterApplicationLayer_transmitReservedFrame(&transmitterSessionProvider, targetDeviceId, LRP_FRAME_NO_COMMAND);
     }
 }
 ```
