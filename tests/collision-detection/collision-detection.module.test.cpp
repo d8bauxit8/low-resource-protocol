@@ -28,127 +28,125 @@ protected:
     }
 };
 
-TEST_F(CollisionDetectionTest, Should_Be_Initialized) {
+TEST_F(CollisionDetectionTest, should_be_initialized) {
     ASSERT_EQ(collisionDetection.backoffTime, 0);
     ASSERT_EQ(collisionDetection.numberOfCollisions, 0);
     ASSERT_EQ(collisionDetection.transmitterSessionProvider, &transmitterSessionProvider);
     ASSERT_EQ(collisionDetection.receiverSessionProvider, &receiverSessionProvider);
 }
 
-TEST_F(CollisionDetectionTest, Should_Restart_Transmitter_Module) {
+TEST_F(CollisionDetectionTest, when_backoff_time_is_2_should_be_restarted_the_transmitter_module) {
     collisionDetection.backoffTime = 2u;
 
-    ASSERT_EQ(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection), 0);
+    ASSERT_FALSE(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection));
     ASSERT_EQ(collisionDetection.backoffTime, 1u);
-    ASSERT_EQ(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection), 0);
+    ASSERT_FALSE(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection));
     ASSERT_EQ(collisionDetection.backoffTime, 0u);
-    ASSERT_EQ(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection), 1);
+    ASSERT_TRUE(LRP_CollisionDetection_shouldRestartTransmitterModule(&collisionDetection));
     ASSERT_EQ(collisionDetection.backoffTime, 0u);
 }
 
-TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Error_Should_IsDecodeError_Return_True) {
+TEST_F(CollisionDetectionTest, when_receiver_and_transmitter_layer_have_decode_error_isDecodeError_should_return_true) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
                            LRP_LINK_LAYER_DECODE_ERROR);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
                            LRP_LINK_LAYER_DECODE_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
-              1);
-    ASSERT_EQ(
-            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider),
-            1);
+    ASSERT_TRUE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider));
+    ASSERT_TRUE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider));
 }
 
-TEST_F(CollisionDetectionTest, When_Receiver_Layer_Has_Decode_Error_Should_Handle_Decode_Error) {
+TEST_F(CollisionDetectionTest,
+       when_receiver_layer_has_decode_error_and_is_is_handled_isDecodeError_should_return_true) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
                            LRP_LINK_LAYER_DECODE_ERROR);
     LRP_LinkLayer_setSkip((LRPSessionProvider *) collisionDetection.transmitterSessionProvider);
 
     LRP_CollisionDetection_decodeErrorHandler(&collisionDetection);
 
-    ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                                    LRP_LINK_LAYER_DECODE_ERROR), 1);
-    ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                                    LRP_LINK_LAYER_DECODE_ERROR), 1);
+    ASSERT_TRUE(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
+                                      LRP_LINK_LAYER_DECODE_ERROR));
+    ASSERT_TRUE(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
+                                      LRP_LINK_LAYER_DECODE_ERROR));
 }
 
-TEST_F(CollisionDetectionTest, When_Receiver_And_Transmitter_Layer_Have_Not_Error_Should_Not_Handle_Decode_Error) {
+TEST_F(CollisionDetectionTest, when_receiver_and_transmitter_layer_have_not_error_isDecodeError_should_return_false) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
                            LRP_LINK_LAYER_NO_ERROR);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
                            LRP_LINK_LAYER_NO_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
-              0);
-    ASSERT_EQ(
-            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider),
-            0);
+    ASSERT_FALSE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider));
+    ASSERT_FALSE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider));
 }
 
 TEST_F(CollisionDetectionTest,
-       When_Receiver_And_Transmitter_Layer_Have_Noise_Stroke_Error_Should_Not_Handle_Decode_Error) {
+       when_receiver_and_transmitter_layer_have_noise_stroke_error_isDecodeError_should_return_false) {
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
                            LRP_LINK_LAYER_NOISE_STROKE_ERROR);
     LRP_LinkLayer_setError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
                            LRP_LINK_LAYER_NOISE_STROKE_ERROR);
 
-    ASSERT_EQ(LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider),
-              0);
-    ASSERT_EQ(
-            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider),
-            0);
+    ASSERT_FALSE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.receiverSessionProvider));
+    ASSERT_FALSE(
+            LRP_CollisionDetection_isDecodeError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider));
 }
 
-TEST_F(CollisionDetectionTest, When_Data_Is_A_Noise_Stroke_Should_IsNoiseStrokeError_Return_True) {
+TEST_F(CollisionDetectionTest, when_data_is_a_noise_stroke_isNoiseStrokeError_should_return_true) {
     unsigned char data = LRP_COLLISION_DETECTION_NOISE_STROKE;
 
-    ASSERT_EQ(LRP_CollisionDetection_isNoiseStrokeError(&data), 1);
+    ASSERT_TRUE(LRP_CollisionDetection_isNoiseStrokeError(&data));
 }
 
-TEST_F(CollisionDetectionTest, When_Data_Is_A_Noise_Stroke_Should_IsNoiseStrokeError_Return_False) {
+TEST_F(CollisionDetectionTest, when_data_is_not_a_noise_stroke_isNoiseStrokeError_should_return_false) {
     unsigned char data = 0;
 
-    ASSERT_EQ(LRP_CollisionDetection_isNoiseStrokeError(&data), 0);
+    ASSERT_FALSE(LRP_CollisionDetection_isNoiseStrokeError(&data));
 }
 
-TEST_F(CollisionDetectionTest, When_NoiseStrokeErrorHandler_Is_Called_Set_Noise_Stroke_Error_And_Set_Backoff_Time) {
+TEST_F(CollisionDetectionTest, when_noiseStrokeErrorHandler_is_called_set_noise_stroke_error_and_set_backoff_time) {
     LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
 
     ASSERT_EQ(collisionDetection.numberOfCollisions, 1);
-    ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
-                                    LRP_LINK_LAYER_NOISE_STROKE_ERROR), 1);
-    ASSERT_EQ(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
-                                    LRP_LINK_LAYER_NOISE_STROKE_ERROR), 1);
+    ASSERT_TRUE(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.receiverSessionProvider,
+                                      LRP_LINK_LAYER_NOISE_STROKE_ERROR));
+    ASSERT_TRUE(LRP_LinkLayer_isError((LRPSessionProvider *) collisionDetection.transmitterSessionProvider,
+                                      LRP_LINK_LAYER_NOISE_STROKE_ERROR));
 }
 
 TEST_F(CollisionDetectionTest,
-       When_NumberOfCollisions_Is_Reached_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_True) {
+       when_numberOfCollisions_is_reached_the_maximum_value_isReachedMaxNumberOfCollisions_should_return_true) {
     for (int i = 0; i < maxNumberOfCollisions; ++i) {
         LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
     }
 
     ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisions);
-    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 1);
+    ASSERT_TRUE(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection));
 }
 
 TEST_F(CollisionDetectionTest,
-       When_NumberOfCollisions_Is_Bigger_Than_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_True) {
+       when_numberOfCollisions_is_bigger_than_the_maximum_value_isReachedMaxNumberOfCollisions_should_return_true) {
     unsigned char maxNumberOfCollisionsPlusOne = maxNumberOfCollisions + 1;
     for (int i = 0; i < maxNumberOfCollisionsPlusOne; ++i) {
         LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
     }
 
     ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisions);
-    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 1);
+    ASSERT_TRUE(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection));
 }
 
 TEST_F(CollisionDetectionTest,
-       When_NumberOfCollisions_Is_Not_Reached_The_Maximum_Value_Should_LRP_CollisionDetection_isReachedMaxNumberOfCollisions_Method_Return_False) {
+       when_numberOfCollisions_is_not_reached_the_maximum_value_isReachedMaxNumberOfCollisions_should_return_false) {
     unsigned char maxNumberOfCollisionsMinusOne = maxNumberOfCollisions - 1;
     for (int i = 0; i < maxNumberOfCollisionsMinusOne; ++i) {
         LRP_CollisionDetection_noiseStrokeErrorHandler(&collisionDetection);
     }
 
     ASSERT_EQ(collisionDetection.numberOfCollisions, maxNumberOfCollisionsMinusOne);
-    ASSERT_EQ(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection), 0);
+    ASSERT_FALSE(LRP_CollisionDetection_isReachedMaxNumberOfCollisions(&collisionDetection));
 }

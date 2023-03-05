@@ -8,7 +8,7 @@ protected:
     unsigned char oddParityBit = 0xFFu;
 };
 
-TEST_F(ParityBitTest, Should_Be_Created_Odd_Parity_Bit) {
+TEST_F(ParityBitTest, odd_parity_bit_should_be_created) {
     data = 0b11001101u;
     oddParityBit = LRP_ParityBit_createOddParityBit(data);
     ASSERT_EQ(oddParityBit, 0u);
@@ -18,7 +18,7 @@ TEST_F(ParityBitTest, Should_Be_Created_Odd_Parity_Bit) {
     ASSERT_EQ(oddParityBit, 1u);
 }
 
-TEST_F(ParityBitTest, Should_Be_Check_The_Odd_Parity_Bit_Is_Invalid) {
+TEST_F(ParityBitTest, odd_parity_bit_should_be_checked) {
     // Data whose parity bit should be odd
     data = 0b11001101u;
 

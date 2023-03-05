@@ -30,7 +30,7 @@ protected:
     }
 };
 
-TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Data_Into_Reserved_Frame) {
+TEST_F(TransmitterApplicationLayerTest, data_should_be_set_into_reserved_frame_right) {
     unsigned char data[] = "LRP";
     unsigned char lengthOfData = 3u;
 
@@ -49,7 +49,7 @@ TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Data_Into_Reserved_Frame) 
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
-TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
+TEST_F(TransmitterApplicationLayerTest, reserved_frame_should_be_transmited) {
     const unsigned char targetId = 0b11001u;
     const unsigned char command = LRP_FRAME_NO_COMMAND;
 
@@ -71,7 +71,7 @@ TEST_F(TransmitterApplicationLayerTest, Reserved_Frame_Should_Be_Transmited) {
     ASSERT_EQ(transmitterSessionProvider.applicationCurrentFrame->status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
-TEST_F(TransmitterApplicationLayerTest, Should_Be_Set_Ready_To_Redefine_Frame_To_Reserved) {
+TEST_F(TransmitterApplicationLayerTest, ready_to_redefine_frame_should_be_reserved) {
     unsigned char status = LRP_TransmitterApplicationLayer_setReadyToRedefineFrameToReserved(
             &transmitterSessionProvider);
 

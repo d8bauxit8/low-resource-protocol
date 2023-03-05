@@ -46,7 +46,7 @@ protected:
     }
 };
 
-TEST_F(TransmitterLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
+TEST_F(TransmitterLineCodeLayerTest, frame_transmitting_should_be_handled_right) {
     unsigned char data;
 
     LRP_TransmitterLineCodeLayer_handler(&transmitterSessionProvider, &lineCode4B5B, &data);
@@ -97,7 +97,7 @@ TEST_F(TransmitterLineCodeLayerTest, Should_Be_Handled_Frame_Transmitting) {
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
-TEST_F(TransmitterLineCodeLayerTest, Should_Be_Started_Transmitting) {
+TEST_F(TransmitterLineCodeLayerTest, transmitting_should_be_started_right) {
     lineCode4B5B.index = 4u;
     lineCode4B5B.buffer[0] = 0xFFu;
     lineCode4B5B.buffer[1] = 0xFEu;
@@ -112,7 +112,7 @@ TEST_F(TransmitterLineCodeLayerTest, Should_Be_Started_Transmitting) {
     ASSERT_EQ(data, LRP_LINE_CODE_4B5B_START_DELIMITER_BYTE);
 }
 
-TEST_F(TransmitterLineCodeLayerTest, Should_Be_Checked_The_Frame_Is_Ready_To_Transmitting) {
+TEST_F(TransmitterLineCodeLayerTest, should_check_the_frame_is_ready_to_transmitting) {
     ASSERT_TRUE(LRP_TransmitterLineCodeLayer_isReadyToStartTransmitting(&transmitterSessionProvider));
 
     transmitterSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;

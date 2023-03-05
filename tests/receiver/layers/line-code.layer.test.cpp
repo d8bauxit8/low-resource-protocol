@@ -22,13 +22,13 @@ protected:
     unsigned char receivedData2 = 'P';
 
     void SetUp() override {
-        LRP_Receiver_init(&receiverSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
-
         receiverSessionProvider.indexOfReadBytes = 0;
 
         lineCode4B5B.index = 0;
         lineCode4B5B.buffer[0] = 0;
         lineCode4B5B.buffer[1] = 0;
+
+        LRP_Receiver_init(&receiverSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
     }
 
     void TearDown() override {
@@ -46,7 +46,7 @@ protected:
 };
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Ready_To_Start_Receiving) {
+       when_the_data_is_a_start_delimiter_and_the_frame_is_ready_to_start_receiving_should_be_handled_right) {
     lineCode4B5B.index = 4;
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
@@ -76,7 +76,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Not_Ready_To_Start_Receiving_Because_Of_Error) {
+       when_the_data_is_a_start_delimiter_and_the_frame_is_not_ready_to_start_receiving_because_of_error_should_be_handled_right) {
     lineCode4B5B.index = 4;
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
@@ -106,7 +106,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Data_Is_A_Start_Delimiter_And_The_Frame_Is_Not_Ready_To_Start_Receiving_Because_The_State_Of_Frame_Is_Not_Ready_To_Redefine) {
+       when_the_data_is_a_start_delimiter_and_the_frame_is_not_ready_to_start_receiving_because_the_state_of_frame_is_not_ready_to_redefine_should_be_handled_right) {
     lineCode4B5B.index = 4;
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
@@ -136,7 +136,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Data_Is_Not_A_Start_Delimiter_But_The_Link_Layer_Is_Ready_To_Start_Receiving) {
+       when_the_data_is_not_a_start_delimiter_but_the_link_layer_is_ready_to_start_receiving_should_be_handled_right) {
     lineCode4B5B.index = 4;
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;
@@ -166,7 +166,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Receiving_Was_Already_Started) {
+       when_receiving_is_already_started_should_be_handled_right) {
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
@@ -196,7 +196,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Receiving_Was_Already_Started_And_Get_A_Wrong_Byte) {
+       when_receiving_is_already_started_and_get_a_wrong_byte_should_be_handled_right) {
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
@@ -222,7 +222,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 }
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_When_The_Receiving_Was_Already_Started_And_Get_A_Stop_Delimiter_Byte) {
+       when_receiving_is_already_started_and_get_a_stop_delimiter_byte_should_be_handled_right) {
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
     receiverSessionProvider.linkCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
@@ -242,7 +242,7 @@ TEST_F(ReceiverLineCodeLayerTest,
 
 
 TEST_F(ReceiverLineCodeLayerTest,
-       Should_Be_Handled_A_Whole_Right_Flow) {
+       a_whole_right_flow_should_be_handled_right) {
     lineCode4B5B.index = 4;
     lineCode4B5B.buffer[0] = 0xFF;
     lineCode4B5B.buffer[1] = 0xFE;

@@ -25,21 +25,21 @@ TEST_F(LineCode4b5bTest, Should_Be_Reseted) {
     ASSERT_EQ(lineCode4B5B.buffer[1], 0u);
 }
 
-TEST_F(LineCode4b5bTest, Buffer_Of_Encoded_Bits_Should_Be_Ready_To_Read_A_Decoded_Byte) {
+TEST_F(LineCode4b5bTest, buffer_of_encoded_bits_should_be_ready_to_read_a_decoded_byte) {
     lineCode4B5B.index = 0u;
-    ASSERT_EQ(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B), 0u);
+    ASSERT_FALSE(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B));
 
     lineCode4B5B.index = 1u;
-    ASSERT_EQ(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B), 0u);
+    ASSERT_FALSE(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B));
 
     lineCode4B5B.index = 10u;
-    ASSERT_EQ(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B), 1u);
+    ASSERT_TRUE(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B));
 
     lineCode4B5B.index = 11u;
-    ASSERT_EQ(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B), 1u);
+    ASSERT_TRUE(LRP_4B5B_isBufferOfEncodedBitsReadyToReadADecodedByte(&lineCode4B5B));
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Added_Encoded_Byte_To_Buffer_Of_Ecoded_Bits) {
+TEST_F(LineCode4b5bTest, encoded_byte_should_be_added_to_buffer_of_ecoded_bits) {
     const unsigned char data = 0b10101010u;
     LRP_4B5B_reset(&lineCode4B5B);
 
@@ -66,7 +66,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Added_Encoded_Byte_To_Buffer_Of_Ecoded_Bits) 
 }
 
 TEST_F(LineCode4b5bTest,
-       Should_Be_Tried_To_Read_A_Decoded_Byte_From_Buffer_Of_Encoded_Bits_When_The_Decoding_Is_Failure) {
+       when_decoding_is_failed_should_be_tried_to_read_a_decoded_byte_from_buffer_of_encoded_bits) {
     lineCode4B5B.index = 16u;
     // 01101 is an invalid 4B5B code
     lineCode4B5B.buffer[0] = 0b10101101u;
@@ -85,7 +85,7 @@ TEST_F(LineCode4b5bTest,
 }
 
 TEST_F(LineCode4b5bTest,
-       Should_Be_Tried_To_Read_A_Decoded_Byte_From_Buffer_Of_Encoded_Bits_When_The_Decoding_Is_Successful) {
+       when_decoding_is_successful_should_be_tried_to_read_a_decoded_byte_from_buffer_of_encoded_bits) {
     lineCode4B5B.index = 16;
     lineCode4B5B.buffer[0] = 0b10111101u;
     lineCode4B5B.buffer[1] = 0b10101011u;
@@ -102,18 +102,21 @@ TEST_F(LineCode4b5bTest,
     ASSERT_EQ(lineCode4B5B.index, 6u);
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Tested_Status_Of_Decoding_Failed) {
+TEST_F(LineCode4b5bTest, when_decoding_state_is_failed_isDecodingFailed_should_return_true) {
     // FAILED_TO_DECODED macro in line_code_4b5b.c
     const unsigned char failedDecodingState = LRP_LINE_CODE_4B5B_FAILED_DECODING;
-    // SUCCEED_TO_DECODED macro in line_code_4b5b.c
-    const unsigned char succeededDecodingState = LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING;
 
     ASSERT_TRUE(LRP_4B5B_isDecodingFailed(&failedDecodingState));
+}
+
+TEST_F(LineCode4b5bTest, when_decoding_state_is_successful_isDecodingFailed_should_return_false) {
+    // SUCCEED_TO_DECODED macro in line_code_4b5b.c
+    const unsigned char succeededDecodingState = LRP_LINE_CODE_4B5B_SUCCESSFUL_DECODING;
 
     ASSERT_FALSE(LRP_4B5B_isDecodingFailed(&succeededDecodingState));
 }
 
-TEST_F(LineCode4b5bTest, Buffer_Of_Encoded_Bits_Should_Be_Ready_To_Add_The_Next_Byte_To_Encode) {
+TEST_F(LineCode4b5bTest, buffer_of_encoded_bits_should_be_ready_to_add_to_the_next_byte_to_encode) {
     lineCode4B5B.index = 0u;
     ASSERT_TRUE(LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(&lineCode4B5B));
 
@@ -130,7 +133,7 @@ TEST_F(LineCode4b5bTest, Buffer_Of_Encoded_Bits_Should_Be_Ready_To_Add_The_Next_
     ASSERT_FALSE(LRP_4B5B_isBufferOfEncodedBitsReadyToAddTheNextByteToEncode(&lineCode4B5B));
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Encoded_Data_Byte_And_Add_It_To_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, when_data_is_encoded_should_be_added_to_buffer_of_encoded_bits) {
     const unsigned char dataToBeEncoded = 0xFFu;
     LRP_4B5B_encodeDataByteAndAddItToBufferOfEncodedBits(&lineCode4B5B, &dataToBeEncoded);
 
@@ -150,7 +153,7 @@ TEST_F(LineCode4b5bTest, Should_Be_Encoded_Data_Byte_And_Add_It_To_Buffer_Of_Enc
     ASSERT_EQ(lineCode4B5B.buffer[1], 0b00000011u);
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Read_An_Encoded_Byte_From_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, should_be_read_an_encoded_byte_from_buffer_of_encoded_bits) {
     lineCode4B5B.index = 16u;
     lineCode4B5B.buffer[0] = 0xFFu;
     lineCode4B5B.buffer[1] = 0xFEu;
@@ -163,14 +166,14 @@ TEST_F(LineCode4b5bTest, Should_Be_Read_An_Encoded_Byte_From_Buffer_Of_Encoded_B
     ASSERT_EQ(lineCode4B5B.buffer[1], 0u);
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Checked_Remaining_Bits_In_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, remaining_bits_should_be_checked_in_buffer_of_encoded_bits) {
     ASSERT_FALSE(LRP_4B5B_haveRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
 
     lineCode4B5B.index = 1u;
     ASSERT_TRUE(LRP_4B5B_haveRemainingBitsInBufferOfEncodedBits(&lineCode4B5B));
 }
 
-TEST_F(LineCode4b5bTest, Should_Be_Read_Remaining_Bits_From_Buffer_Of_Encoded_Bits) {
+TEST_F(LineCode4b5bTest, should_be_read_remaining_bits_from_buffer_of_encoded_bits) {
     lineCode4B5B.index = 1u;
     lineCode4B5B.buffer[0] = 0xFFu;
     lineCode4B5B.buffer[1] = 0xFEu;

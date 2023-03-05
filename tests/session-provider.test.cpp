@@ -8,7 +8,7 @@ protected:
     LRPFrame frameBuffer[3]{};
 };
 
-TEST_F(SessionProviderTest, Should_Be_Initialized) {
+TEST_F(SessionProviderTest, should_be_initialized) {
     LRP_SessionProvider_init(&sessionProvider, &sourceDeviceId, frameBuffer, 3);
 
     ASSERT_EQ(sessionProvider.deviceId, &sourceDeviceId);

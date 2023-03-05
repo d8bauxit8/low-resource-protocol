@@ -6,21 +6,21 @@ protected:
     LRPSessionProvider sessionProvider{};
 };
 
-TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Skip) {
+TEST_F(LinkLayerTest, when_setSkip_is_called_linkLayerStatus_should_be_skip) {
     LRP_LinkLayer_setSkip(&sessionProvider);
 
     ASSERT_EQ(sessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_SKIP);
     ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 }
 
-TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Ok) {
+TEST_F(LinkLayerTest, when_setOk_is_called_linkLayerStatus_should_be_OK) {
     LRP_LinkLayer_setOk(&sessionProvider);
 
     ASSERT_EQ(sessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_OK);
     ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_NO_ERROR);
 }
 
-TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Error) {
+TEST_F(LinkLayerTest, when_setError_is_called_linkLayerStatus_should_be_error) {
     LRP_LinkLayer_setError(&sessionProvider, LRP_LINK_LAYER_NOISE_STROKE_ERROR);
 
     ASSERT_EQ(sessionProvider.linkLayerStatus, LRP_LINK_LAYER_STATUS_ERROR);
@@ -32,7 +32,7 @@ TEST_F(LinkLayerTest, Should_Be_Set_Status_To_Error) {
     ASSERT_EQ(sessionProvider.linkLayerErrorCode, LRP_LINK_LAYER_DECODE_ERROR);
 }
 
-TEST_F(LinkLayerTest, Should_Be_Checked_The_Statuse_Is_Ok) {
+TEST_F(LinkLayerTest, should_be_checked_the_status_right) {
     LRP_LinkLayer_setSkip(&sessionProvider);
 
     ASSERT_FALSE(LRP_LinkLayer_isStatusOK(&sessionProvider));
@@ -46,7 +46,7 @@ TEST_F(LinkLayerTest, Should_Be_Checked_The_Statuse_Is_Ok) {
     ASSERT_TRUE(LRP_LinkLayer_isStatusOK(&sessionProvider));
 }
 
-TEST_F(LinkLayerTest, Should_Be_Checked_The_Statuse_Is_Error) {
+TEST_F(LinkLayerTest, should_be_checked_the_status_errors) {
     LRP_LinkLayer_setOk(&sessionProvider);
 
     ASSERT_FALSE(LRP_LinkLayer_isStatusError(&sessionProvider));

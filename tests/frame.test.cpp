@@ -45,7 +45,7 @@ protected:
     }
 };
 
-TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item) {
+TEST_F(FrameTest, when_the_buffer_contains_one_item_should_be_initialized_right) {
     const unsigned char frameBufferLength = 1;
     LRPFrame frameBuffer[1]{};
 
@@ -54,7 +54,7 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_One_Item
     ASSERT_EQ(frameBuffer[0].status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
-TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_Items) {
+TEST_F(FrameTest, when_the_buffer_contains_three_item_should_be_initialized_right) {
     const unsigned char frameBufferLength = 3u;
     LRPFrame frameBuffer[3]{};
 
@@ -70,37 +70,37 @@ TEST_F(FrameTest, Should_Be_Initialized_Buffer_When_The_Buffer_Contains_Three_It
     ASSERT_EQ(frameBuffer[2].status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
-TEST_F(FrameTest, Should_Be_Set_Status) {
+TEST_F(FrameTest, status_should_be_set_right) {
     const unsigned char uniqueStatus = 0b00011100u;
     LRP_Frame_setStatus(&frame, uniqueStatus);
     ASSERT_EQ(frame.status, uniqueStatus);
 }
 
-TEST_F(FrameTest, Should_Be_Reseted_Status) {
+TEST_F(FrameTest, status_should_be_reseted_right) {
     LRP_Frame_resetStatus(&frame);
     ASSERT_EQ(frame.status, LRP_FRAME_READY_TO_REDEFINE);
 }
 
-TEST_F(FrameTest, Should_Be_Got_Target_Device_Id) {
+TEST_F(FrameTest, target_device_id_should_be_got_right) {
     initBufferPart();
 
     const unsigned char targetIdToBeRead = LRP_Frame_getTargetIdFromReceivedByte(&frame.buffer[0]);
     ASSERT_EQ(targetIdToBeRead, targetId);
 }
 
-TEST_F(FrameTest, Is_Group_ID_Command_Should_Be_1) {
+TEST_F(FrameTest, when_data_contains_group_id_isGroupIdCommandFromReceivedByte_should_return_true) {
     const unsigned char data = 0b00000111u;
     const unsigned char isGroupId = LRP_Frame_isGroupIdCommandFromReceivedByte(&data);
-    ASSERT_EQ(isGroupId, 1u);
+    ASSERT_TRUE(isGroupId);
 }
 
-TEST_F(FrameTest, Is_Group_ID_Command_Should_Be_0) {
+TEST_F(FrameTest, when_data_does_not_contain_group_id_isGroupIdCommandFromReceivedByte_should_return_false) {
     const unsigned char data = 0b00000000u;
     const unsigned char isGroupId = LRP_Frame_isGroupIdCommandFromReceivedByte(&data);
-    ASSERT_EQ(isGroupId, 0u);
+    ASSERT_FALSE(isGroupId);
 }
 
-TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
+TEST_F(FrameTest, header_data_should_be_added_to_frame_data_from_frame_buffer) {
     initBufferPart();
 
     LRP_Frame_addHeaderDataToFrameDataFromFrameBuffer(&frame);
@@ -113,7 +113,7 @@ TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Data_From_Frame_Buffer) {
     ASSERT_EQ(frameData->length, length);
 }
 
-TEST_F(FrameTest, Should_Be_Added_Data_To_Frame_Data_From_Frame_Buffer) {
+TEST_F(FrameTest, data_should_be_added_to_frame_data_from_frame_buffer) {
     frame.length = length;
     initBufferPart();
 
@@ -125,7 +125,7 @@ TEST_F(FrameTest, Should_Be_Added_Data_To_Frame_Data_From_Frame_Buffer) {
     ASSERT_EQ(*frameData->data[1], buffer3);
 }
 
-TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Buffer_From_Frame_Data) {
+TEST_F(FrameTest, header_data_should_be_added_to_frame_buffer_from_frame_data) {
     initDataPart();
 
     LRP_Frame_addHeaderDataToFrameBufferFromFrameData(&frame);
@@ -134,7 +134,7 @@ TEST_F(FrameTest, Should_Be_Added_Header_Data_To_Frame_Buffer_From_Frame_Data) {
     ASSERT_EQ(frame.buffer[1], buffer1);
 }
 
-TEST_F(FrameTest, Should_Be_Added_Data_To_Frame_Buffer_From_Frame_Data) {
+TEST_F(FrameTest, data_should_be_added_to_frame_buffer_from_frame_data) {
     initDataPart();
 
     LRP_Frame_addDataToFrameBufferFromFrameData(&frame);

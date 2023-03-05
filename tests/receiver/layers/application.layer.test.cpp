@@ -65,7 +65,7 @@ protected:
 };
 
 TEST_F(ReceiverApplicationLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Ready_To_Read_And_There_Is_Controller_For_The_Data) {
+       when_the_status_is_ready_to_read_and_controllers_exist_should_be_handled_right) {
     receiverSessionProvider.applicationCurrentFrame->status = LRP_RECEIVER_FRAME_READY_TO_READ;
 
     LRP_ReceiverApplicationLayer_handler(&receiverSessionProvider, controllers, numberOfReceiverFrameControllers);
@@ -79,7 +79,7 @@ TEST_F(ReceiverApplicationLayerTest,
 }
 
 TEST_F(ReceiverApplicationLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Ready_To_Read_And_There_Is_Not_Controller_For_The_Data) {
+       when_the_status_is_ready_to_read_and_controllers_do_not_exist_should_be_handled_right) {
     unsigned char untrackedData = 'P';
     receiverSessionProvider.applicationCurrentFrame->data[0] = &untrackedData;
     receiverSessionProvider.applicationCurrentFrame->status = LRP_RECEIVER_FRAME_READY_TO_READ;
@@ -95,7 +95,7 @@ TEST_F(ReceiverApplicationLayerTest,
 }
 
 TEST_F(ReceiverApplicationLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Not_Ready_To_Read) {
+       when_the_status_is_not_ready_to_read_should_be_handled_right) {
     receiverSessionProvider.applicationCurrentFrame->status = LRP_RECEIVER_FRAME_READY_TO_CHECK;
 
     LRP_ReceiverApplicationLayer_handler(&receiverSessionProvider, controllers, numberOfReceiverFrameControllers);
