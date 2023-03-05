@@ -17,13 +17,13 @@ protected:
     unsigned char data2 = 'P';
 
     void SetUp() override {
-        LRP_Receiver_init(&receiverSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
-
         frameBuffer[0].buffer[0] = (unsigned char) (targetId << 3u) | command;
         frameBuffer[0].buffer[1] = (unsigned char) (sourceDeviceId << 3u) | length;
         frameBuffer[0].buffer[2] = data0;
         frameBuffer[0].buffer[3] = data1;
         frameBuffer[0].buffer[4] = data2;
+
+        LRP_Receiver_init(&receiverSessionProvider, &sourceDeviceId, frameBuffer, 3, &groupId);
     }
 
     void TearDown() override {
@@ -44,7 +44,7 @@ protected:
 };
 
 TEST_F(ReceiverValidatorLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Ready_To_Check) {
+       when_the_status_is_ready_to_check_should_be_handled_right) {
     receiverSessionProvider.validatorCurrentFrame->status = LRP_RECEIVER_FRAME_READY_TO_CHECK;
 
     LRP_ReceiverValidatorLayer_handler(&receiverSessionProvider);
@@ -61,7 +61,7 @@ TEST_F(ReceiverValidatorLayerTest,
 }
 
 TEST_F(ReceiverValidatorLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Not_Ready_To_Check) {
+       when_the_status_is_not_ready_to_check_should_be_handled_right) {
     receiverSessionProvider.validatorCurrentFrame->status = LRP_RECEIVER_FRAME_IN_RECEIVING;
 
     LRP_ReceiverValidatorLayer_handler(&receiverSessionProvider);

@@ -47,7 +47,7 @@ protected:
     }
 };
 
-TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_Ready_To_Check) {
+TEST_F(TransmitterValidatorLayerTest, when_the_status_is_not_ready_to_check_should_be_handled_right) {
     LRP_TransmitterValidatorLayer_handler(&transmitterSessionProvider);
 
     // Header 1
@@ -65,7 +65,7 @@ TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Not_R
     ASSERT_EQ(transmitterSessionProvider.validatorCurrentFrame, &frameBuffer[0]);
 }
 
-TEST_F(TransmitterValidatorLayerTest, Should_Be_Handled_When_The_Status_Is_Ready_To_Check) {
+TEST_F(TransmitterValidatorLayerTest, when_the_status_is_ready_to_check_should_be_handled_right) {
     transmitterSessionProvider.validatorCurrentFrame->status = LRP_TRANSMITTER_FRAME_READY_TO_CHECK;
 
     LRP_TransmitterValidatorLayer_handler(&transmitterSessionProvider);

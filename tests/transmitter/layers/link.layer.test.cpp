@@ -39,14 +39,14 @@ protected:
     }
 };
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Handled_Buffer) {
+TEST_F(TransmitterLinkLayerTest, buffer_should_be_handled_right) {
     const unsigned char data = LRP_TransmitterLinkLayer_handler(&transmitterSessionProvider);
 
     ASSERT_EQ(data, frameBuffer[0].buffer[0]);
     ASSERT_EQ(transmitterSessionProvider.indexOfWrittenBytes, 1u);
 }
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Checked_The_Unwritten_Data_In_Buffer) {
+TEST_F(TransmitterLinkLayerTest, the_unwritten_data_should_be_checked_in_buffer) {
     ASSERT_TRUE(LRP_TransmitterLinkLayer_isUnwrittenDataInBuffer(&transmitterSessionProvider));
 
     transmitterSessionProvider.indexOfWrittenBytes = 4u;
@@ -56,14 +56,14 @@ TEST_F(TransmitterLinkLayerTest, Should_Be_Checked_The_Unwritten_Data_In_Buffer)
     ASSERT_FALSE(LRP_TransmitterLinkLayer_isUnwrittenDataInBuffer(&transmitterSessionProvider));
 }
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Checked_The_Frame_Is_Ready_To_Transmitter) {
+TEST_F(TransmitterLinkLayerTest, should_check_the_frame_is_ready_to_transmitting) {
     ASSERT_TRUE(LRP_TransmitterLinkLayer_isReadyToTransmitter(&transmitterSessionProvider));
 
     transmitterSessionProvider.linkCurrentFrame->status = LRP_FRAME_READY_TO_REDEFINE;
     ASSERT_FALSE(LRP_TransmitterLinkLayer_isReadyToTransmitter(&transmitterSessionProvider));
 }
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Started_Transmitting) {
+TEST_F(TransmitterLinkLayerTest, transmitting_should_be_started_right) {
     transmitterSessionProvider.indexOfWrittenBytes = 4u;
 
     LRP_TransmitterLinkLayer_startTransmitting(&transmitterSessionProvider);
@@ -73,7 +73,7 @@ TEST_F(TransmitterLinkLayerTest, Should_Be_Started_Transmitting) {
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame->status, LRP_TRANSMITTER_FRAME_TRANSMITTING);
 }
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Ended_Transmitting) {
+TEST_F(TransmitterLinkLayerTest, transmitting_should_be_ended_right) {
     transmitterSessionProvider.linkCurrentFrame->status = LRP_TRANSMITTER_FRAME_TRANSMITTING;
     transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
 
@@ -84,7 +84,7 @@ TEST_F(TransmitterLinkLayerTest, Should_Be_Ended_Transmitting) {
     ASSERT_EQ(transmitterSessionProvider.linkCurrentFrame, &frameBuffer[1]);
 }
 
-TEST_F(TransmitterLinkLayerTest, Should_Be_Handled_The_Error_Status) {
+TEST_F(TransmitterLinkLayerTest, the_error_status_should_be_handled_right) {
     // There is no error
     transmitterSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     LRP_TransmitterLinkLayer_errorStatusHandler(&transmitterSessionProvider);

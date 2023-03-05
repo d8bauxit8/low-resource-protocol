@@ -38,7 +38,7 @@ protected:
 };
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_A_Given_Device) {
+       when_the_status_is_receiving_and_the_target_device_is_a_given_device_id_should_be_handled_right) {
     receiverSessionProvider.indexOfReadBytes = 0;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
@@ -91,7 +91,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Id_Is_The_Broadcast_Id) {
+       when_the_status_is_receiving_and_the_target_device_is_the_broadcast_id_should_be_handled_right) {
     const unsigned char broadcastId = 0b11111u;
     const unsigned char header0WithBroadcastId =
             (unsigned char) (broadcastId << 3u) | receivedHeader0;
@@ -148,7 +148,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Id_Is_The_Group_Id_With_Is_Group_Flag) {
+       when_the_status_is_receiving_and_the_target_device_is_a_given_group_id_and_group_flag_exists_should_be_handled_right) {
     const unsigned char header0WithGroupId =
             (unsigned char) (groupId << 3u) | LRP_FRAME_GROUP_ID_COMMAND;
 
@@ -204,7 +204,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_Not_That_Device) {
+       when_the_status_is_receiving_and_the_target_device_is_another_device_id_should_be_handled_right) {
     const unsigned char anotherTargetId = 0b10101u;
     const unsigned char header0WithAnotherTargetId =
             (unsigned char) (anotherTargetId << 3u) | receivedHeader0;
@@ -235,7 +235,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_The_Group_Id_Without_Is_Group_Flag) {
+       when_the_status_is_receiving_and_the_target_device_is_a_given_group_id_and_group_flag_does_not_exist_should_be_handled_right) {
     const unsigned char header0WithGroupId =
             (unsigned char) (groupId << 3u) | receivedHeader0;
 
@@ -266,7 +266,7 @@ TEST_F(ReceiverLinkLayerTest,
 
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_When_The_Status_Is_Receiving_And_The_Target_Device_Is_Not_That_Device_With_Is_Group_Flag) {
+       when_the_status_is_receiving_and_the_target_device_is_another_device_id_and_group_flag_exists_should_be_handled_right) {
     const unsigned char anotherTargetId = 0b10101u;
     const unsigned char header0WithGroupId =
             (unsigned char) (anotherTargetId << 3u) | LRP_FRAME_GROUP_ID_COMMAND;
@@ -297,7 +297,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Tried_To_Start_Receving_When_The_Status_Is_Not_Ready_To_Redefine) {
+       when_the_status_is_not_ready_to_redefine_should_be_tried_to_start_receving) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
@@ -310,7 +310,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Tried_To_Start_Receving_When_There_Is_Frame_Error) {
+       when_frame_has_an_error_should_be_tried_to_start_receving) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
@@ -323,7 +323,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Tried_To_Start_Receving_When_There_Is_No_Frame_Error_And_The_Status_Is_Ready_To_Redefine) {
+       when_frame_does_not_have_error_and_the_status_is_ready_to_redefine_should_be_tried_to_start_receiving) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
@@ -336,7 +336,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Start_Receving_When_There_Is_No_Frame_Error_And_The_Status_Is_Ready_To_Redefine) {
+       when_frame_has_error_and_the_status_is_ready_to_redefine_should_be_tried_to_start_receiving) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_SKIP;
@@ -353,7 +353,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Stoped_Receiving) {
+       receiving_should_be_stopped) {
 
     receiverSessionProvider.indexOfReadBytes = 5;
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
@@ -370,7 +370,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_Error_Status_When_There_Is_No_Error) {
+       when_layer_does_not_have_error_should_be_handled_right) {
 
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_OK;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_NO_ERROR;
@@ -385,7 +385,7 @@ TEST_F(ReceiverLinkLayerTest,
 }
 
 TEST_F(ReceiverLinkLayerTest,
-       Should_Be_Handled_Error_Status_When_There_Is_Error) {
+       when_layer_has_error_should_be_handled_right) {
 
     receiverSessionProvider.linkLayerStatus = LRP_LINK_LAYER_STATUS_ERROR;
     receiverSessionProvider.linkLayerErrorCode = LRP_LINK_LAYER_DECODE_ERROR;
